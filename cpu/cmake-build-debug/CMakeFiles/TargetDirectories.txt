@@ -1,0 +1,3 @@
+D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/cnn.dir
+D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/rebuild_cache.dir

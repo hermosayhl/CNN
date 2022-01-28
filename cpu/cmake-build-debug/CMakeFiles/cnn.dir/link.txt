@@ -1,0 +1,3 @@
+D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\cnn.dir/objects.a
+D:\environments\C++\TDM-GCC\bin\ar.exe cr CMakeFiles\cnn.dir/objects.a @CMakeFiles\cnn.dir\objects1.rsp
+D:\environments\C++\TDM-GCC\bin\g++.exe -std=c++17 -g -Wl,--whole-archive CMakeFiles\cnn.dir/objects.a -Wl,--no-whole-archive -o bin\cnn.exe -Wl,--out-implib,libcnn.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cnn.dir\linklibs.rsp

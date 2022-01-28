@@ -1,0 +1,534 @@
+The system is: Windows - 10.0.22000 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: D:/environments/C++/TDM-GCC/bin/gcc.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.exe"
+
+The C compiler identification is GNU, found in "D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/3.19.2/CompilerIdC/a.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: D:/environments/C++/TDM-GCC/bin/g++.exe 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.exe"
+
+The CXX compiler identification is GNU, found in "D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/3.19.2/CompilerIdCXX/a.exe"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):D:/environments/C++/TDM-GCC/bin/mingw32-make.exe cmTC_e4228/fast && D:/environments/C++/TDM-GCC/bin/mingw32-make.exe  -f CMakeFiles\cmTC_e4228.dir\build.make CMakeFiles/cmTC_e4228.dir/build
+mingw32-make.exe[1]: Entering directory 'D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e4228.dir/CMakeCCompilerABI.c.obj
+D:\environments\C++\TDM-GCC\bin\gcc.exe   -v -o CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj -c D:\software\editor\CLion\bin\cmake\win\share\cmake-3.19\Modules\CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=D:\environments\C++\TDM-GCC\bin\gcc.exe
+Target: x86_64-w64-mingw32
+Configured with: ../../../src/gcc-git-10.3.0/configure --build=x86_64-w64-mingw32 --enable-targets=all --enable-languages=ada,c,c++,fortran,jit,lto,objc,obj-c++ --enable-libgomp --enable-lto --enable-graphite --enable-cxx-flags=-DWINPTHREAD_STATIC --disable-build-with-cxx --disable-build-poststage1-with-cxx --enable-libstdcxx-debug --enable-threads=posix --enable-version-specific-runtime-libs --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --enable-libstdcxx-threads --enable-libstdcxx-time=yes --enable-mingw-wildcard --with-gnu-ld --disable-werror --enable-nls --disable-win32-registry --enable-large-address-aware --disable-rpath --disable-symvers --prefix=/mingw64tdm --with-local-prefix=/mingw64tdm --with-pkgversion=tdm64-1 --with-bugurl=https://github.com/jmeubank/tdm-gcc/issues
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 10.3.0 (tdm64-1) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64'
+ D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/cc1.exe -quiet -v -iprefix D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/ -D_REENTRANT D:\software\editor\CLion\bin\cmake\win\share\cmake-3.19\Modules\CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj -version -o C:\WINDOWS\TEMP\ccXRiiC2.s
+GNU C17 (tdm64-1) version 10.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 10.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.23-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include"
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include"
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed"
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include
+End of search list.
+GNU C17 (tdm64-1) version 10.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 10.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.23-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 68074fcaab9f6b1377b55f7cea05149b
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64'
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj C:\WINDOWS\TEMP\ccXRiiC2.s
+GNU assembler version 2.36.1 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.36.1
+COMPILER_PATH=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/;D:/environments/C++/TDM-GCC/bin/../libexec/gcc/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64'
+Linking C executable cmTC_e4228.exe
+D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_e4228.dir\link.txt --verbose=1
+D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\cmTC_e4228.dir/objects.a
+D:\environments\C++\TDM-GCC\bin\ar.exe cr CMakeFiles\cmTC_e4228.dir/objects.a @CMakeFiles\cmTC_e4228.dir\objects1.rsp
+D:\environments\C++\TDM-GCC\bin\gcc.exe  -v -Wl,--whole-archive CMakeFiles\cmTC_e4228.dir/objects.a -Wl,--no-whole-archive -o cmTC_e4228.exe -Wl,--out-implib,libcmTC_e4228.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
+Using built-in specs.
+COLLECT_GCC=D:\environments\C++\TDM-GCC\bin\gcc.exe
+COLLECT_LTO_WRAPPER=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe
+Target: x86_64-w64-mingw32
+Configured with: ../../../src/gcc-git-10.3.0/configure --build=x86_64-w64-mingw32 --enable-targets=all --enable-languages=ada,c,c++,fortran,jit,lto,objc,obj-c++ --enable-libgomp --enable-lto --enable-graphite --enable-cxx-flags=-DWINPTHREAD_STATIC --disable-build-with-cxx --disable-build-poststage1-with-cxx --enable-libstdcxx-debug --enable-threads=posix --enable-version-specific-runtime-libs --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --enable-libstdcxx-threads --enable-libstdcxx-time=yes --enable-mingw-wildcard --with-gnu-ld --disable-werror --enable-nls --disable-win32-registry --enable-large-address-aware --disable-rpath --disable-symvers --prefix=/mingw64tdm --with-local-prefix=/mingw64tdm --with-pkgversion=tdm64-1 --with-bugurl=https://github.com/jmeubank/tdm-gcc/issues
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 10.3.0 (tdm64-1) 
+COMPILER_PATH=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/;D:/environments/C++/TDM-GCC/bin/../libexec/gcc/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e4228.exe' '-mtune=generic' '-march=x86-64'
+ D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/collect2.exe -plugin D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\WINDOWS\TEMP\ccaUSKEe.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep --exclude-libs=libpthread.a --undefined=__xl_f -Bdynamic -o cmTC_e4228.exe D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtbegin.o -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0 -LD:/environments/C++/TDM-GCC/bin/../lib/gcc -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_e4228.dir/objects.a --no-whole-archive --out-implib libcmTC_e4228.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lpthread -lgcc -lkernel32 -lmoldname -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lpthread -lgcc -lkernel32 -lmoldname -lmingwex -lmsvcrt -lkernel32 D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/default-manifest.o D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtend.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e4228.exe' '-mtune=generic' '-march=x86-64'
+mingw32-make.exe[1]: Leaving directory 'D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include]
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include]
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed]
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include]
+  end of search list found
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include] ==> [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include]
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include] ==> [D:/environments/C++/TDM-GCC/include]
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed] ==> [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed]
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include] ==> [D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/include]
+  implicit include dirs: [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include;D:/environments/C++/TDM-GCC/include;D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed;D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):D:/environments/C++/TDM-GCC/bin/mingw32-make.exe cmTC_e4228/fast && D:/environments/C++/TDM-GCC/bin/mingw32-make.exe  -f CMakeFiles\cmTC_e4228.dir\build.make CMakeFiles/cmTC_e4228.dir/build]
+  ignore line: [mingw32-make.exe[1]: Entering directory 'D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_e4228.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [D:\environments\C++\TDM-GCC\bin\gcc.exe   -v -o CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj -c D:\software\editor\CLion\bin\cmake\win\share\cmake-3.19\Modules\CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=D:\environments\C++\TDM-GCC\bin\gcc.exe]
+  ignore line: [Target: x86_64-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-git-10.3.0/configure --build=x86_64-w64-mingw32 --enable-targets=all --enable-languages=ada,c,c++,fortran,jit,lto,objc,obj-c++ --enable-libgomp --enable-lto --enable-graphite --enable-cxx-flags=-DWINPTHREAD_STATIC --disable-build-with-cxx --disable-build-poststage1-with-cxx --enable-libstdcxx-debug --enable-threads=posix --enable-version-specific-runtime-libs --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --enable-libstdcxx-threads --enable-libstdcxx-time=yes --enable-mingw-wildcard --with-gnu-ld --disable-werror --enable-nls --disable-win32-registry --enable-large-address-aware --disable-rpath --disable-symvers --prefix=/mingw64tdm --with-local-prefix=/mingw64tdm --with-pkgversion=tdm64-1 --with-bugurl=https://github.com/jmeubank/tdm-gcc/issues]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 10.3.0 (tdm64-1) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/cc1.exe -quiet -v -iprefix D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/ -D_REENTRANT D:\software\editor\CLion\bin\cmake\win\share\cmake-3.19\Modules\CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj -version -o C:\WINDOWS\TEMP\ccXRiiC2.s]
+  ignore line: [GNU C17 (tdm64-1) version 10.3.0 (x86_64-w64-mingw32)]
+  ignore line: [	compiled by GNU C version 10.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.23-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include"]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include"]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C17 (tdm64-1) version 10.3.0 (x86_64-w64-mingw32)]
+  ignore line: [	compiled by GNU C version 10.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.23-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 68074fcaab9f6b1377b55f7cea05149b]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj C:\WINDOWS\TEMP\ccXRiiC2.s]
+  ignore line: [GNU assembler version 2.36.1 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.36.1]
+  ignore line: [COMPILER_PATH=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../libexec/gcc/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_e4228.dir\CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [Linking C executable cmTC_e4228.exe]
+  ignore line: [D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_e4228.dir\link.txt --verbose=1]
+  ignore line: [D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\cmTC_e4228.dir/objects.a]
+  ignore line: [D:\environments\C++\TDM-GCC\bin\ar.exe cr CMakeFiles\cmTC_e4228.dir/objects.a @CMakeFiles\cmTC_e4228.dir\objects1.rsp]
+  ignore line: [D:\environments\C++\TDM-GCC\bin\gcc.exe  -v -Wl --whole-archive CMakeFiles\cmTC_e4228.dir/objects.a -Wl --no-whole-archive -o cmTC_e4228.exe -Wl --out-implib libcmTC_e4228.dll.a -Wl --major-image-version 0 --minor-image-version 0 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=D:\environments\C++\TDM-GCC\bin\gcc.exe]
+  ignore line: [COLLECT_LTO_WRAPPER=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe]
+  ignore line: [Target: x86_64-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-git-10.3.0/configure --build=x86_64-w64-mingw32 --enable-targets=all --enable-languages=ada,c,c++,fortran,jit,lto,objc,obj-c++ --enable-libgomp --enable-lto --enable-graphite --enable-cxx-flags=-DWINPTHREAD_STATIC --disable-build-with-cxx --disable-build-poststage1-with-cxx --enable-libstdcxx-debug --enable-threads=posix --enable-version-specific-runtime-libs --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --enable-libstdcxx-threads --enable-libstdcxx-time=yes --enable-mingw-wildcard --with-gnu-ld --disable-werror --enable-nls --disable-win32-registry --enable-large-address-aware --disable-rpath --disable-symvers --prefix=/mingw64tdm --with-local-prefix=/mingw64tdm --with-pkgversion=tdm64-1 --with-bugurl=https://github.com/jmeubank/tdm-gcc/issues]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 10.3.0 (tdm64-1) ]
+  ignore line: [COMPILER_PATH=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../libexec/gcc/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_e4228.exe' '-mtune=generic' '-march=x86-64']
+  link line: [ D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/collect2.exe -plugin D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\WINDOWS\TEMP\ccaUSKEe.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep --exclude-libs=libpthread.a --undefined=__xl_f -Bdynamic -o cmTC_e4228.exe D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtbegin.o -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0 -LD:/environments/C++/TDM-GCC/bin/../lib/gcc -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_e4228.dir/objects.a --no-whole-archive --out-implib libcmTC_e4228.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lpthread -lgcc -lkernel32 -lmoldname -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lpthread -lgcc -lkernel32 -lmoldname -lmingwex -lmsvcrt -lkernel32 D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/default-manifest.o D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtend.o]
+    arg [D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/collect2.exe] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/liblto_plugin-0.dll] ==> ignore
+    arg [-plugin-opt=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\WINDOWS\TEMP\ccaUSKEe.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+    arg [-plugin-opt=-pass-through=-ladvapi32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lshell32] ==> ignore
+    arg [-plugin-opt=-pass-through=-luser32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-m] ==> ignore
+    arg [i386pep] ==> ignore
+    arg [--exclude-libs=libpthread.a] ==> ignore
+    arg [--undefined=__xl_f] ==> ignore
+    arg [-Bdynamic] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_e4228.exe] ==> ignore
+    arg [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o] ==> ignore
+    arg [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtbegin.o] ==> ignore
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../..] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../..]
+    arg [--whole-archive] ==> ignore
+    arg [CMakeFiles\cmTC_e4228.dir/objects.a] ==> ignore
+    arg [--no-whole-archive] ==> ignore
+    arg [--out-implib] ==> ignore
+    arg [libcmTC_e4228.dll.a] ==> ignore
+    arg [--major-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [--minor-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-ladvapi32] ==> lib [advapi32]
+    arg [-lshell32] ==> lib [shell32]
+    arg [-luser32] ==> lib [user32]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/default-manifest.o] ==> ignore
+    arg [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtend.o] ==> ignore
+  remove lib [msvcrt]
+  remove lib [msvcrt]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0] ==> [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc] ==> [D:/environments/C++/TDM-GCC/lib/gcc]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> [D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/lib]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib] ==> [D:/environments/C++/TDM-GCC/lib]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib] ==> [D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/lib]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../..] ==> [D:/environments/C++/TDM-GCC/lib]
+  implicit libs: [mingw32;gcc;pthread;gcc;kernel32;moldname;mingwex;kernel32;pthread;advapi32;shell32;user32;kernel32;mingw32;gcc;pthread;gcc;kernel32;moldname;mingwex;kernel32]
+  implicit dirs: [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0;D:/environments/C++/TDM-GCC/lib/gcc;D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/lib;D:/environments/C++/TDM-GCC/lib]
+  implicit fwks: []
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):D:/environments/C++/TDM-GCC/bin/mingw32-make.exe cmTC_2dde6/fast && D:/environments/C++/TDM-GCC/bin/mingw32-make.exe  -f CMakeFiles\cmTC_2dde6.dir\build.make CMakeFiles/cmTC_2dde6.dir/build
+mingw32-make.exe[1]: Entering directory 'D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_2dde6.dir/CMakeCXXCompilerABI.cpp.obj
+D:\environments\C++\TDM-GCC\bin\g++.exe   -v -o CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj -c D:\software\editor\CLion\bin\cmake\win\share\cmake-3.19\Modules\CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=D:\environments\C++\TDM-GCC\bin\g++.exe
+Target: x86_64-w64-mingw32
+Configured with: ../../../src/gcc-git-10.3.0/configure --build=x86_64-w64-mingw32 --enable-targets=all --enable-languages=ada,c,c++,fortran,jit,lto,objc,obj-c++ --enable-libgomp --enable-lto --enable-graphite --enable-cxx-flags=-DWINPTHREAD_STATIC --disable-build-with-cxx --disable-build-poststage1-with-cxx --enable-libstdcxx-debug --enable-threads=posix --enable-version-specific-runtime-libs --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --enable-libstdcxx-threads --enable-libstdcxx-time=yes --enable-mingw-wildcard --with-gnu-ld --disable-werror --enable-nls --disable-win32-registry --enable-large-address-aware --disable-rpath --disable-symvers --prefix=/mingw64tdm --with-local-prefix=/mingw64tdm --with-pkgversion=tdm64-1 --with-bugurl=https://github.com/jmeubank/tdm-gcc/issues
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 10.3.0 (tdm64-1) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64'
+ D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/cc1plus.exe -quiet -v -iprefix D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/ -D_REENTRANT D:\software\editor\CLion\bin\cmake\win\share\cmake-3.19\Modules\CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj -version -o C:\WINDOWS\TEMP\cciYNrDC.s
+GNU C++14 (tdm64-1) version 10.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 10.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.23-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++"
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32"
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/backward"
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include"
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include"
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed"
+ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/backward
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include
+End of search list.
+GNU C++14 (tdm64-1) version 10.3.0 (x86_64-w64-mingw32)
+	compiled by GNU C version 10.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.23-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 5e49fa89ed7bfe906173ae8e94e08de6
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64'
+ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj C:\WINDOWS\TEMP\cciYNrDC.s
+GNU assembler version 2.36.1 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.36.1
+COMPILER_PATH=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/;D:/environments/C++/TDM-GCC/bin/../libexec/gcc/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64'
+Linking CXX executable cmTC_2dde6.exe
+D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_2dde6.dir\link.txt --verbose=1
+D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\cmTC_2dde6.dir/objects.a
+D:\environments\C++\TDM-GCC\bin\ar.exe cr CMakeFiles\cmTC_2dde6.dir/objects.a @CMakeFiles\cmTC_2dde6.dir\objects1.rsp
+D:\environments\C++\TDM-GCC\bin\g++.exe  -v -Wl,--whole-archive CMakeFiles\cmTC_2dde6.dir/objects.a -Wl,--no-whole-archive -o cmTC_2dde6.exe -Wl,--out-implib,libcmTC_2dde6.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
+Using built-in specs.
+COLLECT_GCC=D:\environments\C++\TDM-GCC\bin\g++.exe
+COLLECT_LTO_WRAPPER=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe
+Target: x86_64-w64-mingw32
+Configured with: ../../../src/gcc-git-10.3.0/configure --build=x86_64-w64-mingw32 --enable-targets=all --enable-languages=ada,c,c++,fortran,jit,lto,objc,obj-c++ --enable-libgomp --enable-lto --enable-graphite --enable-cxx-flags=-DWINPTHREAD_STATIC --disable-build-with-cxx --disable-build-poststage1-with-cxx --enable-libstdcxx-debug --enable-threads=posix --enable-version-specific-runtime-libs --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --enable-libstdcxx-threads --enable-libstdcxx-time=yes --enable-mingw-wildcard --with-gnu-ld --disable-werror --enable-nls --disable-win32-registry --enable-large-address-aware --disable-rpath --disable-symvers --prefix=/mingw64tdm --with-local-prefix=/mingw64tdm --with-pkgversion=tdm64-1 --with-bugurl=https://github.com/jmeubank/tdm-gcc/issues
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 10.3.0 (tdm64-1) 
+COMPILER_PATH=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/;D:/environments/C++/TDM-GCC/bin/../libexec/gcc/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/
+LIBRARY_PATH=D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/;D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2dde6.exe' '-mtune=generic' '-march=x86-64'
+ D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/collect2.exe -plugin D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\WINDOWS\TEMP\cc2PqI9U.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep --exclude-libs=libpthread.a --undefined=__xl_f -Bdynamic -o cmTC_2dde6.exe D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtbegin.o -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0 -LD:/environments/C++/TDM-GCC/bin/../lib/gcc -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_2dde6.dir/objects.a --no-whole-archive --out-implib libcmTC_2dde6.dll.a --major-image-version 0 --minor-image-version 0 -Bstatic -lstdc++ -Bdynamic -lmingw32 -lgcc -lpthread -lgcc -lkernel32 -lmoldname -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lpthread -lgcc -lkernel32 -lmoldname -lmingwex -lmsvcrt -lkernel32 D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/default-manifest.o D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtend.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2dde6.exe' '-mtune=generic' '-march=x86-64'
+mingw32-make.exe[1]: Leaving directory 'D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++]
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32]
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/backward]
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include]
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include]
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed]
+    add: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include]
+  end of search list found
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++] ==> [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++]
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32] ==> [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32]
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/backward] ==> [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/backward]
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include] ==> [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include]
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include] ==> [D:/environments/C++/TDM-GCC/include]
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed] ==> [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed]
+  collapse include dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include] ==> [D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/include]
+  implicit include dirs: [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++;D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32;D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/backward;D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include;D:/environments/C++/TDM-GCC/include;D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed;D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):D:/environments/C++/TDM-GCC/bin/mingw32-make.exe cmTC_2dde6/fast && D:/environments/C++/TDM-GCC/bin/mingw32-make.exe  -f CMakeFiles\cmTC_2dde6.dir\build.make CMakeFiles/cmTC_2dde6.dir/build]
+  ignore line: [mingw32-make.exe[1]: Entering directory 'D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_2dde6.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [D:\environments\C++\TDM-GCC\bin\g++.exe   -v -o CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj -c D:\software\editor\CLion\bin\cmake\win\share\cmake-3.19\Modules\CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=D:\environments\C++\TDM-GCC\bin\g++.exe]
+  ignore line: [Target: x86_64-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-git-10.3.0/configure --build=x86_64-w64-mingw32 --enable-targets=all --enable-languages=ada,c,c++,fortran,jit,lto,objc,obj-c++ --enable-libgomp --enable-lto --enable-graphite --enable-cxx-flags=-DWINPTHREAD_STATIC --disable-build-with-cxx --disable-build-poststage1-with-cxx --enable-libstdcxx-debug --enable-threads=posix --enable-version-specific-runtime-libs --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --enable-libstdcxx-threads --enable-libstdcxx-time=yes --enable-mingw-wildcard --with-gnu-ld --disable-werror --enable-nls --disable-win32-registry --enable-large-address-aware --disable-rpath --disable-symvers --prefix=/mingw64tdm --with-local-prefix=/mingw64tdm --with-pkgversion=tdm64-1 --with-bugurl=https://github.com/jmeubank/tdm-gcc/issues]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 10.3.0 (tdm64-1) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/cc1plus.exe -quiet -v -iprefix D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/ -D_REENTRANT D:\software\editor\CLion\bin\cmake\win\share\cmake-3.19\Modules\CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj -version -o C:\WINDOWS\TEMP\cciYNrDC.s]
+  ignore line: [GNU C++14 (tdm64-1) version 10.3.0 (x86_64-w64-mingw32)]
+  ignore line: [	compiled by GNU C version 10.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.23-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++"]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32"]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/backward"]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include"]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include"]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "D:/environments/C++/TDM-GCC/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/x86_64-w64-mingw32]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++/backward]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../include]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include-fixed]
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (tdm64-1) version 10.3.0 (x86_64-w64-mingw32)]
+  ignore line: [	compiled by GNU C version 10.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.23-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 5e49fa89ed7bfe906173ae8e94e08de6]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [ D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/as.exe -v -o CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj C:\WINDOWS\TEMP\cciYNrDC.s]
+  ignore line: [GNU assembler version 2.36.1 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.36.1]
+  ignore line: [COMPILER_PATH=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../libexec/gcc/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles\cmTC_2dde6.dir\CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64']
+  ignore line: [Linking CXX executable cmTC_2dde6.exe]
+  ignore line: [D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -E cmake_link_script CMakeFiles\cmTC_2dde6.dir\link.txt --verbose=1]
+  ignore line: [D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -E rm -f CMakeFiles\cmTC_2dde6.dir/objects.a]
+  ignore line: [D:\environments\C++\TDM-GCC\bin\ar.exe cr CMakeFiles\cmTC_2dde6.dir/objects.a @CMakeFiles\cmTC_2dde6.dir\objects1.rsp]
+  ignore line: [D:\environments\C++\TDM-GCC\bin\g++.exe  -v -Wl --whole-archive CMakeFiles\cmTC_2dde6.dir/objects.a -Wl --no-whole-archive -o cmTC_2dde6.exe -Wl --out-implib libcmTC_2dde6.dll.a -Wl --major-image-version 0 --minor-image-version 0 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=D:\environments\C++\TDM-GCC\bin\g++.exe]
+  ignore line: [COLLECT_LTO_WRAPPER=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe]
+  ignore line: [Target: x86_64-w64-mingw32]
+  ignore line: [Configured with: ../../../src/gcc-git-10.3.0/configure --build=x86_64-w64-mingw32 --enable-targets=all --enable-languages=ada,c,c++,fortran,jit,lto,objc,obj-c++ --enable-libgomp --enable-lto --enable-graphite --enable-cxx-flags=-DWINPTHREAD_STATIC --disable-build-with-cxx --disable-build-poststage1-with-cxx --enable-libstdcxx-debug --enable-threads=posix --enable-version-specific-runtime-libs --enable-fully-dynamic-string --enable-libstdcxx-filesystem-ts=yes --disable-libstdcxx-pch --enable-libstdcxx-threads --enable-libstdcxx-time=yes --enable-mingw-wildcard --with-gnu-ld --disable-werror --enable-nls --disable-win32-registry --enable-large-address-aware --disable-rpath --disable-symvers --prefix=/mingw64tdm --with-local-prefix=/mingw64tdm --with-pkgversion=tdm64-1 --with-bugurl=https://github.com/jmeubank/tdm-gcc/issues]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 10.3.0 (tdm64-1) ]
+  ignore line: [COMPILER_PATH=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../libexec/gcc/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/bin/]
+  ignore line: [LIBRARY_PATH=D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/]
+  ignore line: [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2dde6.exe' '-mtune=generic' '-march=x86-64']
+  link line: [ D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/collect2.exe -plugin D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/liblto_plugin-0.dll -plugin-opt=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe -plugin-opt=-fresolution=C:\WINDOWS\TEMP\cc2PqI9U.res -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-ladvapi32 -plugin-opt=-pass-through=-lshell32 -plugin-opt=-pass-through=-luser32 -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmingw32 -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lkernel32 -plugin-opt=-pass-through=-lmoldname -plugin-opt=-pass-through=-lmingwex -plugin-opt=-pass-through=-lmsvcrt -plugin-opt=-pass-through=-lkernel32 -m i386pep --exclude-libs=libpthread.a --undefined=__xl_f -Bdynamic -o cmTC_2dde6.exe D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtbegin.o -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0 -LD:/environments/C++/TDM-GCC/bin/../lib/gcc -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib -LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../.. --whole-archive CMakeFiles\cmTC_2dde6.dir/objects.a --no-whole-archive --out-implib libcmTC_2dde6.dll.a --major-image-version 0 --minor-image-version 0 -Bstatic -lstdc++ -Bdynamic -lmingw32 -lgcc -lpthread -lgcc -lkernel32 -lmoldname -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lpthread -lgcc -lkernel32 -lmoldname -lmingwex -lmsvcrt -lkernel32 D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/default-manifest.o D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtend.o]
+    arg [D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/collect2.exe] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/liblto_plugin-0.dll] ==> ignore
+    arg [-plugin-opt=D:/environments/C++/TDM-GCC/bin/../libexec/gcc/x86_64-w64-mingw32/10.3.0/lto-wrapper.exe] ==> ignore
+    arg [-plugin-opt=-fresolution=C:\WINDOWS\TEMP\cc2PqI9U.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+    arg [-plugin-opt=-pass-through=-ladvapi32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lshell32] ==> ignore
+    arg [-plugin-opt=-pass-through=-luser32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingw32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lpthread] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmoldname] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmingwex] ==> ignore
+    arg [-plugin-opt=-pass-through=-lmsvcrt] ==> ignore
+    arg [-plugin-opt=-pass-through=-lkernel32] ==> ignore
+    arg [-m] ==> ignore
+    arg [i386pep] ==> ignore
+    arg [--exclude-libs=libpthread.a] ==> ignore
+    arg [--undefined=__xl_f] ==> ignore
+    arg [-Bdynamic] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_2dde6.exe] ==> ignore
+    arg [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/crt2.o] ==> ignore
+    arg [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtbegin.o] ==> ignore
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib]
+    arg [-LD:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../..] ==> dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../..]
+    arg [--whole-archive] ==> ignore
+    arg [CMakeFiles\cmTC_2dde6.dir/objects.a] ==> ignore
+    arg [--no-whole-archive] ==> ignore
+    arg [--out-implib] ==> ignore
+    arg [libcmTC_2dde6.dll.a] ==> ignore
+    arg [--major-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [--minor-image-version] ==> ignore
+    arg [0] ==> ignore
+    arg [-Bstatic] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-Bdynamic] ==> ignore
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-ladvapi32] ==> lib [advapi32]
+    arg [-lshell32] ==> lib [shell32]
+    arg [-luser32] ==> lib [user32]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-lmingw32] ==> lib [mingw32]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [-lmoldname] ==> lib [moldname]
+    arg [-lmingwex] ==> lib [mingwex]
+    arg [-lmsvcrt] ==> lib [msvcrt]
+    arg [-lkernel32] ==> lib [kernel32]
+    arg [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib/default-manifest.o] ==> ignore
+    arg [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/crtend.o] ==> ignore
+  remove lib [msvcrt]
+  remove lib [msvcrt]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0] ==> [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc] ==> [D:/environments/C++/TDM-GCC/lib/gcc]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib/../lib] ==> [D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/lib]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../lib] ==> [D:/environments/C++/TDM-GCC/lib]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../../../x86_64-w64-mingw32/lib] ==> [D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/lib]
+  collapse library dir [D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/../../..] ==> [D:/environments/C++/TDM-GCC/lib]
+  implicit libs: [stdc++;mingw32;gcc;pthread;gcc;kernel32;moldname;mingwex;kernel32;pthread;advapi32;shell32;user32;kernel32;mingw32;gcc;pthread;gcc;kernel32;moldname;mingwex;kernel32]
+  implicit dirs: [D:/environments/C++/TDM-GCC/lib/gcc/x86_64-w64-mingw32/10.3.0;D:/environments/C++/TDM-GCC/lib/gcc;D:/environments/C++/TDM-GCC/x86_64-w64-mingw32/lib;D:/environments/C++/TDM-GCC/lib]
+  implicit fwks: []
+
+
