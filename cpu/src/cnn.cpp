@@ -427,9 +427,9 @@ namespace architectures {
         std::vector<tensor> backward(const std::vector<tensor>& delta) {
             // 获取输入的梯度信息
             const int batch_size = delta.size();
-            assert(batch_size == this->delta_output.size());
-            assert(equal_shape(this->output[0]->get_shape(), delta[0]->get_shape()));
-            // B X 128 X 6 X 6, 先填 0
+            // assert(batch_size == this->delta_output.size());
+            // assert(equal_shape(this->output[0]->get_shape(), delta[0]->get_shape()));
+            // B X 128 X 6 X 6, 先填 0s
             for(int b = 0;b < batch_size; ++b)
                 this->delta_output[b]->set_zero();
             // batch 每张图像, 根据 mask 标记的位置, 把 delta 中的值填到 delta_output 中去
@@ -448,6 +448,118 @@ namespace architectures {
 
 
 
+    class ReLU {
+    private:
+        std::string name;
+        std::vector<tensor> output;
+        std::vector<tensor> delta_output;
+    public:
+        ReLU(std::string _name) : name(std::move(_name)) {}
+
+        std::vector<tensor> forward(const std::vector<tensor>& input) {
+            // 获取图像信息
+            const int batch_size = input.size();
+            // 如果是第一次经过这一层
+            if(output.empty()) {
+                // 给输出分配空间
+                this->output.reserve(batch_size);
+                for(int b = 0;b < batch_size; ++b)
+                    this->output.emplace_back(new Tensor3D(input[0]->C, input[0]->H, input[0]->W, this->name + "_" + std::to_string(b)));
+                // 如果要反向求导, 也给 delta 分配空间
+                this->delta_output.reserve(batch_size);
+                for(int b = 0;b < batch_size; ++b)
+                    this->delta_output.emplace_back(new Tensor3D(input[0]->C, input[0]->H, input[0]->W, this->name + "_delta_" + std::to_string(b)));
+            }
+            // 只保留 > 0 的部分
+            const int total_length = input[0]->get_length();
+            for(int b = 0;b < batch_size; ++b) {
+                data_type* const src_ptr = input[b]->data;
+                data_type* const out_ptr = this->output[b]->data;
+                for(int i = 0;i < total_length; ++i)
+                    out_ptr[i] = src_ptr[i] >= 0 ? src_ptr[i] : 0;
+            }
+            return this->output;
+        }
+
+        std::vector<tensor> backward(const std::vector<tensor>& delta) { // 这个 delta 不必是 const
+            // 获取信息
+            const int batch_size = delta.size();
+            // assert 就算了, 影响性能
+            // 从这一层的输出中,  < 0 的部分过滤掉
+            const int total_length = delta[0]->get_length();
+            for(int b = 0;b < batch_size; ++b) {
+                data_type* src_ptr = delta[b]->data;
+                data_type* res_ptr = this->delta_output[b]->data;
+                data_type* out_ptr = this->output[b]->data;
+                for(int i = 0;i < total_length; ++i)
+                    res_ptr[i] = out_ptr[i] <= 0 ? 0 : src_ptr[i];
+            }
+            return this->delta_output;
+        }
+    };
+
+
+    class Tensor1D {
+    public:
+        const int length;
+    private:
+        data_type* data = nullptr;
+        std::string name;
+    public:
+        Tensor1D(std::string _name, const int len)
+            : length(len), data(new data_type[len]), name(std::move(_name)) {}
+        ~Tensor1D() {
+            if(this->data != nullptr) {
+                delete this->data;
+                this->data = nullptr;
+                std::cout << this->name << " 销毁一次\n";
+            }
+        }
+    };
+
+    using tensor1D = std::shared_ptr<Tensor1D>;
+
+    class LinearLayer {
+    private:
+        const int in_channels;   // 输入的神经元个数
+        const int out_channels;  // 输出的神经元个数
+        std::vector<data_type> weights;       // 权值矩阵
+        std::vector<data_type> bias;          // 偏置
+        std::vector<tensor1D> output; // 记录输出, 反向回传需要
+    public:
+        LinearLayer(std::string _name, const int _in_channels, const int _out_channels)
+                : in_channels(_in_channels), out_channels(_out_channels),
+                  weights(_in_channels * _out_channels, 0),
+                  bias(_out_channels) {
+            // 随机种子初始化
+            std::default_random_engine e(1998);
+            std::normal_distribution<float> engine(0.0, 1.0);
+            for(int i = 0;i < _out_channels; ++i) bias[i] = engine(e);
+            const int length = _in_channels * _out_channels;
+            for(int i = 0;i < length; ++i) weights[i] = engine(e);
+        }
+
+        // 这里千万要注意, train 跟 valid, test 的不一样, 真的坑爹, 不能直接判断 empty, 然后分配空间
+        std::vector<tensor1D> forward(const std::vector<data_type*>& input, const int in_size) {
+            assert(in_size == in_channels);
+            // 获取输入信息
+            const int batch_size = input.size();
+            // 给输出分配空间, 其实这里可以直接用 vector, 每次析构也就几千个数字, 还要简单
+            if(output.empty()) {
+                output.reserve(batch_size);
+                for(int b = 0;b < batch_size; ++b)
+                    this->output.emplace_back(new Tensor1D("linear_" + std::to_string(b), out_channels));
+            }
+            // batch 每个图象分开算
+            for(int b = 0;b < batch_size; ++b) {
+                // 矩阵相乘, 1 X 4096  dot  4096 * 10
+            }
+            return this->output;
+        }
+    };
+
+
+
     class AlexNet {
     private:
         Conv2D conv_layer_1 = Conv2D("conv_layer_1", 3, 16, 3);
@@ -456,31 +568,29 @@ namespace architectures {
         Conv2D conv_layer_4 = Conv2D("conv_layer_4", 64, 128, 3);
         MaxPool2D max_pool_1 = MaxPool2D("max_pool_1", 2, 2);
         MaxPool2D max_pool_2 = MaxPool2D("max_pool_2", 3, 2);
+        ReLU relu_layer_1 = ReLU("relu_layer_1");
+        ReLU relu_layer_2 = ReLU("relu_layer_2");
+        ReLU relu_layer_3 = ReLU("relu_layer_3");
+        ReLU relu_layer_4 = ReLU("relu_layer_4");
     public:
         std::vector<tensor> forward(const std::vector<tensor>& input) {
             // 对输入的形状做检查
             auto conv_output_1 = this->conv_layer_1.forward(input);
-            auto pool_output_1 = this->max_pool_1.forward(conv_output_1);
+            auto relu_output_1 = this->relu_layer_1.forward(conv_output_1);
+
+            auto pool_output_1 = this->max_pool_1.forward(relu_output_1);
+
             auto conv_output_2 = this->conv_layer_2.forward(pool_output_1);
-            auto conv_output_3 = this->conv_layer_3.forward(conv_output_2);
-            auto conv_output_4 = this->conv_layer_4.forward(conv_output_3);
-            auto pool_output_2 = this->max_pool_2.forward(conv_output_4);
-            // 在这里模拟 pool 层的反向传播
-            const int CH = 30;
-            conv_output_4[0]->print(CH);
-            pool_output_2[0]->print(CH);
-            std::vector<tensor> backward_delta;
-            for(int b = 0;b < 4; ++b) {
-                tensor one(new Tensor3D(128, 3, 3));
-                for(int i = 0;i < 128; ++i) {
-                    data_type* ch_ptr = one->data + i * 9;
-                    for(int k = 1;k <= 9; ++k) ch_ptr[k - 1] = 0.1f * k;
-                }
-                backward_delta.emplace_back(one);
-            }
-            backward_delta[0]->print(CH);
-            const auto delta = this->max_pool_2.backward(backward_delta);
-            delta[0]->print(CH);
+            auto relu_output_2 = this->relu_layer_2.forward(conv_output_2);
+
+            auto conv_output_3 = this->conv_layer_3.forward(relu_output_2);
+            auto relu_output_3 = this->relu_layer_3.forward(conv_output_3);
+
+            auto conv_output_4 = this->conv_layer_4.forward(relu_output_3);
+            auto relu_output_4 = this->relu_layer_4.forward(conv_output_4);
+
+            auto pool_output_2 = this->max_pool_2.forward(relu_output_4);
+
             return pool_output_2;
         }
     };
