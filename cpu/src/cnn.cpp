@@ -255,10 +255,10 @@ namespace architectures {
             // 随机初始化
             this->seed.seed(212);
             std::normal_distribution<float> engine(0.0, 1.0);
-            for(int o = 0;o < out_channels; ++o) bias[o] = engine(this->seed);
+            for(int o = 0;o < out_channels; ++o) bias[o] = engine(this->seed) / 15.f;
             for(int o = 0;o < out_channels; ++o) {
                 data_type* data_ptr = this->weights[o]->data;
-                for(int i = 0;i < params_for_one_kernel; ++i) data_ptr[i] = engine(this->seed);
+                for(int i = 0;i < params_for_one_kernel; ++i) data_ptr[i] = engine(this->seed) / 15.f;
             }
         }
         // 卷积操作的 forward 过程, batch_num X in_channels X H X W
@@ -502,30 +502,39 @@ namespace architectures {
     class Tensor1D {
     public:
         const int length;
-    private:
         data_type* data = nullptr;
-        std::string name;
     public:
-        Tensor1D(std::string _name, const int len)
-            : length(len), data(new data_type[len]), name(std::move(_name)) {}
+        Tensor1D(const int len)
+            : length(len), data(new data_type[len]) {}
         ~Tensor1D() {
             if(this->data != nullptr) {
                 delete this->data;
                 this->data = nullptr;
-                std::cout << this->name << " 销毁一次\n";
             }
+        }
+        void print() const {
+            for(int i = 0;i < length; ++i)
+                std::cout << data[i] << "  ";
+            std::cout << "\n";
         }
     };
 
     using tensor1D = std::shared_ptr<Tensor1D>;
 
     class LinearLayer {
-    private:
+    public:
         const int in_channels;   // 输入的神经元个数
         const int out_channels;  // 输出的神经元个数
         std::vector<data_type> weights;       // 权值矩阵
         std::vector<data_type> bias;          // 偏置
-        std::vector<tensor1D> output; // 记录输出, 反向回传需要
+        // 历史信息
+        std::tuple<int, int, int> delta_shape;// 记下来, delta 的形状, 从 1 X 4096 到 128 * 4 * 4 这种
+        std::vector<tensor> __input;          // 梯度回传的时候需要输入 Wx + b, 需要保留 x
+        // 以下是缓冲区
+        std::vector<tensor1D> output;         // 记录输出
+        std::vector<tensor> delta_output;     // delta 回传
+        std::vector<data_type> weights_gradients; // 缓存区, 权值矩阵的梯度
+        std::vector<data_type> bias_gradients;    // bias 的梯度
     public:
         LinearLayer(std::string _name, const int _in_channels, const int _out_channels)
                 : in_channels(_in_channels), out_channels(_out_channels),
@@ -540,26 +549,101 @@ namespace architectures {
         }
 
         // 这里千万要注意, train 跟 valid, test 的不一样, 真的坑爹, 不能直接判断 empty, 然后分配空间
-        std::vector<tensor1D> forward(const std::vector<data_type*>& input, const int in_size) {
-            assert(in_size == in_channels);
+        std::vector<tensor1D> forward(const std::vector<tensor>& input) {
             // 获取输入信息
             const int batch_size = input.size();
-            // 给输出分配空间, 其实这里可以直接用 vector, 每次析构也就几千个数字, 还要简单
-            if(output.empty()) {
-                output.reserve(batch_size);
-                for(int b = 0;b < batch_size; ++b)
-                    this->output.emplace_back(new Tensor1D("linear_" + std::to_string(b), out_channels));
-            }
+            const int in_size = input[0]->get_length();
+            assert(in_size == in_channels);
+            this->delta_shape = input[0]->get_shape();
+            // 清空之前的结果, 重新开始
+            std::vector<tensor1D>().swap(this->output);
+            for(int b = 0;b < batch_size; ++b)
+                this->output.emplace_back(new Tensor1D(out_channels));
+            // 记录输入
+            this->__input = input;
             // batch 每个图象分开算
+            std::cout << "batch_size  " << batch_size << "\n";
             for(int b = 0;b < batch_size; ++b) {
-                // 矩阵相乘, 1 X 4096  dot  4096 * 10
+                // 矩阵相乘,   dot
+                data_type* src_ptr = input[b]->data; // 1 X 4096
+                data_type* res_ptr = this->output[b]->data; // 1 X 10
+                for(int i = 0;i < out_channels; ++i) {
+                    data_type* w_ptr = this->weights.data() + i * in_channels; // 4096 * 10
+                    data_type sum_value = 0;
+                    for(int j = 0;j < in_channels; ++j) {
+                        sum_value += src_ptr[j] * this->weights[j * out_channels + i];
+                        if(b == 0 and i == 0) {
+                            std::cout << src_ptr[j] << " * " << this->weights[j * out_channels + i] << std::endl;
+                        }
+                    }
+                    res_ptr[i] = sum_value + bias[i];
+                }
             }
             return this->output;
+        }
+
+        std::vector<tensor> backward(const std::vector<tensor1D>& delta) {
+            // 获取 delta 信息
+            const int batch_size = delta.size();
+            // 如果是第一次回传
+            if(this->delta_output.empty()) {
+                // 分配空间
+                this->delta_output.reserve(batch_size);
+                for(int b = 0;b < batch_size; ++b)
+                    this->delta_output.emplace_back(new Tensor3D(std::get<0>(delta_shape), std::get<1>(delta_shape), std::get<2>(delta_shape), "linear_delta_" + std::to_string(b)));
+            }
+            // 计算返回的梯度
+            // 4 X 10, 10 X 4096, 但这个 4096 的排列不大对
+            for(int b = 0;b < batch_size; ++b) {
+                data_type* src_ptr = delta[b]->data;
+                data_type* res_ptr = this->delta_output[b]->data;
+                for(int i = 0;i < in_channels; ++i) {
+                    data_type sum_value = 0;
+                    data_type* w_ptr = this->weights.data() + i * out_channels;
+                    for(int j = 0;j < out_channels; ++j)
+                        sum_value += src_ptr[j] * w_ptr[j];
+                    res_ptr[i] = sum_value;
+                }
+            }
+            // 第一次回传, 给缓冲区的梯度 W, b 分配空间
+            if(this->weights_gradients.empty()) {
+                this->weights_gradients.assign(in_channels * out_channels, 0);
+                this->bias_gradients.assign(out_channels, 0);
+            }
+            // 计算 W 的梯度
+            for(int i = 0;i < in_channels; ++i) {
+                data_type* w_ptr = this->weights_gradients.data() + i * out_channels;
+                for(int j = 0;j < out_channels; ++j) {
+                    data_type sum_value = 0;
+                    for(int b = 0;b < batch_size; ++b)
+                        sum_value += this->__input[b]->data[i] * delta[b]->data[j];
+                    w_ptr[j] = sum_value / batch_size;
+                }
+            }
+            for(int i = 0;i < out_channels; ++i) {
+                data_type sum_value = 0;
+                for(int b = 0;b < batch_size; ++b)
+                    sum_value += delta[b]->data[i];
+                this->bias_gradients[i] = sum_value / batch_size;
+            }
+            for(int i = 0;i < in_channels; ++i) {
+                for(int j = 0;j < out_channels; ++j)
+                    std::cout << this->weights_gradients[i * out_channels + j] << "  ";
+                std::cout << "\n";
+            }
+            for(int i = 0;i < out_channels; ++i) std::cout << bias_gradients[i] << "  ";
+            std::cout << "\n";
+            // 梯度更新到权值
+            const int total_length = in_channels * out_channels;
+            for(int i = 0;i < total_length; ++i) this->weights[i] -= 1e-3 * this->weights_gradients[i];
+            for(int i = 0;i < out_channels; ++i) this->bias[i] -= 1e-3 * this->bias_gradients[i];
+            // 返回到上一层给的梯度
+            return this->delta_output;
         }
     };
 
 
-
+    // 记得最后开 O1 优化
     class AlexNet {
     private:
         Conv2D conv_layer_1 = Conv2D("conv_layer_1", 3, 16, 3);
@@ -572,8 +656,12 @@ namespace architectures {
         ReLU relu_layer_2 = ReLU("relu_layer_2");
         ReLU relu_layer_3 = ReLU("relu_layer_3");
         ReLU relu_layer_4 = ReLU("relu_layer_4");
+        LinearLayer classifier;
     public:
-        std::vector<tensor> forward(const std::vector<tensor>& input) {
+        AlexNet(const int num_classes=3)
+            : classifier(LinearLayer("linear_1", 9 * 128, num_classes)) {}
+
+        std::vector<tensor1D> forward(const std::vector<tensor>& input) {
             // 对输入的形状做检查
             auto conv_output_1 = this->conv_layer_1.forward(input);
             auto relu_output_1 = this->relu_layer_1.forward(conv_output_1);
@@ -591,7 +679,40 @@ namespace architectures {
 
             auto pool_output_2 = this->max_pool_2.forward(relu_output_4);
 
-            return pool_output_2;
+//            auto output = this->classifier.forward(pool_output_2);
+
+            // 模拟前向和后向传播
+            LinearLayer one("linear_2", 4, 3);
+            for(int i = 0;i < 12; ++i)
+                one.weights[i] = (i + 1) * 0.01;
+            for(int i = 0;i < 4; ++i) {
+                for(int j = 0;j < 3; ++j)
+                    std::cout << one.weights[i * 3 + j] << "  ";
+                std::cout << "\n";
+            }
+            for(int i = 0;i < 3; ++i)
+                one.bias[i] = -(i + 1) * 0.05;
+            for(int i = 0;i < 3; ++i) std::cout << one.bias[i] << "  ";
+            std::cout << "\n";
+            // 前向
+            std::vector<tensor> demo_in;
+            demo_in.emplace_back(new Tensor3D(1, 2, 2));
+            for(int i = 0;i < 4; ++i)
+                demo_in[0]->data[i] = (i - 1) * 0.3;
+            demo_in[0]->print();
+            auto demo_out = one.forward(demo_in);
+            std::cout << "线性层输出 \n";
+            demo_out[0]->print();
+            // 反向
+            std::vector<tensor1D> delta;
+            delta.emplace_back(new Tensor1D(3));
+            delta[0]->data[0] = 0.212;
+            delta[0]->data[1] = 1.998;
+            delta[0]->data[2] = 0.229;
+            auto delta_output = one.backward(delta);
+            delta_output[0]->print();
+
+            return std::vector<tensor1D>();
         }
     };
 }
@@ -617,7 +738,8 @@ int main() {
     pipeline::DataLoader train_loader(dataset["train"], train_batch_size, false, true);
 
     // 定义网络结构
-    std::unique_ptr<architectures::AlexNet> network(new architectures::AlexNet());
+    const int num_classes = categories.size();
+    std::unique_ptr<architectures::AlexNet> network(new architectures::AlexNet(num_classes));
 
     // 开始训练
     const int total_iters = 100000; // 训练 batch 的总数
@@ -636,7 +758,7 @@ int main() {
         }
         // 送到网络中
         const auto output = network->forward(images);
-        if(iter == 2) break;
+        if(iter == 1) break;
     }
 
     // 保存
