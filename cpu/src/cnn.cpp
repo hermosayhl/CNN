@@ -512,7 +512,8 @@ namespace architectures {
                 this->data = nullptr;
             }
         }
-        void print() const {
+        void print(const std::string message = "") const {
+            std::cout << message << "===> ";
             for(int i = 0;i < length; ++i)
                 std::cout << data[i] << "  ";
             std::cout << "\n";
@@ -522,7 +523,7 @@ namespace architectures {
     using tensor1D = std::shared_ptr<Tensor1D>;
 
     class LinearLayer {
-    public:
+    private:
         const int in_channels;   // 输入的神经元个数
         const int out_channels;  // 输出的神经元个数
         std::vector<data_type> weights;       // 权值矩阵
@@ -570,12 +571,8 @@ namespace architectures {
                 for(int i = 0;i < out_channels; ++i) {
                     data_type* w_ptr = this->weights.data() + i * in_channels; // 4096 * 10
                     data_type sum_value = 0;
-                    for(int j = 0;j < in_channels; ++j) {
+                    for(int j = 0;j < in_channels; ++j)
                         sum_value += src_ptr[j] * this->weights[j * out_channels + i];
-                        if(b == 0 and i == 0) {
-                            std::cout << src_ptr[j] << " * " << this->weights[j * out_channels + i] << std::endl;
-                        }
-                    }
                     res_ptr[i] = sum_value + bias[i];
                 }
             }
@@ -626,13 +623,6 @@ namespace architectures {
                     sum_value += delta[b]->data[i];
                 this->bias_gradients[i] = sum_value / batch_size;
             }
-            for(int i = 0;i < in_channels; ++i) {
-                for(int j = 0;j < out_channels; ++j)
-                    std::cout << this->weights_gradients[i * out_channels + j] << "  ";
-                std::cout << "\n";
-            }
-            for(int i = 0;i < out_channels; ++i) std::cout << bias_gradients[i] << "  ";
-            std::cout << "\n";
             // 梯度更新到权值
             const int total_length = in_channels * out_channels;
             for(int i = 0;i < total_length; ++i) this->weights[i] -= 1e-3 * this->weights_gradients[i];
@@ -641,6 +631,68 @@ namespace architectures {
             return this->delta_output;
         }
     };
+
+
+
+    std::vector<tensor1D> softmax(const std::vector<tensor1D>& input) {
+        const int batch_size = input.size();
+        const int num_classes = input[0]->length;
+        std::vector<tensor1D> output;
+        output.reserve(batch_size);
+        for(int b = 0;b < batch_size; ++b) {
+            tensor1D probs(new Tensor1D(num_classes));
+            // 首先算出输出的最大值, 防止溢出, 还是改变不了什么, 大于 -37 直接等于 1
+            data_type max_value = input[b]->data[0];
+            for(int i = 1;i < num_classes; ++i)   // 这里可以写一个 .max() 函数
+                if(input[b]->data[i] > max_value)
+                    max_value = input[b]->data[i];
+            data_type sum_value = 0;
+            for(int i = 0;i < num_classes; ++i) {
+                probs->data[i] = std::exp(input[b]->data[i] - max_value);
+                sum_value += probs->data[i];
+            }
+            for(int i = 0;i < num_classes; ++i)
+                probs->data[i] /= sum_value;
+            output.emplace_back(probs);
+        }
+        return output;
+    }
+
+    inline std::vector<tensor1D> one_hot(const std::vector<int>& labels, const int num_classes) {
+        const int batch_size = labels.size();
+        std::vector<tensor1D> one_hot_code;
+        one_hot_code.reserve(batch_size);
+        for(int b = 0;b < batch_size; ++b) {
+            tensor1D sample(new Tensor1D(num_classes));
+            for(int i = 0;i < num_classes; ++i)
+                sample->data[i] = 0;
+            assert(labels[b] >= 0 and labels[b] < num_classes);
+            sample->data[labels[b]] = 1.0;
+            one_hot_code.emplace_back(sample);
+        }
+        return one_hot_code;
+    }
+
+
+    std::pair<data_type, std::vector<tensor1D> > cross_entroy_backward(
+            const std::vector<tensor1D>& probs, const std::vector<tensor1D>& label) {
+        const int batch_size = probs.size();
+        const int num_classes = probs[0]->length;
+        assert(batch_size == label.size() and num_classes == label[0]->length);
+        std::vector<tensor1D> delta;
+        delta.reserve(batch_size);
+        data_type loss_value = 0;
+        for(int b = 0;b < batch_size; ++b) {
+            tensor1D piece(new Tensor1D(num_classes));
+            for(int i = 0;i < num_classes; ++i) {
+                piece->data[i] = probs[b]->data[i] - label[b]->data[i];
+                loss_value += std::log(probs[b]->data[i]) * label[b]->data[i];
+            }
+            delta.emplace_back(piece);
+        }
+        loss_value = loss_value * (-1.0) / batch_size;
+        return std::make_pair(loss_value, delta);
+    }
 
 
     // 记得最后开 O1 优化
@@ -678,41 +730,18 @@ namespace architectures {
             auto relu_output_4 = this->relu_layer_4.forward(conv_output_4);
 
             auto pool_output_2 = this->max_pool_2.forward(relu_output_4);
+            // 4 X 128 * 3 * 3 ===> 4 X 3
+            auto output = this->classifier.forward(pool_output_2);
+            // 4 X 3
+            return softmax(output);
+        }
 
-//            auto output = this->classifier.forward(pool_output_2);
-
-            // 模拟前向和后向传播
-            LinearLayer one("linear_2", 4, 3);
-            for(int i = 0;i < 12; ++i)
-                one.weights[i] = (i + 1) * 0.01;
-            for(int i = 0;i < 4; ++i) {
-                for(int j = 0;j < 3; ++j)
-                    std::cout << one.weights[i * 3 + j] << "  ";
-                std::cout << "\n";
-            }
-            for(int i = 0;i < 3; ++i)
-                one.bias[i] = -(i + 1) * 0.05;
-            for(int i = 0;i < 3; ++i) std::cout << one.bias[i] << "  ";
-            std::cout << "\n";
-            // 前向
-            std::vector<tensor> demo_in;
-            demo_in.emplace_back(new Tensor3D(1, 2, 2));
-            for(int i = 0;i < 4; ++i)
-                demo_in[0]->data[i] = (i - 1) * 0.3;
-            demo_in[0]->print();
-            auto demo_out = one.forward(demo_in);
-            std::cout << "线性层输出 \n";
-            demo_out[0]->print();
-            // 反向
-            std::vector<tensor1D> delta;
-            delta.emplace_back(new Tensor1D(3));
-            delta[0]->data[0] = 0.212;
-            delta[0]->data[1] = 1.998;
-            delta[0]->data[2] = 0.229;
-            auto delta_output = one.backward(delta);
-            delta_output[0]->print();
-
-            return std::vector<tensor1D>();
+        void backward(const std::vector<tensor1D>& delta_start) {
+            // 直接从 softmax 之前开始
+            auto delta = this->classifier.backward(delta_start);
+            delta = this->max_pool_2.backward(delta);
+            delta = this->relu_layer_4.backward(delta);
+            // ......
         }
     };
 }
@@ -738,8 +767,9 @@ int main() {
     pipeline::DataLoader train_loader(dataset["train"], train_batch_size, false, true);
 
     // 定义网络结构
+    using namespace architectures;
     const int num_classes = categories.size();
-    std::unique_ptr<architectures::AlexNet> network(new architectures::AlexNet(num_classes));
+    std::unique_ptr<AlexNet> network(new AlexNet(num_classes));
 
     // 开始训练
     const int total_iters = 100000; // 训练 batch 的总数
@@ -754,10 +784,15 @@ int main() {
         images.reserve(train_batch_size);
         for(int b = 0;b < train_batch_size; ++b) {
             images.emplace_back(sample[b].first);
-            labels[b] = sample[b].second;  // 这里最好改成 pair
+            labels[b] = sample[b].second;  // 这里最好改成 pair, 最后再说
+            std::cout << labels[b] << std::endl;
         }
         // 送到网络中
         const auto output = network->forward(images);
+        // 根据 labels 设计成 one_hot
+        const auto loss_delta = cross_entroy_backward(output, one_hot(labels, num_classes));
+        // 计算梯度
+        network->backward(loss_delta.second);
         if(iter == 1) break;
     }
 

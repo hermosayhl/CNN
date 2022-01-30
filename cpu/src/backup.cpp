@@ -2767,3 +2767,14 @@ int main() {
     std::cout << "训练结束!\n";
     return 0;
 }
+
+
+*/
+
+
+
+
+/*
+ *
+ * Softmax 层和 CrossEntroy 应该是写对了
+ */
