@@ -195,7 +195,7 @@ namespace pipeline {
         const int seed; // 每次随机打乱列表的种子
         int iter = -1;  // 当前采到了第 iter 张图像
         std::vector<tensor> buffer; // batch 缓冲区, 不用每次分配和销毁
-        const int H = 256, W = 256, C = 3; // 允许的图像尺寸
+        const int H = 224, W = 224, C = 3; // 允许的图像尺寸
     public:
         explicit DataLoader(const list_type& _images_list, const int _bs=1, const bool _aug=false, const bool _shuffle=true, const int _seed=212)
                 : images_list(_images_list), batch_size(_bs), augment(_aug), shuffle(_shuffle), seed(_seed) {
@@ -243,6 +243,7 @@ namespace pipeline {
 namespace architectures {
     using namespace pipeline;
 
+    const data_type random_times = 10.f;
     // 判断形状是否相等
     inline bool equal_shape(const std::tuple<int, int, int>& lhs, const std::tuple<int, int, int>& rhs) {
         return std::get<0>(lhs) == std::get<0>(rhs) and std::get<1>(lhs) == std::get<1>(rhs) and std::get<2>(lhs) == std::get<2>(rhs);
@@ -269,7 +270,7 @@ namespace architectures {
         std::vector<tensor> output; // 输出的张量, 写在这里是为了减少对象的销毁, 类似于缓冲区
         std::vector<int> offset; // 卷积的偏移量, 辅助
         std::vector<tensor> delta_output; // 存储回传到上一层的梯度
-        std::vector<tensor> input; // 求梯度需要, 其实存储的是指针
+        std::vector<tensor> __input; // 求梯度需要, 其实存储的是指针
         std::vector<tensor> weights_gradients; // 权值的梯度
         std::vector<data_type> bias_gradients; // bias 的梯度
     public:
@@ -287,10 +288,10 @@ namespace architectures {
             // 随机初始化
             this->seed.seed(212);
             std::normal_distribution<float> engine(0.0, 1.0);
-            for(int o = 0;o < out_channels; ++o) bias[o] = engine(this->seed) / 15.f;
+            for(int o = 0;o < out_channels; ++o) bias[o] = engine(this->seed) / 10.f;
             for(int o = 0;o < out_channels; ++o) {
                 data_type* data_ptr = this->weights[o]->data;
-                for(int i = 0;i < params_for_one_kernel; ++i) data_ptr[i] = engine(this->seed) / 15.f;
+                for(int i = 0;i < params_for_one_kernel; ++i) data_ptr[i] = engine(this->seed) / 10.f;
             }
         }
         // 卷积操作的 forward 过程, batch_num X in_channels X H X W
@@ -327,9 +328,9 @@ namespace architectures {
                     }
                 }
             }
-            output[0]->print_shape();
+//            output[0]->print_shape();
             // 记录输入, 如果存在 backward 的话
-            this->input = input;
+            this->__input = input;
             // 首先每张图像分开卷积
             for(int b = 0;b < batch_size; ++b) {
                 // in_channels X 224 X 224
@@ -360,29 +361,29 @@ namespace architectures {
             return this->output;
         }
 
-
         // 优化的话, 把一些堆上的数据放到栈区, 局部变量快
         std::vector<tensor> backward(const std::vector<tensor>& delta) {
             // 获取信息  batch_size X out_channels X 2 X 2
             const int batch_size = delta.size();
-            assert(batch_size > 0 and batch_size == this->input.size());
+            assert(batch_size > 0 and batch_size == this->__input.size());
             const int out_H = delta[0]->H;
             const int out_W = delta[0]->W;
             const int out_length = out_H * out_W;
             // 获取输入的信息
-            const int H = this->input[0]->H;
-            const int W = this->input[0]->W;
+            const int H = this->__input[0]->H;
+            const int W = this->__input[0]->W;
+            const int length = H * W;
             // 给缓冲区的梯度分配空间
             if(this->weights_gradients.empty()) {
                 // W
                 this->weights_gradients.reserve(out_channels);
                 for(int o = 0;o < out_channels; ++o)
                     this->weights_gradients.emplace_back(new Tensor3D(in_channels, kernel_size, kernel_size, this->name + "_weights_gradients_" + std::to_string(o)));
-                for(int o = 0;o < out_channels; ++o) this->weights_gradients[o]->set_zero();
                 // b
                 this->bias_gradients.assign(out_channels, 0);
             }
-            std::cout << "内存分配成功 " << bias_gradients.size() << std::endl;
+            for(int o = 0;o < out_channels; ++o) this->weights_gradients[o]->set_zero();
+            for(int o = 0;o < out_channels; ++o) this->bias_gradients[o] = 0;
             // 先求 W, b 的梯度, 更简单
             // 求 weight, out_channels X in_channels X 3 X 3
             // 对 batch 中的梯度求均值
@@ -395,7 +396,7 @@ namespace architectures {
                     // 卷积核的每个 in 通道, 分开求
                     for(int i = 0;i < in_channels; ++i) {
                         // 第 b 张第 i 个通道的输入
-                        data_type* in_ptr = input[b]->data + i * H * W;
+                        data_type* in_ptr = __input[b]->data + i * H * W;
                         // 现在到了第 o 个卷积核的第 i 个通道
                         data_type* w_ptr = weights_gradients[o]->data + i * kernel_size * kernel_size;
                         // 找到要求的 w 的每个点, 从特征图中找到对应的点
@@ -436,11 +437,47 @@ namespace architectures {
                     w_ptr[i] -= 1e-3 * wg_ptr[i];
                 bias[o] -= 1e-3 * bias_gradients[o];
             }
+            // 给 delta_output 分配内存
+            if(this->delta_output.empty()) {
+                this->delta_output.reserve(batch_size);
+                for(int b = 0;b < batch_size; ++b)
+                    this->delta_output.emplace_back(new Tensor3D(in_channels, H, W, this->name + "_delta_" + std::to_string(b)));
+            }
+            // delta 初始化为 0
+            for(int o = 0;o < batch_size; ++o) this->delta_output[o]->set_zero(); // 这一步不是多余的
+            // 开始计算 delta 的梯度, 传回到输入的
+            const int radius = (kernel_size - 1) / 2;
+            const int H_radius = H - radius;
+            const int W_radius = W - radius;
+            const int window_range = kernel_size * kernel_size;
+            for(int b = 0;b < batch_size; ++b) {
+                // in_channels X 224 X 224
+                data_type* const cur_image_features = this->delta_output[b]->data;
+                // 16 个卷积核的输出, 16 x 111 x 111
+                for(int o = 0;o < out_channels; ++o) { // 每个卷积核
+                    data_type* const out_ptr = delta[b]->data + o * out_length;// 第 o 个卷积核会得到一张 out_H X out_W 的特征图
+                    data_type* const cur_w_ptr = this->weights[o]->data;  // in_channels x 3 x 3
+                    int cnt = 0; // 记录每次卷积结果存放的位置
+                    for(int x = radius; x < H_radius; x += stride) {
+                        for(int y = radius; y < W_radius; y += stride) { // 遍历图像平面每一个点
+                            data_type sum_value = 0.f;
+                            const int coord = x * W + y; // 当前点对于这个通道的特征图的位移
+                            for(int i = 0;i < in_channels; ++i) { // 每个点有多个通道
+                                const int start = i * length + coord; // 输入的第 i 张特征图在 (x, y) 处的位移
+                                const int start_w = i * window_range; // 第 o 个卷积核的第 i 个通道
+                                for(int k = 0;k < window_range; ++k) { // 遍历局部窗口
+                                    sum_value += cur_image_features[start + offset[k]] * cur_w_ptr[start_w + k];
+                                    cur_image_features[start + offset[k]] += cur_w_ptr[start_w + k] * out_ptr[cnt];
+                                }
+                            }
+                            ++cnt;
+                        }
+                    }
+                }
+            }
             // 返回
-            std::cout << "梯度计算完成 !\n";
             return this->delta_output;
         }
-
 
         // 获取这一层卷积层的参数值
         int get_params_num() const {
@@ -500,7 +537,7 @@ namespace architectures {
                 for(int i = 0;i < mask_size; ++i)
                     mask_ptr[i] = 0;
             }
-            this->output[0]->print_shape();
+            // this->output[0]->print_shape();
             // 开始池化
             const int length = H * W;
             const int H_kernel = H - kernel_size;
@@ -630,7 +667,7 @@ namespace architectures {
             }
         }
         void print(const std::string message = "") const {
-            std::cout << message << "===> ";
+            std::cout << message << "";
             for(int i = 0;i < length; ++i)
                 std::cout << data[i] << "  ";
             std::cout << "\n";
@@ -642,6 +679,17 @@ namespace architectures {
                 if(this->data[i] > max_value)
                     max_value = this->data[i];
             return max_value;
+        }
+        data_type argmax() const {
+            if(data == nullptr) return 0;
+            data_type max_value = this->data[0];
+            int max_index = 0;
+            for(int i = 1;i < length; ++i)
+                if(this->data[i] > max_value) {
+                    max_value = this->data[i];
+                    max_index = i;
+                }
+            return max_index;
         }
     };
 
@@ -669,9 +717,9 @@ namespace architectures {
             // 随机种子初始化
             std::default_random_engine e(1998);
             std::normal_distribution<float> engine(0.0, 1.0);
-            for(int i = 0;i < _out_channels; ++i) bias[i] = engine(e);
+            for(int i = 0;i < _out_channels; ++i) bias[i] = engine(e) / 10.f;
             const int length = _in_channels * _out_channels;
-            for(int i = 0;i < length; ++i) weights[i] = engine(e);
+            for(int i = 0;i < length; ++i) weights[i] = engine(e) / 10.f;
         }
 
         // 这里千万要注意, train 跟 valid, test 的不一样, 真的坑爹, 不能直接判断 empty, 然后分配空间
@@ -834,7 +882,7 @@ namespace architectures {
         LinearLayer classifier;
     public:
         AlexNet(const int num_classes=3)
-            : classifier(LinearLayer("linear_1", 9 * 128, num_classes)) {}
+            : classifier(LinearLayer("linear_1", 6 * 6 * 128, num_classes)) {}
 
         std::vector<tensor1D> forward(const std::vector<tensor>& input) {
             // 对输入的形状做检查
@@ -852,21 +900,28 @@ namespace architectures {
             auto conv_output_4 = this->conv_layer_4.forward(relu_output_3);
             auto relu_output_4 = this->relu_layer_4.forward(conv_output_4);
 
-            auto pool_output_2 = this->max_pool_2.forward(relu_output_4);
+//            relu_output_4[0]->print_shape();
+
+//            auto pool_output_2 = this->max_pool_2.forward(relu_output_4);
             // 4 X 128 * 3 * 3 ===> 4 X 3
-            auto output = this->classifier.forward(pool_output_2);
+            auto output = this->classifier.forward(relu_output_4);
             // 4 X 3
-            return softmax(output);
+            return output;
         }
 
         void backward(const std::vector<tensor1D>& delta_start) {
             // 直接从 softmax 之前开始
             auto delta = this->classifier.backward(delta_start);
-            delta = this->max_pool_2.backward(delta);
+//            delta = this->max_pool_2.backward(delta);
             delta = this->relu_layer_4.backward(delta);
-            delta[0]->print_shape();
             delta = this->conv_layer_4.backward(delta);
-            // ......
+            delta = this->relu_layer_3.backward(delta);
+            delta = this->conv_layer_3.backward(delta);
+            delta = this->relu_layer_2.backward(delta);
+            delta = this->conv_layer_2.backward(delta);
+            delta = this->max_pool_1.backward(delta);
+            delta = this->relu_layer_1.backward(delta);
+            delta = this->conv_layer_1.backward(delta);
         }
     };
 }
@@ -885,8 +940,8 @@ int main() {
     const int valid_batch_size = 1;
     const int test_batch_size = 1;
     const std::tuple<int, int, int> image_size({224, 224, 3});
-    const std::filesystem::path dataset_path("../datasets/animals");
-    const std::vector<std::string> categories({"dog", "panda", "bird"});
+    const std::filesystem::path dataset_path("../../datasets/animals");
+    const std::vector<std::string> categories({"dog", "panda"});
 
     // 获取图片
     auto dataset = pipeline::get_images_for_classification(dataset_path, categories);
@@ -902,6 +957,8 @@ int main() {
     const int total_iters = 100000; // 训练 batch 的总数
     const float learning_rate = 1e-3; // 学习率
     const int valid_inters = 600; // 验证一次的间隔
+    int correct_num = 0;
+    int sample_num = 0;
     for(int iter = 1; iter <= total_iters; ++iter) {
         // 从训练集中采样一个 batch
         const auto sample = train_loader.generate_batch();
@@ -915,15 +972,34 @@ int main() {
         }
         // 送到网络中
         const auto output = network->forward(images);
+        const auto probs = softmax(output);
         // 根据 labels 设计成 one_hot
-        const auto loss_delta = cross_entroy_backward(output, one_hot(labels, num_classes));
+        const auto loss_delta = cross_entroy_backward(probs, one_hot(labels, num_classes));
         // 计算梯度
         network->backward(loss_delta.second);
-        if(iter == 1) break;
+        // 根据 prefict 和 label 计算准确率
+        std::vector<int> predict(train_batch_size, -1);
+        for(int b = 0;b < train_batch_size; ++b) {
+            predict[b] = probs[b]->argmax();
+//            printf("%d\n", predict[b]);
+//            output[b]->print();
+//            probs[b]->print();
+        }
+        sample_num += train_batch_size;
+        for(int b = 0;b < train_batch_size; ++b)
+            if(predict[b] == labels[b])
+                ++correct_num;
+        // 打印信息
+        printf("Train===> [Batch %d/%d] [Accuracy %4.3f]\n", iter, total_iters, correct_num * 1.f / sample_num);
+        if(iter % 100 == 0) {
+            correct_num = 0;
+            sample_num = 0;
+            printf("\n");
+        }
     }
 
     // 保存
-    const std::filesystem::path checkpoints_dir("./checkpoints/AlexNet");
+    const std::filesystem::path checkpoints_dir("../checkpoints/AlexNet");
     if(not std::filesystem::exists(checkpoints_dir))
         std::filesystem::create_directories(checkpoints_dir);
 
