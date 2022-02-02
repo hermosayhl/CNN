@@ -41,12 +41,6 @@ namespace {
 		return result;
 	}
 
-	cv::Mat make_pad(const cv::Mat& one_image, const int pad_H, const int pad_W) {
-		cv::Mat padded_image;
-		cv::copyMakeBorder(one_image, padded_image, pad_H, pad_H, pad_W, pad_W, cv::BORDER_REPLICATE);
-		return padded_image;
-	}
-
 	cv::Mat cv_concat(std::vector<cv::Mat> sequence) {
         cv::Mat result;
         cv::hconcat(sequence, result);
@@ -185,7 +179,7 @@ namespace pipeline {
     using tensor = std::shared_ptr<Tensor3D>;
 
     class DataLoader {
-        using batch_type = std::vector< std::pair<tensor, int> >;
+        using batch_type = std::pair< std::vector<tensor>, std::vector<int> >;
     private:
         list_type images_list; // 数据集列表, image <==> label
         int images_num;  // 这个子数据集一共有多少张图像和对应的标签
@@ -195,10 +189,17 @@ namespace pipeline {
         const int seed; // 每次随机打乱列表的种子
         int iter = -1;  // 当前采到了第 iter 张图像
         std::vector<tensor> buffer; // batch 缓冲区, 不用每次分配和销毁
-        const int H = 224, W = 224, C = 3; // 允许的图像尺寸
+        const int H, W, C; // 允许的图像尺寸
     public:
-        explicit DataLoader(const list_type& _images_list, const int _bs=1, const bool _aug=false, const bool _shuffle=true, const int _seed=212)
-                : images_list(_images_list), batch_size(_bs), augment(_aug), shuffle(_shuffle), seed(_seed) {
+        explicit DataLoader(const list_type& _images_list, const int _bs=1, const bool _aug=false, const bool _shuffle=true, const std::tuple<int, int, int> image_size={224, 224, 3},  const int _seed=212)
+                : images_list(_images_list),
+                  batch_size(_bs),
+                  augment(_aug),
+                  shuffle(_shuffle),
+                  H(std::get<0>(image_size)),
+                  W(std::get<1>(image_size)),
+                  C(std::get<2>(image_size)),
+                  seed(_seed) {
             this->images_num = this->images_list.size();
             this->buffer.reserve(this->batch_size);
             for(int i = 0;i < this->batch_size; ++i)
@@ -207,11 +208,16 @@ namespace pipeline {
         int length() const {return this->images_num;}
         batch_type generate_batch() {
             // 我要开始算有几个 batch, 然后将 batch 组合在一起
-            batch_type one_batch;
-            one_batch.reserve(this->batch_size);
-            for(int i = 0;i < this->batch_size; ++i)
-                one_batch.emplace_back(this->add_to_buffer(i));
-            return one_batch;
+            std::vector<tensor> images;
+            std::vector<int> labels;
+            images.reserve(this->batch_size);
+            labels.reserve(this->batch_size);
+            for(int i = 0;i < this->batch_size; ++i) {
+                auto sample = this->add_to_buffer(i);
+                images.emplace_back(sample.first);
+                labels.emplace_back(sample.second);
+            }
+            return std::make_pair(std::move(images), std::move(labels));
         }
     private:
         std::pair<tensor, int> add_to_buffer(const int batch_index) {
@@ -328,7 +334,7 @@ namespace architectures {
                     }
                 }
             }
-//            output[0]->print_shape();
+            output[0]->print_shape();
             // 记录输入, 如果存在 backward 的话
             this->__input = input;
             // 首先每张图像分开卷积
@@ -434,8 +440,8 @@ namespace architectures {
                 data_type* w_ptr = weights[o]->data;
                 data_type* wg_ptr = weights_gradients[o]->data;
                 for(int i = 0;i < params_for_one_kernel; ++i)
-                    w_ptr[i] -= 1e-3 * wg_ptr[i];
-                bias[o] -= 1e-3 * bias_gradients[o];
+                    w_ptr[i] -= 1e-4 *  wg_ptr[i];
+                bias[o] -= 1e-4 *  bias_gradients[o];
             }
             // 给 delta_output 分配内存
             if(this->delta_output.empty()) {
@@ -697,6 +703,7 @@ namespace architectures {
 
     class LinearLayer {
     private:
+        // 线性层的固有信息
         const int in_channels;   // 输入的神经元个数
         const int out_channels;  // 输出的神经元个数
         std::vector<data_type> weights;       // 权值矩阵
@@ -796,15 +803,15 @@ namespace architectures {
             }
             // 梯度更新到权值
             const int total_length = in_channels * out_channels;
-            for(int i = 0;i < total_length; ++i) this->weights[i] -= 1e-3 * this->weights_gradients[i];
-            for(int i = 0;i < out_channels; ++i) this->bias[i] -= 1e-3 * this->bias_gradients[i];
+            for(int i = 0;i < total_length; ++i) this->weights[i] -= 1e-4 *  this->weights_gradients[i];
+            for(int i = 0;i < out_channels; ++i) this->bias[i] -= 1e-4 *  this->bias_gradients[i];
             // 返回到上一层给的梯度
             return this->delta_output;
         }
     };
 
 
-
+    // 给 batch_size 个向量, 每个向量 softmax 成多类别的概率
     std::vector<tensor1D> softmax(const std::vector<tensor1D>& input) {
         const int batch_size = input.size();
         const int num_classes = input[0]->length;
@@ -812,23 +819,21 @@ namespace architectures {
         output.reserve(batch_size);
         for(int b = 0;b < batch_size; ++b) {
             tensor1D probs(new Tensor1D(num_classes));
-            // 首先算出输出的最大值, 防止溢出, 还是改变不了什么, 大于 -37 直接等于 1
-            data_type max_value = input[b]->data[0];
-            for(int i = 1;i < num_classes; ++i)   // 这里可以写一个 .max() 函数
-                if(input[b]->data[i] > max_value)
-                    max_value = input[b]->data[i];
+            // 首先算出输出的最大值, 防止溢出, 还是改变不了什么, 大于 -37 直接等于 1, 这样并不能解决问题, 欸
+            const data_type max_value = input[b]->max();
             data_type sum_value = 0;
             for(int i = 0;i < num_classes; ++i) {
                 probs->data[i] = std::exp(input[b]->data[i] - max_value);
                 sum_value += probs->data[i];
             }
-            for(int i = 0;i < num_classes; ++i)
-                probs->data[i] /= sum_value;
+            // 概率之和 = 1
+            for(int i = 0;i < num_classes; ++i) probs->data[i] /= sum_value;
             output.emplace_back(probs);
         }
         return output;
     }
 
+    // batch_size 个样本, 每个样本 0, 1, 2 这种, 例如  1 就得到 [0.0, 1.0, 0.0, 0.0]
     inline std::vector<tensor1D> one_hot(const std::vector<int>& labels, const int num_classes) {
         const int batch_size = labels.size();
         std::vector<tensor1D> one_hot_code;
@@ -844,7 +849,7 @@ namespace architectures {
         return one_hot_code;
     }
 
-
+    // 给输出概率 probs, 和标签 label 计算交叉熵损失, 返回损失值和回传的梯度
     std::pair<data_type, std::vector<tensor1D> > cross_entroy_backward(
             const std::vector<tensor1D>& probs, const std::vector<tensor1D>& label) {
         const int batch_size = probs.size();
@@ -874,7 +879,6 @@ namespace architectures {
         Conv2D conv_layer_3 = Conv2D("conv_layer_3", 32, 64, 3);
         Conv2D conv_layer_4 = Conv2D("conv_layer_4", 64, 128, 3);
         MaxPool2D max_pool_1 = MaxPool2D("max_pool_1", 2, 2);
-        MaxPool2D max_pool_2 = MaxPool2D("max_pool_2", 3, 2);
         ReLU relu_layer_1 = ReLU("relu_layer_1");
         ReLU relu_layer_2 = ReLU("relu_layer_2");
         ReLU relu_layer_3 = ReLU("relu_layer_3");
@@ -886,33 +890,30 @@ namespace architectures {
 
         std::vector<tensor1D> forward(const std::vector<tensor>& input) {
             // 对输入的形状做检查
+            assert(input.size() > 0);
+            // batch_size X 3 X 224 X 224
             auto conv_output_1 = this->conv_layer_1.forward(input);
             auto relu_output_1 = this->relu_layer_1.forward(conv_output_1);
-
+            // batch_size X 16 X 111 X 111
             auto pool_output_1 = this->max_pool_1.forward(relu_output_1);
-
+            // batch_size X 16 X 55 X 55
             auto conv_output_2 = this->conv_layer_2.forward(pool_output_1);
             auto relu_output_2 = this->relu_layer_2.forward(conv_output_2);
-
+            // batch_size X 32 X 27 X 27
             auto conv_output_3 = this->conv_layer_3.forward(relu_output_2);
             auto relu_output_3 = this->relu_layer_3.forward(conv_output_3);
-
+            // batch_size X 64 X 13 X 13
             auto conv_output_4 = this->conv_layer_4.forward(relu_output_3);
             auto relu_output_4 = this->relu_layer_4.forward(conv_output_4);
-
-//            relu_output_4[0]->print_shape();
-
-//            auto pool_output_2 = this->max_pool_2.forward(relu_output_4);
-            // 4 X 128 * 3 * 3 ===> 4 X 3
+            // batch_size X 128 X 6 X 6
             auto output = this->classifier.forward(relu_output_4);
-            // 4 X 3
+            // batch_size X num_classes
             return output;
         }
 
+        // 梯度反传
         void backward(const std::vector<tensor1D>& delta_start) {
-            // 直接从 softmax 之前开始
             auto delta = this->classifier.backward(delta_start);
-//            delta = this->max_pool_2.backward(delta);
             delta = this->relu_layer_4.backward(delta);
             delta = this->conv_layer_4.backward(delta);
             delta = this->relu_layer_3.backward(delta);
@@ -924,6 +925,32 @@ namespace architectures {
             delta = this->conv_layer_1.backward(delta);
         }
     };
+
+
+    class ClassificationEvaluator {
+    private:
+        int correct_num = 0;  // 当前累计的判断正确的样本数目
+        int sample_num = 0;   // 当前累计的样本数目
+    public:
+        ClassificationEvaluator() {}
+        // 这一个 batch 猜对了几个
+        void compute(const std::vector<int>& predict, const std::vector<int>& labels) {
+            const int batch_size = labels.size();
+            assert(batch_size == predict.size());
+            for(int b = 0;b < batch_size; ++b)
+                if(predict[b] == labels[b])
+                    ++this->correct_num;
+            this->sample_num += batch_size;
+        }
+        // 查看累计的正确率
+        data_type get() const {
+            return this->correct_num * 1.f / this->sample_num;
+        }
+        // 重新开始统计
+        void clear() {
+            this->correct_num = this->sample_num = 0;
+        }
+    };
 }
 
 
@@ -931,7 +958,6 @@ namespace architectures {
 
 int main() {
     std::cout << "opencv  :  " << CV_VERSION << std::endl;
-
 
     using namespace architectures;
 
@@ -947,53 +973,45 @@ int main() {
     auto dataset = pipeline::get_images_for_classification(dataset_path, categories);
 
     // 构造数据流
-    pipeline::DataLoader train_loader(dataset["train"], train_batch_size, false, true);
+    pipeline::DataLoader train_loader(dataset["train"], train_batch_size, false, true, image_size);
 
     // 定义网络结构
-    const int num_classes = categories.size();
-    std::unique_ptr<AlexNet> network(new AlexNet(num_classes));
+    const int num_classes = categories.size(); // 分类的数目
+    AlexNet network(num_classes);
 
     // 开始训练
-    const int total_iters = 100000; // 训练 batch 的总数
-    const float learning_rate = 1e-3; // 学习率
-    const int valid_inters = 600; // 验证一次的间隔
-    int correct_num = 0;
-    int sample_num = 0;
+    const int total_iters = 100000;   // 训练 batch 的总数
+    const float learning_rate = 1e-4; // 学习率
+    const int valid_inters = 600;     // 验证一次的间隔
+    int iters_one_epoch = 500;        // 每个 epoch 多少个 batch, 更新
+    float mean_loss = 0.f;            // 平均损失
+    float cur_iter = 0;               // 计算平均损失用的
+    ClassificationEvaluator train_evaluator;  // 计算累计的准确率
+    std::vector<int> predict(train_batch_size, -1); // 存储每个 batch 的预测结果, 和 labels 算准确率用的
+    // 开始训练
     for(int iter = 1; iter <= total_iters; ++iter) {
         // 从训练集中采样一个 batch
         const auto sample = train_loader.generate_batch();
-        // 分离出图像指针和标签
-        std::vector<pipeline::tensor> images;
-        std::vector<int> labels(train_batch_size);
-        images.reserve(train_batch_size);
-        for(int b = 0;b < train_batch_size; ++b) {
-            images.emplace_back(sample[b].first);
-            labels[b] = sample[b].second;  // 这里最好改成 pair, 最后再说, 改的漂亮一点
-        }
         // 送到网络中
-        const auto output = network->forward(images);
+        const auto output = network.forward(sample.first);
+        // 网络输出经过 softmax 转化成概率
         const auto probs = softmax(output);
-        // 根据 labels 设计成 one_hot
-        const auto loss_delta = cross_entroy_backward(probs, one_hot(labels, num_classes));
-        // 计算梯度
-        network->backward(loss_delta.second);
-        // 根据 prefict 和 label 计算准确率
-        std::vector<int> predict(train_batch_size, -1);
-        for(int b = 0;b < train_batch_size; ++b) {
-            predict[b] = probs[b]->argmax();
-//            printf("%d\n", predict[b]);
-//            output[b]->print();
-//            probs[b]->print();
-        }
-        sample_num += train_batch_size;
-        for(int b = 0;b < train_batch_size; ++b)
-            if(predict[b] == labels[b])
-                ++correct_num;
+        // 输出概率和标签计算交叉熵损失, 返回损失项和梯度
+        const auto loss_delta = cross_entroy_backward(probs, one_hot(sample.second, num_classes));
+        mean_loss += loss_delta.first;
+        // 根据损失, 回传梯度
+        network.backward(loss_delta.second);
+        // 根据 predict 和 label 计算准确率
+        for(int b = 0;b < train_batch_size; ++b) predict[b] = probs[b]->argmax(); // 概率最大的下标作为分类
+        train_evaluator.compute(predict, sample.second);
         // 打印信息
-        printf("Train===> [Batch %d/%d] [Accuracy %4.3f]\n", iter, total_iters, correct_num * 1.f / sample_num);
-        if(iter % 100 == 0) {
-            correct_num = 0;
-            sample_num = 0;
+        ++cur_iter;
+        printf("Train===> [batch %d/%d] [loss %.3f] [Accuracy %4.3f]\n", iter, total_iters, mean_loss / cur_iter, train_evaluator.get());
+        // 更新一次信息
+        if(iter % iters_one_epoch == 0) {
+            cur_iter = 0;
+            mean_loss = 0.f;
+            train_evaluator.clear();
             printf("\n");
         }
     }
