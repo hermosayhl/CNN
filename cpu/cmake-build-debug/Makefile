@@ -141,6 +141,87 @@ cnn/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/build
 .PHONY : cnn/fast
 
+src/alexnet.obj: src/alexnet.cpp.obj
+
+.PHONY : src/alexnet.obj
+
+# target to build an object file
+src/alexnet.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/alexnet.cpp.obj
+.PHONY : src/alexnet.cpp.obj
+
+src/alexnet.i: src/alexnet.cpp.i
+
+.PHONY : src/alexnet.i
+
+# target to preprocess a source file
+src/alexnet.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/alexnet.cpp.i
+.PHONY : src/alexnet.cpp.i
+
+src/alexnet.s: src/alexnet.cpp.s
+
+.PHONY : src/alexnet.s
+
+# target to generate assembly for a file
+src/alexnet.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/alexnet.cpp.s
+.PHONY : src/alexnet.cpp.s
+
+src/architectures.obj: src/architectures.cpp.obj
+
+.PHONY : src/architectures.obj
+
+# target to build an object file
+src/architectures.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/architectures.cpp.obj
+.PHONY : src/architectures.cpp.obj
+
+src/architectures.i: src/architectures.cpp.i
+
+.PHONY : src/architectures.i
+
+# target to preprocess a source file
+src/architectures.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/architectures.cpp.i
+.PHONY : src/architectures.cpp.i
+
+src/architectures.s: src/architectures.cpp.s
+
+.PHONY : src/architectures.s
+
+# target to generate assembly for a file
+src/architectures.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/architectures.cpp.s
+.PHONY : src/architectures.cpp.s
+
+src/batchnorm2d.obj: src/batchnorm2d.cpp.obj
+
+.PHONY : src/batchnorm2d.obj
+
+# target to build an object file
+src/batchnorm2d.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/batchnorm2d.cpp.obj
+.PHONY : src/batchnorm2d.cpp.obj
+
+src/batchnorm2d.i: src/batchnorm2d.cpp.i
+
+.PHONY : src/batchnorm2d.i
+
+# target to preprocess a source file
+src/batchnorm2d.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/batchnorm2d.cpp.i
+.PHONY : src/batchnorm2d.cpp.i
+
+src/batchnorm2d.s: src/batchnorm2d.cpp.s
+
+.PHONY : src/batchnorm2d.s
+
+# target to generate assembly for a file
+src/batchnorm2d.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/batchnorm2d.cpp.s
+.PHONY : src/batchnorm2d.cpp.s
+
 src/cnn.obj: src/cnn.cpp.obj
 
 .PHONY : src/cnn.obj
@@ -167,6 +248,141 @@ src/cnn.s: src/cnn.cpp.s
 src/cnn.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/cnn.cpp.s
 .PHONY : src/cnn.cpp.s
+
+src/conv2d.obj: src/conv2d.cpp.obj
+
+.PHONY : src/conv2d.obj
+
+# target to build an object file
+src/conv2d.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/conv2d.cpp.obj
+.PHONY : src/conv2d.cpp.obj
+
+src/conv2d.i: src/conv2d.cpp.i
+
+.PHONY : src/conv2d.i
+
+# target to preprocess a source file
+src/conv2d.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/conv2d.cpp.i
+.PHONY : src/conv2d.cpp.i
+
+src/conv2d.s: src/conv2d.cpp.s
+
+.PHONY : src/conv2d.s
+
+# target to generate assembly for a file
+src/conv2d.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/conv2d.cpp.s
+.PHONY : src/conv2d.cpp.s
+
+src/data_format.obj: src/data_format.cpp.obj
+
+.PHONY : src/data_format.obj
+
+# target to build an object file
+src/data_format.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/data_format.cpp.obj
+.PHONY : src/data_format.cpp.obj
+
+src/data_format.i: src/data_format.cpp.i
+
+.PHONY : src/data_format.i
+
+# target to preprocess a source file
+src/data_format.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/data_format.cpp.i
+.PHONY : src/data_format.cpp.i
+
+src/data_format.s: src/data_format.cpp.s
+
+.PHONY : src/data_format.s
+
+# target to generate assembly for a file
+src/data_format.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/data_format.cpp.s
+.PHONY : src/data_format.cpp.s
+
+src/func.obj: src/func.cpp.obj
+
+.PHONY : src/func.obj
+
+# target to build an object file
+src/func.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/func.cpp.obj
+.PHONY : src/func.cpp.obj
+
+src/func.i: src/func.cpp.i
+
+.PHONY : src/func.i
+
+# target to preprocess a source file
+src/func.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/func.cpp.i
+.PHONY : src/func.cpp.i
+
+src/func.s: src/func.cpp.s
+
+.PHONY : src/func.s
+
+# target to generate assembly for a file
+src/func.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/func.cpp.s
+.PHONY : src/func.cpp.s
+
+src/linear.obj: src/linear.cpp.obj
+
+.PHONY : src/linear.obj
+
+# target to build an object file
+src/linear.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/linear.cpp.obj
+.PHONY : src/linear.cpp.obj
+
+src/linear.i: src/linear.cpp.i
+
+.PHONY : src/linear.i
+
+# target to preprocess a source file
+src/linear.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/linear.cpp.i
+.PHONY : src/linear.cpp.i
+
+src/linear.s: src/linear.cpp.s
+
+.PHONY : src/linear.s
+
+# target to generate assembly for a file
+src/linear.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/linear.cpp.s
+.PHONY : src/linear.cpp.s
+
+src/metrics.obj: src/metrics.cpp.obj
+
+.PHONY : src/metrics.obj
+
+# target to build an object file
+src/metrics.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/metrics.cpp.obj
+.PHONY : src/metrics.cpp.obj
+
+src/metrics.i: src/metrics.cpp.i
+
+.PHONY : src/metrics.i
+
+# target to preprocess a source file
+src/metrics.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/metrics.cpp.i
+.PHONY : src/metrics.cpp.i
+
+src/metrics.s: src/metrics.cpp.s
+
+.PHONY : src/metrics.s
+
+# target to generate assembly for a file
+src/metrics.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/metrics.cpp.s
+.PHONY : src/metrics.cpp.s
 
 src/pipeline.obj: src/pipeline.cpp.obj
 
@@ -195,6 +411,60 @@ src/pipeline.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/pipeline.cpp.s
 .PHONY : src/pipeline.cpp.s
 
+src/pool2d.obj: src/pool2d.cpp.obj
+
+.PHONY : src/pool2d.obj
+
+# target to build an object file
+src/pool2d.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/pool2d.cpp.obj
+.PHONY : src/pool2d.cpp.obj
+
+src/pool2d.i: src/pool2d.cpp.i
+
+.PHONY : src/pool2d.i
+
+# target to preprocess a source file
+src/pool2d.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/pool2d.cpp.i
+.PHONY : src/pool2d.cpp.i
+
+src/pool2d.s: src/pool2d.cpp.s
+
+.PHONY : src/pool2d.s
+
+# target to generate assembly for a file
+src/pool2d.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/pool2d.cpp.s
+.PHONY : src/pool2d.cpp.s
+
+src/relu.obj: src/relu.cpp.obj
+
+.PHONY : src/relu.obj
+
+# target to build an object file
+src/relu.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/relu.cpp.obj
+.PHONY : src/relu.cpp.obj
+
+src/relu.i: src/relu.cpp.i
+
+.PHONY : src/relu.i
+
+# target to preprocess a source file
+src/relu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/relu.cpp.i
+.PHONY : src/relu.cpp.i
+
+src/relu.s: src/relu.cpp.s
+
+.PHONY : src/relu.s
+
+# target to generate assembly for a file
+src/relu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/relu.cpp.s
+.PHONY : src/relu.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -204,12 +474,42 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... cnn
+	@echo ... src/alexnet.obj
+	@echo ... src/alexnet.i
+	@echo ... src/alexnet.s
+	@echo ... src/architectures.obj
+	@echo ... src/architectures.i
+	@echo ... src/architectures.s
+	@echo ... src/batchnorm2d.obj
+	@echo ... src/batchnorm2d.i
+	@echo ... src/batchnorm2d.s
 	@echo ... src/cnn.obj
 	@echo ... src/cnn.i
 	@echo ... src/cnn.s
+	@echo ... src/conv2d.obj
+	@echo ... src/conv2d.i
+	@echo ... src/conv2d.s
+	@echo ... src/data_format.obj
+	@echo ... src/data_format.i
+	@echo ... src/data_format.s
+	@echo ... src/func.obj
+	@echo ... src/func.i
+	@echo ... src/func.s
+	@echo ... src/linear.obj
+	@echo ... src/linear.i
+	@echo ... src/linear.s
+	@echo ... src/metrics.obj
+	@echo ... src/metrics.i
+	@echo ... src/metrics.s
 	@echo ... src/pipeline.obj
 	@echo ... src/pipeline.i
 	@echo ... src/pipeline.s
+	@echo ... src/pool2d.obj
+	@echo ... src/pool2d.i
+	@echo ... src/pool2d.s
+	@echo ... src/relu.obj
+	@echo ... src/relu.i
+	@echo ... src/relu.s
 .PHONY : help
 
 

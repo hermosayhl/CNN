@@ -88,10 +88,43 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/alexnet.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/architectures.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/batchnorm2d.cpp">
+			<Option target="cnn"/>
+		</Unit>
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/cnn.cpp">
 			<Option target="cnn"/>
 		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/conv2d.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/data_format.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/func.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/linear.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/metrics.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/metrics.h">
+			<Option target="cnn"/>
+		</Unit>
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/pipeline.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/pool2d.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/relu.cpp">
 			<Option target="cnn"/>
 		</Unit>
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/CMakeLists.txt">

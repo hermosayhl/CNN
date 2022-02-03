@@ -13,7 +13,18 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # 添加可执行文件
-add_executable(cnn src/cnn.cpp src/pipeline.cpp)
+add_executable(cnn src/cnn.cpp
+                   src/pipeline.cpp
+                   src/data_format.cpp
+                   src/relu.cpp
+                   src/linear.cpp
+                   src/conv2d.cpp
+                   src/func.cpp
+                   src/pool2d.cpp
+                   src/batchnorm2d.cpp
+                   src/metrics.cpp
+                   src/architectures.cpp
+                   src/alexnet.cpp)
 
 set(OpenCV_DIR "D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/")
 # 寻找 opencv 的库
