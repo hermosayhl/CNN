@@ -1,28 +1,19 @@
-// self
-#include "func.h"
-#include "architectures.h"
-#include "metrics.h"
 //C++
 #include <vector>
 #include <memory>
 #include <iostream>
 #include <filesystem>
+// self
+#include "func.h"
+#include "metrics.h"
+#include "architectures.h"
 
 
-class WithoutGrad final {
-public:
-    explicit WithoutGrad() {
-        architectures::no_grad = true;
-    }
-    ~WithoutGrad() noexcept {
-        architectures::no_grad = false;
-    }
-};
 
 
 // 完全可复现, 随机种子定了
 // 还需要实现的功能
-// 1. 模型参数的存储和加载
+// 1. 模型参数的存储和加载  OK
 // 2. 动量, Adam 这些, 暂时没想到优雅的解决办法
 // 3. batch norm 的实现
 // 4. dropout 的实现
@@ -31,18 +22,21 @@ public:
 
 
 int main() {
+
+    std::setbuf(stdout, 0);
+
     std::cout << "opencv  :  " << CV_VERSION << std::endl;
 
     using namespace architectures;
 
     // 指定一些参数
-    const int train_batch_size = 8;
+    const int train_batch_size = 4;
     const int valid_batch_size = 1;
     const int test_batch_size = 1;
     assert(train_batch_size >= valid_batch_size and train_batch_size >= test_batch_size); // 设计问题, train 的 batch 必须更大
     assert(valid_batch_size == 1 and test_batch_size == 1); // 设计问题, 暂时只支持这个
     const std::tuple<int, int, int> image_size({224, 224, 3});
-    const std::filesystem::path dataset_path("../../datasets/animals");
+    const std::filesystem::path dataset_path("../datasets/animals");
     const std::vector<std::string> categories({"dog", "panda", "bird"});
 
     // 获取图片
@@ -56,11 +50,21 @@ int main() {
     const int num_classes = categories.size(); // 分类的数目
     AlexNet network(num_classes);
 
+    // 直接加载
+    network.load_weights("./checkpoints/AlexNet/iter_70000_train_1.000_valid_0.807.model");
+
+    // 保存
+    const std::filesystem::path checkpoints_dir("./checkpoints/AlexNet_aug");
+    if(not std::filesystem::exists(checkpoints_dir))
+        std::filesystem::create_directories(checkpoints_dir);
+    std::filesystem::path best_checkpoint;  // 当前正确率最高的模型
+    float current_best_accuracy = -1; // 记录当前最高的正确率
+
     // 开始训练
-    const int total_iters = 100000;   // 训练 batch 的总数
-    const float learning_rate = 1e-4; // 学习率
-    const int valid_inters = 1000;     // 验证一次的间隔
-    int iters_one_epoch = 500;        // 每个 epoch 多少个 batch, 更新
+    const int total_iters = 200000;   // 训练 batch 的总数
+    const float learning_rate = 1e-3; // 学习率
+    const int valid_inters = 1000;    // 验证一次的间隔
+    const int save_iters = 5000;      // 保存模型的间隔
     float mean_loss = 0.f;            // 平均损失
     float cur_iter = 0;               // 计算平均损失用的
     ClassificationEvaluator train_evaluator;  // 计算累计的准确率
@@ -87,17 +91,11 @@ int main() {
         ++cur_iter;
         printf("\rTrain===> [batch %d/%d] [loss %.3f] [Accuracy %4.3f]", iter, total_iters, mean_loss / cur_iter, train_evaluator.get());
         // 更新一次信息
-        if(iter % iters_one_epoch == 0) {
-            cur_iter = 0;
-            mean_loss = 0.f;
-            train_evaluator.clear();
-            printf("\n");
-        }
         if(iter % valid_inters == 0) {
             printf("\n开始验证.....\n");
-            WithoutGrad guard;
+            WithoutGrad guard;  // 暂时关闭中间的梯度计算
             float mean_valid_loss = 0.f;
-            ClassificationEvaluator valid_evaluator;
+            ClassificationEvaluator valid_evaluator;  // 衡量 valid 期间的分类性能
             const int samples_num = valid_loader.length();  // 目前只支持 batch_size = 1
             for(int s = 1;s <= samples_num; ++s) {
                 const auto sample = valid_loader.generate_batch();
@@ -110,15 +108,50 @@ int main() {
                 printf("\rValid===> [batch %d/%d] [loss %.3f] [Accuracy %4.3f]", s, samples_num, mean_valid_loss / s, valid_evaluator.get());
             }
             printf("\n\n");
+            // 保存模型
+            if(iter % save_iters == 0) {
+                // 查看当前性能
+                const float train_accuracy = train_evaluator.get();
+                const float valid_accuracy = valid_evaluator.get();
+                // 决定保存的名字
+                std::string save_string("iter_" + std::to_string(iter));
+                save_string +=  "_train_" + float_to_string(train_accuracy, 3);
+                save_string +=  "_valid_" + float_to_string(valid_accuracy, 3) + ".model";
+                std::filesystem::path save_path = checkpoints_dir / save_string;
+                // 保存权值
+                network.save_weights(save_path);
+                // 记录最佳的正确率和对应的路径
+                if(valid_accuracy > current_best_accuracy) {
+                    best_checkpoint = save_path;
+                    current_best_accuracy = valid_accuracy;
+                }
+            }
+            // 更新一波训练的信息
+            cur_iter = 0;
+            mean_loss = 0.f;
+            train_evaluator.clear();
         }
     }
-
-    // 保存
-    const std::filesystem::path checkpoints_dir("../checkpoints/AlexNet");
-    if(not std::filesystem::exists(checkpoints_dir))
-        std::filesystem::create_directories(checkpoints_dir);
-
-    // 加载模型, 推断
     std::cout << "训练结束!\n";
+
+    // 加载模型, 在测试集上做
+    network.load_weights(best_checkpoint);
+    // 准备测试数据
+    pipeline::DataLoader test_loader(dataset["test"], test_batch_size, false, false, image_size);
+    // 循环
+    WithoutGrad guard;  // 暂时关闭中间的梯度计算, return 0 之前才恢复
+    float mean_test_loss = 0.f;
+    ClassificationEvaluator test_evaluator;  // 衡量 test 期间的分类性能
+    const int samples_num = test_loader.length();  // 目前只支持 batch_size = 1
+    for(int s = 1;s <= samples_num; ++s) {
+        const auto sample = test_loader.generate_batch();
+        const auto output = network.forward(sample.first);
+        const auto probs = softmax(output);
+        const auto loss_delta = cross_entroy_backward(probs, one_hot(sample.second, num_classes));
+        mean_test_loss += loss_delta.first;
+        for(int b = 0;b < train_batch_size; ++b) predict[b] = probs[b]->argmax(); // 概率最大的下标作为分类
+        test_evaluator.compute(predict, sample.second);
+        printf("\rTest===> [batch %d/%d] [loss %.3f] [Accuracy %4.3f]", s, samples_num, mean_test_loss / s, test_evaluator.get());
+    }
     return 0;
 }

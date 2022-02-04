@@ -211,6 +211,23 @@ void Conv2D::update_gradients(const data_type learning_rate) {
     }
 }
 
+// 保存权值
+void Conv2D::save_weights(std::ofstream& writer) const {
+    // 需要保存的是 weights, bias
+    const int filter_size = sizeof(data_type) * params_for_one_kernel;
+    for(int o = 0;o < out_channels; ++o)
+        writer.write(reinterpret_cast<const char *>(&weights[o]->data[0]), static_cast<std::streamsize>(filter_size));
+    writer.write(reinterpret_cast<const char *>(&bias[0]), static_cast<std::streamsize>(sizeof(data_type) * out_channels));
+}
+
+// 加载权值
+void Conv2D::load_weights(std::ifstream& reader) {
+    const int filter_size = sizeof(data_type) * params_for_one_kernel;
+    for(int o = 0;o < out_channels; ++o)
+        reader.read((char*)(&weights[o]->data[0]), static_cast<std::streamsize>(filter_size));
+    reader.read((char*)(&bias[0]), static_cast<std::streamsize>(sizeof(data_type) * out_channels));
+}
+
 // 获取这一层卷积层的参数值
 int Conv2D::get_params_num() const {
     return (this->params_for_one_kernel + 1) * this->out_channels;

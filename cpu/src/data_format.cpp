@@ -29,7 +29,6 @@ void Tensor3D::set_zero() {
 void Tensor3D::div(const data_type times) {
     const int length = C * H * W;
     for(int i = 0;i < length; ++i) data[i] /= times;
-    this->normalize();
 }
 
 void Tensor3D::normalize(const std::vector<data_type> mean, const std::vector<data_type> std_div) {

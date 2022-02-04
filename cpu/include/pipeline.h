@@ -14,12 +14,13 @@
 namespace pipeline {
 
     using list_type = std::vector<std::pair<std::string, int> >;
-
+    // 从文件夹 dataset_path, 按照 categories 得到不同类别的图像列表
     std::map<std::string, list_type> get_images_for_classification(
             const std::filesystem::path dataset_path,
             const std::vector<std::string> categories={},
             const std::pair<float, float> ratios={0.8, 0.1});
 
+    // 这个特别慢 !!!!, 如果有数据增强的话, 速度降低为原来的 1/4
     class ImageAugmentor {
     private:
         std::default_random_engine e, l, c, r; // e 用来获得操作的概率; l 用来打乱操作列表; c 用来得到裁剪需要的概率; r 用来得到旋转的概率

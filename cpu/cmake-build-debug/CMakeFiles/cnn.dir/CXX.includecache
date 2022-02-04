@@ -7,6 +7,8 @@
 #IncludeRegexTransform: 
 
 ../include/architectures.h
+fstream
+-
 pipeline.h
 ../include/pipeline.h
 
@@ -17,6 +19,10 @@ opencv2/core.hpp
 ../include/func.h
 data_format.h
 ../include/data_format.h
+
+../include/metrics.h
+vector
+-
 
 ../include/pipeline.h
 map
@@ -344,49 +350,9 @@ D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/co
 assert.h
 -
 
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/highgui.hpp
-opencv2/core.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/core.hpp
-opencv2/imgcodecs.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/imgcodecs.hpp
-opencv2/videoio.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/videoio.hpp
-
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgcodecs.hpp
-opencv2/core.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/core.hpp
-
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgproc.hpp
-opencv2/core.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/core.hpp
-./imgproc/segmentation.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgproc/segmentation.hpp
-
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgproc/segmentation.hpp
-opencv2/imgproc.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgproc/opencv2/imgproc.hpp
-
 D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv_modules.hpp
 
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/videoio.hpp
-opencv2/core.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/core.hpp
-
-D:/work/crane/deep_learning/cnn/cpu/src/architectures.cpp
-architectures.h
-D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
-
-D:/work/crane/deep_learning/cnn/cpu/src/batchnorm2d.cpp
-architectures.h
-D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
-
 D:/work/crane/deep_learning/cnn/cpu/src/cnn.cpp
-func.h
-D:/work/crane/deep_learning/cnn/cpu/src/func.h
-architectures.h
-D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
-metrics.h
-D:/work/crane/deep_learning/cnn/cpu/src/metrics.h
 vector
 -
 memory
@@ -395,8 +361,10 @@ iostream
 -
 filesystem
 -
-
-D:/work/crane/deep_learning/cnn/cpu/src/conv2d.cpp
+func.h
+D:/work/crane/deep_learning/cnn/cpu/src/func.h
+metrics.h
+D:/work/crane/deep_learning/cnn/cpu/src/metrics.h
 architectures.h
 D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
 
@@ -413,40 +381,4 @@ iostream
 -
 data_format.h
 D:/work/crane/deep_learning/cnn/cpu/src/data_format.h
-
-D:/work/crane/deep_learning/cnn/cpu/src/func.cpp
-func.h
-D:/work/crane/deep_learning/cnn/cpu/src/func.h
-
-D:/work/crane/deep_learning/cnn/cpu/src/linear.cpp
-vector
--
-random
--
-architectures.h
-D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
-
-D:/work/crane/deep_learning/cnn/cpu/src/metrics.h
-vector
--
-
-D:/work/crane/deep_learning/cnn/cpu/src/pipeline.cpp
-iostream
--
-opencv2/core.hpp
--
-opencv2/highgui.hpp
--
-opencv2/imgproc.hpp
--
-pipeline.h
-D:/work/crane/deep_learning/cnn/cpu/src/pipeline.h
-
-D:/work/crane/deep_learning/cnn/cpu/src/pool2d.cpp
-architectures.h
-D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
-
-D:/work/crane/deep_learning/cnn/cpu/src/relu.cpp
-architectures.h
-D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
 

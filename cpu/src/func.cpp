@@ -71,3 +71,12 @@ std::pair<data_type, std::vector<tensor1D> > cross_entroy_backward(
     loss_value = loss_value * (-1.0) / batch_size;
     return std::make_pair(loss_value, delta);
 }
+
+// 小数变成 string
+std::string float_to_string(const float value, const int precision) {
+    std::stringstream buffer;
+	buffer.precision(precision);
+	buffer.setf(std::ios::fixed);
+	buffer << value;
+	return buffer.str();
+}

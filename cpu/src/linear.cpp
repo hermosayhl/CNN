@@ -22,7 +22,6 @@ LinearLayer::LinearLayer(std::string _name, const int _in_channels, const int _o
 std::vector<tensor1D> LinearLayer::forward(const std::vector<tensor>& input) {
     // 获取输入信息
     const int batch_size = input.size();
-    const int in_size = input[0]->get_length();
     this->delta_shape = input[0]->get_shape();
     // 清空之前的结果, 重新开始
     std::vector<tensor1D>().swap(this->output);
@@ -100,4 +99,16 @@ void LinearLayer::update_gradients(const data_type learning_rate) {
     const int total_length = in_channels * out_channels;
     for(int i = 0;i < total_length; ++i) this->weights[i] -= learning_rate *  this->weights_gradients[i];
     for(int i = 0;i < out_channels; ++i) this->bias[i] -= learning_rate *  this->bias_gradients[i];
+}
+
+// 保存权值
+void LinearLayer::save_weights(std::ofstream& writer) const {
+    writer.write(reinterpret_cast<const char *>(&weights[0]), static_cast<std::streamsize>(sizeof(data_type) * in_channels * out_channels));
+    writer.write(reinterpret_cast<const char *>(&bias[0]), static_cast<std::streamsize>(sizeof(data_type) * out_channels));
+}
+
+// 加载权值
+void LinearLayer::load_weights(std::ifstream& reader) {
+    reader.read((char*)(&weights[0]), static_cast<std::streamsize>(sizeof(data_type) * in_channels * out_channels));
+    reader.read((char*)(&bias[0]), static_cast<std::streamsize>(sizeof(data_type) * out_channels));
 }

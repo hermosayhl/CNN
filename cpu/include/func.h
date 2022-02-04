@@ -14,5 +14,7 @@ std::vector<tensor1D> one_hot(const std::vector<int>& labels, const int num_clas
 std::pair<data_type, std::vector<tensor1D> > cross_entroy_backward(
         const std::vector<tensor1D>& probs, const std::vector<tensor1D>& labels);
 
+// 小数变成 string
+std::string float_to_string(const float value, const int precision);
 
 #endif //CNN_FUNC_H

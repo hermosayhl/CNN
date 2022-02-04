@@ -34,8 +34,5 @@ include_directories(${OpenCV_INCLUDE_DIRS} )
 # 链接 opencv 动态库路径
 link_directories(${OpenCV_LIBRARY_DIRS} )
 
-# 设置 Eigen3
-include_directories(D:/environments/C++/3rdparty/Eigen3/eigen-3.3.9/installed/include/eigen3)
-
 ## 设置库文件
 target_link_libraries(cnn ${OpenCV_LIBS})

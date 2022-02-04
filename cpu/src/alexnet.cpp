@@ -1,5 +1,6 @@
+// C++
+#include <iostream>
 // self
-
 #include "architectures.h"
 
 using namespace architectures;
@@ -51,4 +52,36 @@ void AlexNet::update_gradients(const data_type learning_rate) {
     this->conv_layer_3.update_gradients(learning_rate);
     this->conv_layer_2.update_gradients(learning_rate);
     this->conv_layer_1.update_gradients(learning_rate);
+}
+
+
+// 保存模型权值, 灵活性很差
+void AlexNet::save_weights(const std::filesystem::path& save_path) const {
+    // 首先明确, 需要保存权值的只有 Conv2d, linear, batchnorm2D 这些
+    // 写法上不是字典的, 只能做个 demo, 反射偶尔开开还是可以的, 可惜
+    std::ofstream writer(save_path.c_str(), std::ios::binary);
+    // 首先这里本来应该写一下有哪些组件, 然后写一下组件的具体信息, 但是免了
+    this->conv_layer_1.save_weights(writer);
+    this->conv_layer_2.save_weights(writer);
+    this->conv_layer_3.save_weights(writer);
+    this->conv_layer_4.save_weights(writer);
+    this->classifier.save_weights(writer);
+    std::cout << "weights have been saved to " << save_path.string() << std::endl;
+    writer.close();
+}
+
+// 加载模型权值
+void AlexNet::load_weights(const std::filesystem::path& checkpoint_path) {
+    if(not std::filesystem::exists(checkpoint_path)) {
+        std::cout << "预训练权重文件  " << checkpoint_path << " 不存在 !\n";
+        return;
+    }
+    std::ifstream reader(checkpoint_path.c_str(), std::ios::binary);
+    this->conv_layer_1.load_weights(reader);
+    this->conv_layer_2.load_weights(reader);
+    this->conv_layer_3.load_weights(reader);
+    this->conv_layer_4.load_weights(reader);
+    this->classifier.load_weights(reader);
+    std::cout << "load weights from" << checkpoint_path.string() << std::endl;
+    reader.close();
 }

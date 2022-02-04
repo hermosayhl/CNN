@@ -24,7 +24,6 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="D:/environments/C++/3rdparty/Eigen3/eigen-3.3.9/installed/include/eigen3"/>
 					<Add directory="D:/work/crane/deep_learning/cnn/cpu/include"/>
 					<Add directory="D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include"/>
 					<Add directory="D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++"/>
@@ -49,7 +48,6 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="D:/environments/C++/3rdparty/Eigen3/eigen-3.3.9/installed/include/eigen3"/>
 					<Add directory="D:/work/crane/deep_learning/cnn/cpu/include"/>
 					<Add directory="D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include"/>
 					<Add directory="D:/environments/C++/TDM-GCC/bin/../lib/gcc/x86_64-w64-mingw32/10.3.0/include/c++"/>
@@ -113,9 +111,6 @@
 			<Option target="cnn"/>
 		</Unit>
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/metrics.cpp">
-			<Option target="cnn"/>
-		</Unit>
-		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/metrics.h">
 			<Option target="cnn"/>
 		</Unit>
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/pipeline.cpp">

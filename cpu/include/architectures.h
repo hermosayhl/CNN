@@ -1,7 +1,12 @@
 #ifndef CNN_ARCHITECTURES_H
 #define CNN_ARCHITECTURES_H
 
+
+// C++
+#include <fstream>
+// self
 #include "pipeline.h"
+
 
 namespace architectures {
     using namespace pipeline;
@@ -12,12 +17,23 @@ namespace architectures {
     // 全局变量, 是否要 backward, 访问速度上要慢一些
     extern bool no_grad;
 
+    // 在作用域内关闭梯度相关计算
+    class WithoutGrad final {
+    public:
+        explicit WithoutGrad() {
+            architectures::no_grad = true;
+        }
+        ~WithoutGrad() noexcept {
+            architectures::no_grad = false;
+        }
+    };
+
     class Conv2D {
     private:
         // 卷积层的固有信息
         const std::string name;  // 这一层的名字
         std::vector<tensor> weights; // 卷积核的权值参数, out_channels X in_channels X kernel_size X kernel_size
-        std::vector<data_type> bias; // 偏置
+        std::vector<data_type> bias; // 偏置(可以写成 tensor1D)
         const int in_channels;  // 要滤波的特征图有几个通道
         const int out_channels; // 这一层卷积有几个卷积核
         const int kernel_size;  // 卷积核的边长
@@ -41,6 +57,10 @@ namespace architectures {
         std::vector<tensor> backward(const std::vector<tensor>& delta);
         // 更新梯度
         void update_gradients(const data_type learning_rate=1e-4);
+        // 保存权值
+        void save_weights(std::ofstream& writer) const;
+        // 加载权值
+        void load_weights(std::ifstream& reader);
         // 获取这一层卷积层的参数值
         int get_params_num() const;
     };
@@ -88,7 +108,7 @@ namespace architectures {
         // 线性层的固有信息
         const int in_channels;                // 输入的神经元个数
         const int out_channels;               // 输出的神经元个数
-        std::vector<data_type> weights;       // 权值矩阵
+        std::vector<data_type> weights;       // 权值矩阵(这里其实可以改成 Tensor1D, 数据类型可以统一, 但后面的 weights_gradients 不好搞)
         std::vector<data_type> bias;          // 偏置
         // 历史信息
         std::tuple<int, int, int> delta_shape;// 记下来, delta 的形状, 从 1 X 4096 到 128 * 4 * 4 这种
@@ -104,10 +124,12 @@ namespace architectures {
         std::vector<tensor1D> forward(const std::vector<tensor>& input);
         std::vector<tensor> backward(const std::vector<tensor1D>& delta);
         void update_gradients(const data_type learning_rate=1e-4);
+        void save_weights(std::ofstream& writer) const;
+        void load_weights(std::ifstream& reader);
     };
 
 
-    // 记得最后开 O1 优化
+    // 胡乱写的一个能跑的 CNN 网络结构, 不是真的 AlexNet
     class AlexNet {
     private:
         Conv2D conv_layer_1 = Conv2D("conv_layer_1", 3, 16, 3);
@@ -128,7 +150,12 @@ namespace architectures {
         void backward(const std::vector<tensor1D>& delta_start);
         // 梯度更新到权值
         void update_gradients(const data_type learning_rate=1e-4);
+        // 保存模型
+        void save_weights(const std::filesystem::path& save_path) const;
+        // 加载模型
+        void load_weights(const std::filesystem::path& checkpoint_path);
     };
+
 
     // 这个 BatchNorm 是不同通道做, 不具体实现还真不知道, 后面有时间填坑
     class BatchNorm2D {
