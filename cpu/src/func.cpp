@@ -13,13 +13,13 @@ namespace {
 
 
 // 给 batch_size 个向量, 每个向量 softmax 成多类别的概率
-std::vector<tensor1D> softmax(const std::vector<tensor1D>& input) {
+std::vector<tensor> softmax(const std::vector<tensor>& input) {
     const int batch_size = input.size();
-    const int num_classes = input[0]->length;
-    std::vector<tensor1D> output;
+    const int num_classes = input[0]->get_length();
+    std::vector<tensor> output;
     output.reserve(batch_size);
     for(int b = 0;b < batch_size; ++b) {
-        tensor1D probs(new Tensor1D(num_classes));
+        tensor probs(new Tensor3D(num_classes));
         // 首先算出输出的最大值, 防止溢出, 还是改变不了什么, 大于 -37 直接等于 1, 这样并不能解决问题, 欸
         const data_type max_value = input[b]->max();
         data_type sum_value = 0;
@@ -37,12 +37,12 @@ std::vector<tensor1D> softmax(const std::vector<tensor1D>& input) {
 }
 
 // batch_size 个样本, 每个样本 0, 1, 2 这种, 例如  1 就得到 [0.0, 1.0, 0.0, 0.0]
-std::vector<tensor1D> one_hot(const std::vector<int>& labels, const int num_classes) {
+std::vector<tensor> one_hot(const std::vector<int>& labels, const int num_classes) {
     const int batch_size = labels.size();
-    std::vector<tensor1D> one_hot_code;
+    std::vector<tensor> one_hot_code;
     one_hot_code.reserve(batch_size);
     for(int b = 0;b < batch_size; ++b) {
-        tensor1D sample(new Tensor1D(num_classes));
+        tensor sample(new Tensor3D(num_classes));
         for(int i = 0;i < num_classes; ++i)
             sample->data[i] = 0;
         assert(labels[b] >= 0 and labels[b] < num_classes);
@@ -53,15 +53,15 @@ std::vector<tensor1D> one_hot(const std::vector<int>& labels, const int num_clas
 }
 
 // 给输出概率 probs, 和标签 label 计算交叉熵损失, 返回损失值和回传的梯度
-std::pair<data_type, std::vector<tensor1D> > cross_entroy_backward(
-        const std::vector<tensor1D>& probs, const std::vector<tensor1D>& labels) {
+std::pair<data_type, std::vector<tensor> > cross_entroy_backward(
+        const std::vector<tensor>& probs, const std::vector<tensor>& labels) {
     const int batch_size = labels.size();
-    const int num_classes = probs[0]->length;
-    std::vector<tensor1D> delta;
+    const int num_classes = probs[0]->get_length();
+    std::vector<tensor> delta;
     delta.reserve(batch_size);
     data_type loss_value = 0;
     for(int b = 0;b < batch_size; ++b) {
-        tensor1D piece(new Tensor1D(num_classes));
+        tensor piece(new Tensor3D(num_classes));
         for(int i = 0;i < num_classes; ++i) {
             piece->data[i] = probs[b]->data[i] - labels[b]->data[i];
             loss_value += std::log(probs[b]->data[i]) * labels[b]->data[i];

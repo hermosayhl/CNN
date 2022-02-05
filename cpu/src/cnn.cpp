@@ -19,6 +19,8 @@
 // 4. dropout 的实现
 // 5. 网络结构有点差劲, 虽然可以跑, 凑合用
 // 6. 自动求导, 重头戏, 有时间再说
+// 7. 後面有時間加上 AvgPool2D、Global Pool 等组件
+// 8. 目前的卷积层无法加上 padding
 
 
 int main() {
@@ -36,7 +38,7 @@ int main() {
     assert(train_batch_size >= valid_batch_size and train_batch_size >= test_batch_size); // 设计问题, train 的 batch 必须更大
     assert(valid_batch_size == 1 and test_batch_size == 1); // 设计问题, 暂时只支持这个
     const std::tuple<int, int, int> image_size({224, 224, 3});
-    const std::filesystem::path dataset_path("../datasets/animals");
+    const std::filesystem::path dataset_path("../../datasets/animals");
     const std::vector<std::string> categories({"dog", "panda", "bird"});
 
     // 获取图片
@@ -51,17 +53,17 @@ int main() {
     AlexNet network(num_classes);
 
     // 直接加载
-    network.load_weights("./checkpoints/AlexNet/iter_70000_train_1.000_valid_0.807.model");
+    // network.load_weights("./checkpoints/AlexNet/iter_70000_train_1.000_valid_0.807.model");
 
     // 保存
-    const std::filesystem::path checkpoints_dir("./checkpoints/AlexNet_aug");
+    const std::filesystem::path checkpoints_dir("../checkpoints/AlexNet_bn");
     if(not std::filesystem::exists(checkpoints_dir))
         std::filesystem::create_directories(checkpoints_dir);
     std::filesystem::path best_checkpoint;  // 当前正确率最高的模型
     float current_best_accuracy = -1; // 记录当前最高的正确率
 
     // 开始训练
-    const int total_iters = 200000;   // 训练 batch 的总数
+    const int total_iters = 20000;   // 训练 batch 的总数
     const float learning_rate = 1e-3; // 学习率
     const int valid_inters = 1000;    // 验证一次的间隔
     const int save_iters = 5000;      // 保存模型的间隔
@@ -78,7 +80,7 @@ int main() {
         // 网络输出经过 softmax 转化成概率
         const auto probs = softmax(output);
         // 输出概率和标签计算交叉熵损失, 返回损失项和梯度
-        const auto loss_delta = cross_entroy_backward(probs, one_hot(sample.second, num_classes));
+        auto loss_delta = cross_entroy_backward(probs, one_hot(sample.second, num_classes));
         mean_loss += loss_delta.first;
         // 根据损失, 回传梯度
         network.backward(loss_delta.second);
@@ -92,7 +94,7 @@ int main() {
         printf("\rTrain===> [batch %d/%d] [loss %.3f] [Accuracy %4.3f]", iter, total_iters, mean_loss / cur_iter, train_evaluator.get());
         // 更新一次信息
         if(iter % valid_inters == 0) {
-            printf("\n开始验证.....\n");
+            printf("开始验证.....\n");
             WithoutGrad guard;  // 暂时关闭中间的梯度计算
             float mean_valid_loss = 0.f;
             ClassificationEvaluator valid_evaluator;  // 衡量 valid 期间的分类性能
@@ -134,24 +136,26 @@ int main() {
     }
     std::cout << "训练结束!\n";
 
-    // 加载模型, 在测试集上做
-    network.load_weights(best_checkpoint);
-    // 准备测试数据
-    pipeline::DataLoader test_loader(dataset["test"], test_batch_size, false, false, image_size);
-    // 循环
-    WithoutGrad guard;  // 暂时关闭中间的梯度计算, return 0 之前才恢复
-    float mean_test_loss = 0.f;
-    ClassificationEvaluator test_evaluator;  // 衡量 test 期间的分类性能
-    const int samples_num = test_loader.length();  // 目前只支持 batch_size = 1
-    for(int s = 1;s <= samples_num; ++s) {
-        const auto sample = test_loader.generate_batch();
-        const auto output = network.forward(sample.first);
-        const auto probs = softmax(output);
-        const auto loss_delta = cross_entroy_backward(probs, one_hot(sample.second, num_classes));
-        mean_test_loss += loss_delta.first;
-        for(int b = 0;b < train_batch_size; ++b) predict[b] = probs[b]->argmax(); // 概率最大的下标作为分类
-        test_evaluator.compute(predict, sample.second);
-        printf("\rTest===> [batch %d/%d] [loss %.3f] [Accuracy %4.3f]", s, samples_num, mean_test_loss / s, test_evaluator.get());
+    {
+        // 加载模型, 在测试集上做
+        network.load_weights(best_checkpoint);
+        // 准备测试数据
+        pipeline::DataLoader test_loader(dataset["test"], test_batch_size, false, false, image_size);
+        // 循环
+        WithoutGrad guard;  // 暂时关闭中间的梯度计算, return 0 之前才恢复
+        float mean_test_loss = 0.f;
+        ClassificationEvaluator test_evaluator;  // 衡量 test 期间的分类性能
+        const int samples_num = test_loader.length();  // 目前只支持 batch_size = 1
+        for(int s = 1;s <= samples_num; ++s) {
+            const auto sample = test_loader.generate_batch();
+            const auto output = network.forward(sample.first);
+            const auto probs = softmax(output);
+            const auto loss_delta = cross_entroy_backward(probs, one_hot(sample.second, num_classes));
+            mean_test_loss += loss_delta.first;
+            for(int b = 0;b < train_batch_size; ++b) predict[b] = probs[b]->argmax(); // 概率最大的下标作为分类
+            test_evaluator.compute(predict, sample.second);
+            printf("\rTest===> [batch %d/%d] [loss %.3f] [Accuracy %4.3f]", s, samples_num, mean_test_loss / s, test_evaluator.get());
+        }
     }
     return 0;
 }

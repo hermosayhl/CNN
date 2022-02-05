@@ -4,3 +4,6 @@ src/cnn.zip
 *.exe
 *.zip
 *.bat
+*.pptx
+*zip
+*.tar

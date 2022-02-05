@@ -21,9 +21,13 @@ public:
         : C(std::get<0>(shape)), H(std::get<1>(shape)), W(std::get<2>(shape)),
           data(new data_type[std::get<0>(shape) * std::get<1>(shape) * std::get<2>(shape)]),
           name(std::move(_name)) {}
+    Tensor3D(const int length, const std::string _name="pipeline")
+        : C(length), H(1), W(1), data(new data_type[length]), name(std::move(_name)) {}
     // 从图像指针中读取
     void read_from_opencv_mat(const uchar* const img_ptr);
     void set_zero();
+    data_type max() const;
+    int argmax() const;
     void div(const data_type times);
     void normalize(const std::vector<data_type> mean={0.406, 0.456, 0.485}, const std::vector<data_type> std_div={0.225, 0.224, 0.229});
     cv::Mat opecv_mat() const;
@@ -38,22 +42,6 @@ public:
 using tensor = std::shared_ptr<Tensor3D>;
 
 
-
-// 一维向量
-class Tensor1D {
-public:
-    const int length;   // 向量长度
-    data_type* data = nullptr; // 数据指针
-public:
-    Tensor1D(const int len) : length(len), data(new data_type[len]) {}
-    ~Tensor1D();
-    void print(const std::string message = "") const;
-    // 找到这个一维向量的最大值
-    data_type max() const;
-    // 找到这个一维向量最大值的位置
-    int argmax() const;
-};
-using tensor1D = std::shared_ptr<Tensor1D>;
 
 
 

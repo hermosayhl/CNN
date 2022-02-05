@@ -27,7 +27,7 @@ std::vector<tensor>  ReLU::forward(const std::vector<tensor>& input) {
     return this->output;
 }
 
-std::vector<tensor> ReLU::backward(std::vector<tensor>& delta) { // 这个没有 delta_output, 因为形状一模一样, 可以减少一些空间使用
+std::vector<tensor> ReLU::backward(std::vector<tensor>& delta) { // 这个没有 delta_output, 因为形状一模一样, 可以减少一些空间使用, 但为了多态要统一
     // 获取信息
     const int batch_size = delta.size();
     // 从这一层的输出中,  < 0 的部分过滤掉

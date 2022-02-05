@@ -5,7 +5,7 @@
 using namespace architectures;
 
 Conv2D::Conv2D(std::string _name, const int _in_channels, const int _out_channels, const int _kernel_size, const int _stride)
-        : name(std::move(_name)), bias(_out_channels), in_channels(_in_channels), out_channels(_out_channels), kernel_size(_kernel_size), stride(_stride),
+        : Layer(_name), bias(_out_channels), in_channels(_in_channels), out_channels(_out_channels), kernel_size(_kernel_size), stride(_stride),
           params_for_one_kernel(_in_channels * _kernel_size * _kernel_size),
           offset(_kernel_size * _kernel_size) {
     assert(_kernel_size & 1 and _kernel_size >= 3 and "卷积核的大小必须是正奇数 !");
@@ -92,7 +92,7 @@ std::vector<tensor> Conv2D::forward(const std::vector<tensor>& input) {
 }
 
 // 优化的话, 把一些堆上的数据放到栈区, 局部变量快
-std::vector<tensor> Conv2D::backward(const std::vector<tensor>& delta) {
+std::vector<tensor> Conv2D::backward(std::vector<tensor>& delta) {
     // 获取回传的梯度信息, 之前 forward 输出是多大, delta 就是多大(不考虑异常输入)
     const int batch_size = delta.size();
     const int out_H = delta[0]->H;

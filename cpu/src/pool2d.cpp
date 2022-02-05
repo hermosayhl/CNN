@@ -89,7 +89,7 @@ std::vector<tensor> MaxPool2D::forward(const std::vector<tensor>& input) {
 }
 
 // 反向传播
-std::vector<tensor> MaxPool2D::backward(const std::vector<tensor>& delta) {
+std::vector<tensor> MaxPool2D::backward(std::vector<tensor>& delta) {
     // 获取输入的梯度信息
     const int batch_size = delta.size();
     // B X 128 X 6 X 6, 先填 0

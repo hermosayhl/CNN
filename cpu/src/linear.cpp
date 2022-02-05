@@ -7,7 +7,7 @@
 using namespace architectures;
 
 LinearLayer::LinearLayer(std::string _name, const int _in_channels, const int _out_channels)
-        : in_channels(_in_channels), out_channels(_out_channels),
+        : Layer(_name), in_channels(_in_channels), out_channels(_out_channels),
           weights(_in_channels * _out_channels, 0),
           bias(_out_channels) {
     // 随机种子初始化
@@ -19,14 +19,14 @@ LinearLayer::LinearLayer(std::string _name, const int _in_channels, const int _o
 }
 
 // 做 Wx + b 矩阵运算
-std::vector<tensor1D> LinearLayer::forward(const std::vector<tensor>& input) {
+std::vector<tensor> LinearLayer::forward(const std::vector<tensor>& input) {
     // 获取输入信息
     const int batch_size = input.size();
     this->delta_shape = input[0]->get_shape();
     // 清空之前的结果, 重新开始
-    std::vector<tensor1D>().swap(this->output);
+    std::vector<tensor>().swap(this->output);
     for(int b = 0;b < batch_size; ++b)
-        this->output.emplace_back(new Tensor1D(out_channels));
+        this->output.emplace_back(new Tensor3D(out_channels));
     // 记录输入
     if(not no_grad) this->__input = input;
     // batch 每个图象分开算
@@ -44,7 +44,7 @@ std::vector<tensor1D> LinearLayer::forward(const std::vector<tensor>& input) {
     return this->output;
 }
 
-std::vector<tensor> LinearLayer::backward(const std::vector<tensor1D>& delta) {
+std::vector<tensor> LinearLayer::backward(std::vector<tensor>& delta) {
     // 获取 delta 信息
     const int batch_size = delta.size();
                 // 第一次回传, 给缓冲区的梯度 W, b 分配空间

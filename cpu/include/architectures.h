@@ -3,6 +3,7 @@
 
 
 // C++
+#include <list>
 #include <fstream>
 // self
 #include "pipeline.h"
@@ -28,10 +29,24 @@ namespace architectures {
         }
     };
 
-    class Conv2D {
+    // 用来统一各种数据类型的, 但是这样搞, 会引入虚函数多态, 效率对于 forward backward, save_weights 这些影响其实不是很大
+    // backward 没法 const, 因为 relu 是就地操作的, 欸
+    class Layer {
+    public:
+        const std::string name;  // 这一层的名字
+    public:
+        Layer(std::string& _name) : name(std::move(_name)) {}
+        virtual std::vector<tensor> forward(const std::vector<tensor>& input) = 0;
+        virtual std::vector<tensor> backward(std::vector<tensor>& delta) = 0;
+        virtual void update_gradients(const data_type learning_rate=1e-4) {}
+        virtual void save_weights(std::ofstream& writer) const {}
+        virtual void load_weights(std::ifstream& reader) {}
+    };
+
+
+    class Conv2D : public Layer {
     private:
         // 卷积层的固有信息
-        const std::string name;  // 这一层的名字
         std::vector<tensor> weights; // 卷积核的权值参数, out_channels X in_channels X kernel_size X kernel_size
         std::vector<data_type> bias; // 偏置(可以写成 tensor1D)
         const int in_channels;  // 要滤波的特征图有几个通道
@@ -54,7 +69,7 @@ namespace architectures {
         // 卷积操作的 forward 过程, batch_num X in_channels X H X W
         std::vector<tensor> forward(const std::vector<tensor>& input);
         // 优化的话, 把一些堆上的数据放到栈区, 局部变量快
-        std::vector<tensor> backward(const std::vector<tensor>& delta);
+        std::vector<tensor> backward(std::vector<tensor>& delta);
         // 更新梯度
         void update_gradients(const data_type learning_rate=1e-4);
         // 保存权值
@@ -66,10 +81,9 @@ namespace architectures {
     };
 
 
-    class MaxPool2D {
+    class MaxPool2D : public Layer {
     private:
         // 这一层的固有属性
-        const std::string name;   // 这一层的名字
         const int kernel_size;
         const int step;
         const int padding;
@@ -80,30 +94,29 @@ namespace architectures {
         std::vector<int> offset;  // 偏移量指针, 和之前 Conv2D 的一样
     public:
         MaxPool2D(std::string _name, const int _kernel_size=2, const int _step=2)
-                : name(std::move(_name)), kernel_size(_kernel_size), step(_step), padding(0),
+                : Layer(_name), kernel_size(_kernel_size), step(_step), padding(0),
                   offset(_kernel_size * _kernel_size, 0) {}
         // 前向
         std::vector<tensor> forward(const std::vector<tensor>& input);
         // 反向传播
-        std::vector<tensor> backward(const std::vector<tensor>& delta);
+        std::vector<tensor> backward(std::vector<tensor>& delta);
+
     };
 
 
-    class ReLU {
+    class ReLU : public Layer  {
     private:
-        // 固有属性
-        std::string name;
         // 缓冲区, 避免每次重新申请
         std::vector<tensor> output;
     public:
-        ReLU(std::string _name) : name(std::move(_name)) {}
+        ReLU(std::string _name) : Layer(_name) {}
         std::vector<tensor> forward(const std::vector<tensor>& input);
         std::vector<tensor> backward(std::vector<tensor>& delta);
     };
 
 
     // 线性变换层
-    class LinearLayer {
+    class LinearLayer : public Layer {
     private:
         // 线性层的固有信息
         const int in_channels;                // 输入的神经元个数
@@ -114,15 +127,15 @@ namespace architectures {
         std::tuple<int, int, int> delta_shape;// 记下来, delta 的形状, 从 1 X 4096 到 128 * 4 * 4 这种
         std::vector<tensor> __input;          // 梯度回传的时候需要输入 Wx + b, 需要保留 x
         // 以下是缓冲区
-        std::vector<tensor1D> output;         // 记录输出
+        std::vector<tensor> output;         // 记录输出
         std::vector<tensor> delta_output;     // delta 回传到输入的梯度
         std::vector<data_type> weights_gradients; // 缓存区, 权值矩阵的梯度
         std::vector<data_type> bias_gradients;    // bias 的梯度
     public:
         LinearLayer(std::string _name, const int _in_channels, const int _out_channels);
         // 做 Wx + b 矩阵运算
-        std::vector<tensor1D> forward(const std::vector<tensor>& input);
-        std::vector<tensor> backward(const std::vector<tensor1D>& delta);
+        std::vector<tensor> forward(const std::vector<tensor>& input);
+        std::vector<tensor> backward(std::vector<tensor>& delta);
         void update_gradients(const data_type learning_rate=1e-4);
         void save_weights(std::ofstream& writer) const;
         void load_weights(std::ifstream& reader);
@@ -132,22 +145,23 @@ namespace architectures {
     // 胡乱写的一个能跑的 CNN 网络结构, 不是真的 AlexNet
     class AlexNet {
     private:
-        Conv2D conv_layer_1 = Conv2D("conv_layer_1", 3, 16, 3);
-        Conv2D conv_layer_2 = Conv2D("conv_layer_2", 16, 32, 3);
-        Conv2D conv_layer_3 = Conv2D("conv_layer_3", 32, 64, 3);
-        Conv2D conv_layer_4 = Conv2D("conv_layer_4", 64, 128, 3);
-        MaxPool2D max_pool_1 = MaxPool2D("max_pool_1", 2, 2);
-        ReLU relu_layer_1 = ReLU("relu_layer_1");
-        ReLU relu_layer_2 = ReLU("relu_layer_2");
-        ReLU relu_layer_3 = ReLU("relu_layer_3");
-        ReLU relu_layer_4 = ReLU("relu_layer_4");
-        LinearLayer classifier;
+        std::list< std::shared_ptr<Layer> > layers_sequence;
+//        Conv2D conv_layer_1 = Conv2D("conv_layer_1", 3, 16, 3);
+//        Conv2D conv_layer_2 = Conv2D("conv_layer_2", 16, 32, 3);
+//        Conv2D conv_layer_3 = Conv2D("conv_layer_3", 32, 64, 3);
+//        Conv2D conv_layer_4 = Conv2D("conv_layer_4", 64, 128, 3);
+//        MaxPool2D max_pool_1 = MaxPool2D("max_pool_1", 2, 2);
+//        ReLU relu_layer_1 = ReLU("relu_layer_1");
+//        ReLU relu_layer_2 = ReLU("relu_layer_2");
+//        ReLU relu_layer_3 = ReLU("relu_layer_3");
+//        ReLU relu_layer_4 = ReLU("relu_layer_4");
+//        LinearLayer classifier;
     public:
         AlexNet(const int num_classes=3);
         // 前向
-        std::vector<tensor1D> forward(const std::vector<tensor>& input);
+        std::vector<tensor> forward(const std::vector<tensor>& input);
         // 梯度反传
-        void backward(const std::vector<tensor1D>& delta_start);
+        void backward(std::vector<tensor>& delta_start);
         // 梯度更新到权值
         void update_gradients(const data_type learning_rate=1e-4);
         // 保存模型

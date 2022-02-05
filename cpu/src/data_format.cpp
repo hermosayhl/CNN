@@ -26,6 +26,26 @@ void Tensor3D::set_zero() {
     for(int i = 0;i < length; ++i) data[i] = 0;  // std::memcpy 会不会快点
 }
 
+// 找到这个一维向量的最大值
+data_type Tensor3D::max() const {
+    return this->data[argmax()];
+}
+
+// 找到这个一维向量最大值的位置
+int Tensor3D::argmax() const {
+    const int length = C * H * W;
+    if(data == nullptr) return 0;
+    data_type max_value = this->data[0];
+    int max_index = 0;
+    for(int i = 1;i < length; ++i)
+        if(this->data[i] > max_value) {
+            max_value = this->data[i];
+            max_index = i;
+        }
+    return max_index;
+}
+
+
 void Tensor3D::div(const data_type times) {
     const int length = C * H * W;
     for(int i = 0;i < length; ++i) data[i] /= times;
@@ -114,37 +134,3 @@ Tensor3D::~Tensor3D() noexcept {
 
 
 
-
-
-
-
-// 一维向量
-
-Tensor1D::~Tensor1D() {
-    if(this->data != nullptr) {
-        delete this->data;
-        this->data = nullptr;
-    }
-}
-void Tensor1D::print(const std::string message) const {
-    std::cout << message << "";
-    for(int i = 0;i < length; ++i)
-        std::cout << data[i] << "  ";
-    std::cout << "\n";
-}
-// 找到这个一维向量的最大值
-data_type Tensor1D::max() const {
-    return this->data[argmax()];
-}
-// 找到这个一维向量最大值的位置
-int Tensor1D::argmax() const {
-    if(data == nullptr) return 0;
-    data_type max_value = this->data[0];
-    int max_index = 0;
-    for(int i = 1;i < length; ++i)
-        if(this->data[i] > max_value) {
-            max_value = this->data[i];
-            max_index = i;
-        }
-    return max_index;
-}
