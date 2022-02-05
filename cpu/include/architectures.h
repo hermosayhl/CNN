@@ -142,22 +142,48 @@ namespace architectures {
     };
 
 
+    // 这个 BatchNorm 是不同通道做, 不具体实现还真不知道, 后面有时间填坑
+    // 目前只考虑 Conv 层的 BN
+    class BatchNorm2D : public Layer {
+    private:
+        // 固有信息
+        const int out_channels;
+        const data_type eps;
+        const data_type momentum;
+        // 要学习的参数(这里直接用 vector 就行, 不统一也问题不大)
+        std::vector<data_type> gamma;
+        std::vector<data_type> beta;
+        // 要保留的历史信息
+        std::vector<data_type> moving_mean;
+        std::vector<data_type> moving_var;
+        // 缓冲区, 避免每次重新分配
+        std::vector<tensor> output;
+        std::vector<tensor> normed_input;
+        std::vector<data_type> buffer_mean;
+        std::vector<data_type> buffer_var;
+        // 保留的梯度信息
+        std::vector<data_type> gamma_gradients;
+        std::vector<data_type> beta_gradients;
+        // 临时的梯度信息, 其实也是缓冲区
+        tensor norm_gradients;
+        // 求梯度需要用的
+        std::vector<tensor> __input;
+    public:
+        BatchNorm2D(std::string _name, const int _out_channels, const data_type _eps=1e-5, const data_type _momentum=0.1);
+        std::vector<tensor> forward(const std::vector<tensor>& input);
+        std::vector<tensor> backward(std::vector<tensor>& delta);
+        void update_gradients(const data_type learning_rate=1e-4);
+        void save_weights(std::ofstream& writer) const;
+        void load_weights(std::ifstream& reader);
+    };
+
+
     // 胡乱写的一个能跑的 CNN 网络结构, 不是真的 AlexNet
     class AlexNet {
     private:
         std::list< std::shared_ptr<Layer> > layers_sequence;
-//        Conv2D conv_layer_1 = Conv2D("conv_layer_1", 3, 16, 3);
-//        Conv2D conv_layer_2 = Conv2D("conv_layer_2", 16, 32, 3);
-//        Conv2D conv_layer_3 = Conv2D("conv_layer_3", 32, 64, 3);
-//        Conv2D conv_layer_4 = Conv2D("conv_layer_4", 64, 128, 3);
-//        MaxPool2D max_pool_1 = MaxPool2D("max_pool_1", 2, 2);
-//        ReLU relu_layer_1 = ReLU("relu_layer_1");
-//        ReLU relu_layer_2 = ReLU("relu_layer_2");
-//        ReLU relu_layer_3 = ReLU("relu_layer_3");
-//        ReLU relu_layer_4 = ReLU("relu_layer_4");
-//        LinearLayer classifier;
     public:
-        AlexNet(const int num_classes=3);
+        AlexNet(const int num_classes=3, const bool batch_norm=false);
         // 前向
         std::vector<tensor> forward(const std::vector<tensor>& input);
         // 梯度反传
@@ -168,13 +194,6 @@ namespace architectures {
         void save_weights(const std::filesystem::path& save_path) const;
         // 加载模型
         void load_weights(const std::filesystem::path& checkpoint_path);
-    };
-
-
-    // 这个 BatchNorm 是不同通道做, 不具体实现还真不知道, 后面有时间填坑
-    class BatchNorm2D {
-    private:
-        data_type gamma;
     };
 }
 

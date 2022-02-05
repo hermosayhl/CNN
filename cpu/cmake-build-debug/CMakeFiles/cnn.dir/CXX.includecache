@@ -352,3 +352,11 @@ iostream
 architectures.h
 D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
 
+D:/work/crane/deep_learning/cnn/cpu/src/batchnorm2d.cpp
+string
+-
+iostream
+-
+architectures.h
+D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
+

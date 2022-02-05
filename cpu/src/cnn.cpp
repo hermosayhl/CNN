@@ -50,7 +50,7 @@ int main() {
 
     // 定义网络结构
     const int num_classes = categories.size(); // 分类的数目
-    AlexNet network(num_classes);
+    AlexNet network(num_classes, true);
 
     // 直接加载
     // network.load_weights("./checkpoints/AlexNet/iter_70000_train_1.000_valid_0.807.model");
