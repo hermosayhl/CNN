@@ -178,6 +178,27 @@ namespace architectures {
     };
 
 
+    // 暂时只支持 Conv 层, 但 dropout 一般放在 linear 线性连接层
+    // 虽然训练可以正常训练, 但是测试有点垃圾
+    class Dropout : public Layer {
+    private:
+        // 固有属性
+        data_type p;
+        int selected_num;
+        std::vector<int> sequence;
+        std::default_random_engine drop;
+        // backward 需要用
+        std::vector<int> mask;
+        // 缓冲区
+        std::vector<tensor> output;
+    public:
+        Dropout(std::string _name, const data_type _p=0.5): Layer(_name), p(_p), drop(1314) {}
+        std::vector<tensor> forward(const std::vector<tensor>& input);
+        std::vector<tensor> backward(std::vector<tensor>& delta);
+    };
+
+
+
     // 胡乱写的一个能跑的 CNN 网络结构, 不是真的 AlexNet
     class AlexNet {
     private:

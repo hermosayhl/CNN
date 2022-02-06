@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = @CMakeFiles/cnn.dir/includes_CXX.rsp
 
-CXX_FLAGS = -std=c++17 -g
+CXX_FLAGS = -std=c++17 -O2 -g
 

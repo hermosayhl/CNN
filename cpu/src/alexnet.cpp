@@ -25,6 +25,7 @@ AlexNet::AlexNet(const int num_classes, const bool batch_norm)   {
     // batch_size X 64 X 13 X 13
     this->layers_sequence.emplace_back(new Conv2D("conv_layer_4", 64, 128, 3));
     if(batch_norm) this->layers_sequence.emplace_back(new BatchNorm2D("bn_layer_4", 128));
+    // this->layers_sequence.emplace_back(new Dropout("dropout_layer_1", 0.4));
     this->layers_sequence.emplace_back(new ReLU("relu_layer_4"));
     // batch_size X 128 X 6 X 6
     this->layers_sequence.emplace_back(new LinearLayer("linear_1", 6 * 6 * 128, num_classes));

@@ -5,6 +5,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/cnn.dir/src/cnn.cpp.obj"
   "CMakeFiles/cnn.dir/src/conv2d.cpp.obj"
   "CMakeFiles/cnn.dir/src/data_format.cpp.obj"
+  "CMakeFiles/cnn.dir/src/dropout.cpp.obj"
   "CMakeFiles/cnn.dir/src/func.cpp.obj"
   "CMakeFiles/cnn.dir/src/linear.cpp.obj"
   "CMakeFiles/cnn.dir/src/metrics.cpp.obj"

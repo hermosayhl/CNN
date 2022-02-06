@@ -303,6 +303,33 @@ src/data_format.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/data_format.cpp.s
 .PHONY : src/data_format.cpp.s
 
+src/dropout.obj: src/dropout.cpp.obj
+
+.PHONY : src/dropout.obj
+
+# target to build an object file
+src/dropout.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/dropout.cpp.obj
+.PHONY : src/dropout.cpp.obj
+
+src/dropout.i: src/dropout.cpp.i
+
+.PHONY : src/dropout.i
+
+# target to preprocess a source file
+src/dropout.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/dropout.cpp.i
+.PHONY : src/dropout.cpp.i
+
+src/dropout.s: src/dropout.cpp.s
+
+.PHONY : src/dropout.s
+
+# target to generate assembly for a file
+src/dropout.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/dropout.cpp.s
+.PHONY : src/dropout.cpp.s
+
 src/func.obj: src/func.cpp.obj
 
 .PHONY : src/func.obj
@@ -492,6 +519,9 @@ help:
 	@echo ... src/data_format.obj
 	@echo ... src/data_format.i
 	@echo ... src/data_format.s
+	@echo ... src/dropout.obj
+	@echo ... src/dropout.i
+	@echo ... src/dropout.s
 	@echo ... src/func.obj
 	@echo ... src/func.i
 	@echo ... src/func.s

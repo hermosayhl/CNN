@@ -104,6 +104,9 @@
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/data_format.cpp">
 			<Option target="cnn"/>
 		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/dropout.cpp">
+			<Option target="cnn"/>
+		</Unit>
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/func.cpp">
 			<Option target="cnn"/>
 		</Unit>

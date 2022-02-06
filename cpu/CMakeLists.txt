@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.19)
 project(cnn)
 
 # 添加编译选项
-SET(CMAKE_CXX_FLAGS "-std=c++17")
+SET(CMAKE_CXX_FLAGS "-std=c++17 -O2")
 
 set(PROJECT_SOURCE_DIR ./)
 
@@ -24,7 +24,8 @@ add_executable(cnn src/cnn.cpp
                    src/batchnorm2d.cpp
                    src/metrics.cpp
                    src/architectures.cpp
-                   src/alexnet.cpp)
+                   src/alexnet.cpp
+                   src/dropout.cpp)
 
 set(OpenCV_DIR "D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/")
 # 寻找 opencv 的库

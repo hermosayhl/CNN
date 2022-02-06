@@ -32,7 +32,7 @@ int main() {
     using namespace architectures;
 
     // 指定一些参数
-    const int train_batch_size = 4;
+    const int train_batch_size = 8;
     const int valid_batch_size = 1;
     const int test_batch_size = 1;
     assert(train_batch_size >= valid_batch_size and train_batch_size >= test_batch_size); // 设计问题, train 的 batch 必须更大
@@ -50,13 +50,13 @@ int main() {
 
     // 定义网络结构
     const int num_classes = categories.size(); // 分类的数目
-    AlexNet network(num_classes, true);
+    AlexNet network(num_classes, false);
 
     // 直接加载
     // network.load_weights("./checkpoints/AlexNet/iter_70000_train_1.000_valid_0.807.model");
 
     // 保存
-    const std::filesystem::path checkpoints_dir("../checkpoints/AlexNet_bn");
+    const std::filesystem::path checkpoints_dir("../checkpoints/AlexNet_baseline");
     if(not std::filesystem::exists(checkpoints_dir))
         std::filesystem::create_directories(checkpoints_dir);
     std::filesystem::path best_checkpoint;  // 当前正确率最高的模型
