@@ -45,6 +45,25 @@ int Tensor3D::argmax() const {
     return max_index;
 }
 
+// 找到这个一维向量的最大值
+data_type Tensor3D::min() const {
+    return this->data[argmin()];
+}
+
+// 找到这个一维向量最大值的位置
+int Tensor3D::argmin() const {
+    const int length = C * H * W;
+    if(data == nullptr) return 0;
+    data_type min_value = this->data[0];
+    int min_index = 0;
+    for(int i = 1;i < length; ++i)
+        if(this->data[i] < min_value) {
+            min_value = this->data[i];
+            min_index = i;
+        }
+    return min_index;
+}
+
 
 void Tensor3D::div(const data_type times) {
     const int length = C * H * W;
@@ -61,15 +80,24 @@ void Tensor3D::normalize(const std::vector<data_type> mean, const std::vector<da
     }
 }
 
-cv::Mat Tensor3D::opecv_mat() const {
+cv::Mat Tensor3D::opecv_mat(const int CH) const {
     // 只针对没有进行 normalize 的 Tensor 可以取出数据查看, 坑不填了, 懒得
-    cv::Mat origin(H, W, CV_8UC3);
-    const int length = H * W;
-    for(int i = 0;i < length; ++i) {
-        const int p = 3 * i;
-        origin.data[p] = cv::saturate_cast<uchar>(255 * data[i]);
-        origin.data[p + 1] = cv::saturate_cast<uchar>(255 * data[i + length]);
-        origin.data[p + 2] = cv::saturate_cast<uchar>(255 * data[i + length + length]);
+    cv::Mat origin;
+    if(CH == 3) {
+        origin = cv::Mat(H, W, CV_8UC3);
+        const int length = H * W;
+        for(int i = 0;i < length; ++i) {
+            const int p = 3 * i;
+            origin.data[p] = cv::saturate_cast<uchar>(255 * data[i]);
+            origin.data[p + 1] = cv::saturate_cast<uchar>(255 * data[i + length]);
+            origin.data[p + 2] = cv::saturate_cast<uchar>(255 * data[i + length + length]);
+        }
+    }
+    else if(CH == 1) {
+        origin = cv::Mat(H, W, CV_8UC1);
+        const int length = H * W;
+        for(int i = 0;i < length; ++i)
+            origin.data[i] = cv::saturate_cast<uchar>(255 * data[i]);
     }
     return origin;
 }

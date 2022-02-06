@@ -45,6 +45,9 @@ int main() {
     tensor buffer_data(new Tensor3D(image_size, "inference_buffer"));
     std::vector<tensor> image_buffer({buffer_data});
 
+    // 去掉梯度计算
+    WithoutGrad guard;
+
     // 逐一读取图像, 做变换
     for(const auto& image_path : images_list) {
         // 读取图像

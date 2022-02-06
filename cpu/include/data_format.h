@@ -28,9 +28,11 @@ public:
     void set_zero();
     data_type max() const;
     int argmax() const;
+    data_type min() const;
+    int argmin() const;
     void div(const data_type times);
     void normalize(const std::vector<data_type> mean={0.406, 0.456, 0.485}, const std::vector<data_type> std_div={0.225, 0.224, 0.229});
-    cv::Mat opecv_mat() const;
+    cv::Mat opecv_mat(const int CH=3) const;
     int get_length() const;
     std::tuple<int, int, int> get_shape() const;
     void print_shape() const;

@@ -41,6 +41,7 @@ namespace architectures {
         virtual void update_gradients(const data_type learning_rate=1e-4) {}
         virtual void save_weights(std::ofstream& writer) const {}
         virtual void load_weights(std::ifstream& reader) {}
+        virtual std::vector<tensor> get_output() const { return std::vector<tensor>(); }
     };
 
 
@@ -76,6 +77,8 @@ namespace architectures {
         void save_weights(std::ofstream& writer) const;
         // 加载权值
         void load_weights(std::ifstream& reader);
+        // 得到这一层的特征图
+        std::vector<tensor> get_output() const;
         // 获取这一层卷积层的参数值
         int get_params_num() const;
     };
@@ -139,6 +142,7 @@ namespace architectures {
         void update_gradients(const data_type learning_rate=1e-4);
         void save_weights(std::ofstream& writer) const;
         void load_weights(std::ifstream& reader);
+        std::vector<tensor> get_output() const { return this->output; }
     };
 
 
@@ -215,6 +219,8 @@ namespace architectures {
         void save_weights(const std::filesystem::path& save_path) const;
         // 加载模型
         void load_weights(const std::filesystem::path& checkpoint_path);
+        // GradCam 可视化
+        cv::Mat grad_cam(const std::string& layer_name) const;
     };
 }
 

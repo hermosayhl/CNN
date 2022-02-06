@@ -230,6 +230,11 @@ void Conv2D::load_weights(std::ifstream& reader) {
     reader.read((char*)(&bias[0]), static_cast<std::streamsize>(sizeof(data_type) * out_channels));
 }
 
+// 得到这一层输出的特征图
+std::vector<tensor> Conv2D::get_output() const {
+    return this->output;
+}
+
 // 获取这一层卷积层的参数值
 int Conv2D::get_params_num() const {
     return (this->params_for_one_kernel + 1) * this->out_channels;

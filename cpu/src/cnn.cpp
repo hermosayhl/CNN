@@ -15,12 +15,13 @@
 // 还需要实现的功能
 // 1. 模型参数的存储和加载  OK
 // 2. 动量, Adam 这些, 暂时没想到优雅的解决办法
-// 3. batch norm 的实现
-// 4. dropout 的实现
+// 3. batch norm 的实现  OK, 但测试阶段效果很差
+// 4. dropout 的实现   OK, 但测试阶段效果很差
 // 5. 网络结构有点差劲, 虽然可以跑, 凑合用
 // 6. 自动求导, 重头戏, 有时间再说
 // 7. 後面有時間加上 AvgPool2D、Global Pool 等组件
 // 8. 目前的卷积层无法加上 padding
+// 9. 混淆矩阵没有写, 还有没有统计历史的损失画图什么的, 有些麻烦了, 暂时不搞了
 
 
 int main() {
@@ -32,7 +33,7 @@ int main() {
     using namespace architectures;
 
     // 指定一些参数
-    const int train_batch_size = 8;
+    const int train_batch_size = 4;
     const int valid_batch_size = 1;
     const int test_batch_size = 1;
     assert(train_batch_size >= valid_batch_size and train_batch_size >= test_batch_size); // 设计问题, train 的 batch 必须更大

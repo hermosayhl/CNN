@@ -81,3 +81,54 @@ void AlexNet::load_weights(const std::filesystem::path& checkpoint_path) {
     std::cout << "load weights from" << checkpoint_path.string() << std::endl;
     reader.close();
 }
+
+
+// GradCAM 可视化
+cv::Mat AlexNet::grad_cam(const std::string& layer_name) const {
+    // 首先默认经过了 forward, 从 softmax 之前开始
+    std::vector<tensor> delta = layers_sequence.back()->get_output();
+    auto layer = layers_sequence.rbegin();
+    for(; layer != layers_sequence.rend(); ++layer) {
+        if((*layer)->name == layer_name) break;
+        delta = (*layer)->backward(delta);
+    }
+    delta[0]->print_shape();
+    // 获得最后一层卷积层输出的特征图
+    const auto& feature_map = (*layer)->get_output();
+    // 获取信息
+    const int batch_size = feature_map.size();
+    const int out_channels = feature_map[0]->C;
+    const int area = feature_map[0]->H * feature_map[0]->W;
+    // 首先给梯度, 每个特征维度求均值, batch_size X 128 X 6 X 6 -> batch_size X 128
+    std::vector<data_type> weights(batch_size * out_channels, 0);
+    for(int b = 0;b < batch_size; ++b) {
+        for(int o = 0;o < out_channels; ++o) {
+            data_type* const fea_ptr = feature_map[b]->data + o * area;
+            data_type mean_value = 0;
+            for(int i = 0;i < area; ++i) mean_value += fea_ptr[i];
+            weights[b * out_channels + o] = mean_value / area;
+        }
+    }
+    // 接下来, batch_size X 128 乘以 batch_size X 128 X 6 X 6 -> 6x6
+    tensor cam(new Tensor3D(batch_size, feature_map[0]->H, feature_map[0]->W));
+    cam->set_zero();
+    for(int b = 0;b < batch_size; ++b) {
+        data_type* const cam_ptr = cam->data + b * area;
+        for(int o = 0;o < out_channels; ++o) {
+            const data_type w = weights[b * out_channels + o];
+            data_type* const fea_ptr = feature_map[b]->data + o * area;
+            for(int i = 0;i < area; ++i)
+                cam_ptr[i] += w * fea_ptr[i];
+        }
+    }
+    // 做 relu 操作
+    const int length = cam->get_length();
+    for(int i = 0;i < length; ++i) if(cam->data[i] < 0) cam->data[i] = 0;
+    // 对图像做最大最小值归一化
+    const data_type min_value = cam->min();
+    const data_type max_value = cam->max();
+    const data_type res_value = max_value - min_value;
+    for(int i = 0;i < length; ++i) cam->data[i] = 1.0 - (cam->data[i] - min_value) / res_value;
+    // 返回图像
+    return cam->opecv_mat(1);
+}
