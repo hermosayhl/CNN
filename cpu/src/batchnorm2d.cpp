@@ -169,12 +169,16 @@ void BatchNorm2D::save_weights(std::ofstream& writer) const {
     const int stream_size = sizeof(data_type) * out_channels;
     writer.write(reinterpret_cast<const char *>(&gamma[0]), static_cast<std::streamsize>(stream_size));
     writer.write(reinterpret_cast<const char *>(&beta[0]), static_cast<std::streamsize>(stream_size));
+    writer.write(reinterpret_cast<const char *>(&moving_mean[0]), static_cast<std::streamsize>(stream_size));
+    writer.write(reinterpret_cast<const char *>(&moving_var[0]), static_cast<std::streamsize>(stream_size));
 }
 
 void BatchNorm2D::load_weights(std::ifstream& reader) {
     const int stream_size = sizeof(data_type) * out_channels;
     reader.read((char*)(&gamma[0]), static_cast<std::streamsize>(stream_size));
     reader.read((char*)(&beta[0]), static_cast<std::streamsize>(stream_size));
+    reader.read((char*)(&moving_mean[0]), static_cast<std::streamsize>(stream_size));
+    reader.read((char*)(&moving_var[0]), static_cast<std::streamsize>(stream_size));
 }
 
 

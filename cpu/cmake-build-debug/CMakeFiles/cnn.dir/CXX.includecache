@@ -22,6 +22,10 @@ opencv2/core.hpp
 data_format.h
 ../include/data_format.h
 
+../include/metrics.h
+vector
+-
+
 ../include/pipeline.h
 map
 -
@@ -348,47 +352,21 @@ D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/co
 assert.h
 -
 
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/highgui.hpp
-opencv2/core.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/core.hpp
-opencv2/imgcodecs.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/imgcodecs.hpp
-opencv2/videoio.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/videoio.hpp
-
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgcodecs.hpp
-opencv2/core.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/core.hpp
-
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgproc.hpp
-opencv2/core.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/core.hpp
-./imgproc/segmentation.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgproc/segmentation.hpp
-
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgproc/segmentation.hpp
-opencv2/imgproc.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/imgproc/opencv2/imgproc.hpp
-
 D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv_modules.hpp
 
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/videoio.hpp
-opencv2/core.hpp
-D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/core.hpp
-
-D:/work/crane/deep_learning/cnn/cpu/src/grad_cam.cpp
-string
+D:/work/crane/deep_learning/cnn/cpu/src/cnn.cpp
+vector
+-
+memory
 -
 iostream
 -
 filesystem
 -
-opencv2/imgproc.hpp
--
-opencv2/highgui.hpp
--
 func.h
 D:/work/crane/deep_learning/cnn/cpu/src/func.h
+metrics.h
+D:/work/crane/deep_learning/cnn/cpu/src/metrics.h
 architectures.h
 D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
 
