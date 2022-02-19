@@ -35,19 +35,26 @@ AlexNet::AlexNet(const int num_classes, const bool batch_norm)   {
 std::vector<tensor> AlexNet::forward(const std::vector<tensor>& input) {
     // 对输入的形状做检查
     assert(input.size() > 0);
+    if(this->print_info) input[0]->print_shape();
+
     std::vector<tensor> output(input);
     for(const auto& layer : this->layers_sequence) {
         output = layer->forward(output);
-        // std::cout << layer->name << std::endl;
+        if(this->print_info) output[0]->print_shape();
     }
     return output;
 }
 
 // 梯度反传
 void AlexNet::backward(std::vector<tensor>& delta_start) {
+
+    if(this->print_info) delta_start[0]->print_shape();
+
     for(auto layer = layers_sequence.rbegin(); layer != layers_sequence.rend(); ++layer) {
-        // std::cout << (*layer)->name << std::endl;
+
         delta_start = (*layer)->backward(delta_start);
+
+        if(this->print_info) delta_start[0]->print_shape();
     }
 }
 
@@ -81,6 +88,7 @@ void AlexNet::load_weights(const std::filesystem::path& checkpoint_path) {
     std::cout << "load weights from" << checkpoint_path.string() << std::endl;
     reader.close();
 }
+
 
 
 // GradCAM 可视化

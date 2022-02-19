@@ -14,7 +14,7 @@ std::vector<tensor>  ReLU::forward(const std::vector<tensor>& input) {
         // 给输出分配空间
         this->output.reserve(batch_size);
         for(int b = 0;b < batch_size; ++b)
-            this->output.emplace_back(new Tensor3D(input[0]->C, input[0]->H, input[0]->W, this->name + "_" + std::to_string(b)));
+            this->output.emplace_back(new Tensor3D(input[0]->C, input[0]->H, input[0]->W, this->name + "_output_" + std::to_string(b)));
     }
     // 只保留 > 0 的部分
     const int total_length = input[0]->get_length();
@@ -38,5 +38,7 @@ std::vector<tensor> ReLU::backward(std::vector<tensor>& delta) { // 这个没有
         for(int i = 0;i < total_length; ++i)
             src_ptr[i] = out_ptr[i] <= 0 ? 0 : src_ptr[i]; // 输出 > 0 的才有梯度从输出 src_ptr 传到输入
     }
+    // 改下名字, 方便观察
+    for(int b = 0;b < batch_size; ++b) delta[b]->name = this->name + "_delta_" + std::to_string(b);
     return delta;
 }

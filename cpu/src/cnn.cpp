@@ -46,7 +46,7 @@ int main() {
     auto dataset = pipeline::get_images_for_classification(dataset_path, categories);
 
     // 构造数据流
-    pipeline::DataLoader train_loader(dataset["train"], train_batch_size, false, true, image_size);
+    pipeline::DataLoader train_loader(dataset["train"], train_batch_size, true, true, image_size);
     pipeline::DataLoader valid_loader(dataset["valid"], valid_batch_size, false, false, image_size);
 
     // 定义网络结构
@@ -54,17 +54,18 @@ int main() {
     AlexNet network(num_classes, false);
 
     // 直接加载
-    // network.load_weights("./checkpoints/AlexNet/iter_70000_train_1.000_valid_0.807.model");
+    // network.load_weights("../checkpoints/AlexNet_aug_2e-4/iter_100000_train_0.846_valid_0.863.model");
 
     // 保存
-    const std::filesystem::path checkpoints_dir("./checkpoints/AlexNet_baseline");
+    const std::filesystem::path checkpoints_dir("./checkpoints/AlexNet_aug_1e-3");
     if(not std::filesystem::exists(checkpoints_dir))
         std::filesystem::create_directories(checkpoints_dir);
     std::filesystem::path best_checkpoint;  // 当前正确率最高的模型
     float current_best_accuracy = -1; // 记录当前最高的正确率
 
     // 开始训练
-    const int total_iters = 20000;   // 训练 batch 的总数
+    const int start_iters = 1;        // 从第几个 iter 开始
+    const int total_iters = 400000;   // 训练 batch 的总数
     const float learning_rate = 1e-3; // 学习率
     const int valid_inters = 1000;    // 验证一次的间隔
     const int save_iters = 5000;      // 保存模型的间隔
@@ -73,7 +74,7 @@ int main() {
     ClassificationEvaluator train_evaluator;  // 计算累计的准确率
     std::vector<int> predict(train_batch_size, -1); // 存储每个 batch 的预测结果, 和 labels 算准确率用的
     // 开始训练
-    for(int iter = 1; iter <= total_iters; ++iter) {
+    for(int iter = start_iters; iter <= total_iters; ++iter) {
         // 从训练集中采样一个 batch
         const auto sample = train_loader.generate_batch();
         // 送到网络中

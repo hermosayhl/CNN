@@ -37,7 +37,7 @@ namespace {
 using namespace pipeline;
 
 
-void ImageAugmentor::make_augment(cv::Mat& origin) {
+void ImageAugmentor::make_augment(cv::Mat& origin, const bool show) {
     // 首先打乱操作的顺序
     std::shuffle(ops.begin(), ops.end(), this->l);
     // 遍历这个操作
@@ -71,6 +71,7 @@ void ImageAugmentor::make_augment(cv::Mat& origin) {
                 if(minus_engine(r) & 1) angle = -angle;
                 origin = rotate(origin, angle);
             }
+            if(show == true) cv_show(origin);
         }
     }
 }
@@ -126,7 +127,6 @@ DataLoader::DataLoader(const list_type& _images_list, const int _bs, const bool 
 int DataLoader::length() const {return this->images_num;}
 
 DataLoader::batch_type DataLoader::generate_batch() {
-    // 我要开始算有几个 batch, 然后将 batch 组合在一起
     std::vector<tensor> images;
     std::vector<int> labels;
     images.reserve(this->batch_size);

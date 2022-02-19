@@ -15,6 +15,8 @@ include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/include)
 # 添加可执行文件
 add_executable(cnn
                    src/cnn.cpp
+#                   src/grad_cam.cpp
+#                   src/test/test.cpp
                    src/pipeline.cpp
                    src/data_format.cpp
                    src/relu.cpp
@@ -27,7 +29,6 @@ add_executable(cnn
                    src/architectures.cpp
                    src/alexnet.cpp
                    src/dropout.cpp
-#                   src/grad_cam.cpp
         )
 
 set(OpenCV_DIR "D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/")

@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <iomanip>
 #include <iostream>
 // Self
 #include "data_format.h"
@@ -23,7 +24,8 @@ void Tensor3D::read_from_opencv_mat(const uchar* const img_ptr) {
 
 void Tensor3D::set_zero() {
     const int length = C * H * W;
-    for(int i = 0;i < length; ++i) data[i] = 0;  // std::memcpy 会不会快点
+    // for(int i = 0;i < length; ++i) data[i] = 0;
+    std::memset(this->data, 0, sizeof(data_type) * length);
 }
 
 // 找到这个一维向量的最大值
@@ -117,7 +119,7 @@ void Tensor3D::print(const int _C) const {
     const int start = _C * H * W;
     for(int i = 0;i < H; ++i) {
         for(int j = 0;j < W; ++j)
-            std::cout << this->data[start + i * W + j] << "   ";
+            std::cout << std::setiosflags(std::ios::fixed) << std::setprecision(3) << this->data[start + i * W + j] << "   ";
         std::cout << "\n";
     }
 }

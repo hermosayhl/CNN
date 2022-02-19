@@ -354,6 +354,12 @@ assert.h
 
 D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv_modules.hpp
 
+D:/work/crane/deep_learning/cnn/cpu/src/alexnet.cpp
+iostream
+-
+architectures.h
+D:/work/crane/deep_learning/cnn/cpu/src/architectures.h
+
 D:/work/crane/deep_learning/cnn/cpu/src/cnn.cpp
 vector
 -

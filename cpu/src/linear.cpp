@@ -26,7 +26,7 @@ std::vector<tensor> LinearLayer::forward(const std::vector<tensor>& input) {
     // 清空之前的结果, 重新开始
     std::vector<tensor>().swap(this->output);
     for(int b = 0;b < batch_size; ++b)
-        this->output.emplace_back(new Tensor3D(out_channels));
+        this->output.emplace_back(new Tensor3D(out_channels, this->name + "_output_" + std::to_string(b)));
     // 记录输入
     if(not no_grad) this->__input = input;
     // batch 每个图象分开算
@@ -47,7 +47,7 @@ std::vector<tensor> LinearLayer::forward(const std::vector<tensor>& input) {
 std::vector<tensor> LinearLayer::backward(std::vector<tensor>& delta) {
     // 获取 delta 信息
     const int batch_size = delta.size();
-                // 第一次回传, 给缓冲区的梯度 W, b 分配空间
+    // 第一次回传, 给缓冲区的梯度 W, b 分配空间
     if(this->weights_gradients.empty()) {
         this->weights_gradients.assign(in_channels * out_channels, 0);
         this->bias_gradients.assign(out_channels, 0);

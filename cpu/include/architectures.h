@@ -34,6 +34,7 @@ namespace architectures {
     class Layer {
     public:
         const std::string name;  // 这一层的名字
+        std::vector<tensor> output;  // 输出的张量
     public:
         Layer(std::string& _name) : name(std::move(_name)) {}
         virtual std::vector<tensor> forward(const std::vector<tensor>& input) = 0;
@@ -41,7 +42,7 @@ namespace architectures {
         virtual void update_gradients(const data_type learning_rate=1e-4) {}
         virtual void save_weights(std::ofstream& writer) const {}
         virtual void load_weights(std::ifstream& reader) {}
-        virtual std::vector<tensor> get_output() const { return std::vector<tensor>(); }
+        virtual std::vector<tensor> get_output() const { return this->get_output(); }
     };
 
 
@@ -61,7 +62,6 @@ namespace architectures {
         // 历史信息
         std::vector<tensor> __input; // 求梯度需要, 其实存储的是指针
         // 缓冲区, 避免每次重新分配
-        std::vector<tensor> output;  // 输出的张量
         std::vector<tensor> delta_output; // 存储回传到上一层的梯度
         std::vector<tensor> weights_gradients; // 权值的梯度
         std::vector<data_type> bias_gradients; // bias 的梯度
@@ -77,8 +77,6 @@ namespace architectures {
         void save_weights(std::ofstream& writer) const;
         // 加载权值
         void load_weights(std::ifstream& reader);
-        // 得到这一层的特征图
-        std::vector<tensor> get_output() const;
         // 获取这一层卷积层的参数值
         int get_params_num() const;
     };
@@ -89,9 +87,8 @@ namespace architectures {
         // 这一层的固有属性
         const int kernel_size;
         const int step;
-        const int padding;
+        const int padding; // 暂时不支持
         // 缓冲区, 避免每次重新分配的
-        std::vector<tensor> output;
         std::vector< std::vector<int> > mask; // 记录哪些位置是有梯度回传的, 第 b 张图, 每张图一个 std::vector<int>
         std::vector<tensor> delta_output; // 返回的 delta
         std::vector<int> offset;  // 偏移量指针, 和之前 Conv2D 的一样
@@ -108,9 +105,6 @@ namespace architectures {
 
 
     class ReLU : public Layer  {
-    private:
-        // 缓冲区, 避免每次重新申请
-        std::vector<tensor> output;
     public:
         ReLU(std::string _name) : Layer(_name) {}
         std::vector<tensor> forward(const std::vector<tensor>& input);
@@ -130,7 +124,6 @@ namespace architectures {
         std::tuple<int, int, int> delta_shape;// 记下来, delta 的形状, 从 1 X 4096 到 128 * 4 * 4 这种
         std::vector<tensor> __input;          // 梯度回传的时候需要输入 Wx + b, 需要保留 x
         // 以下是缓冲区
-        std::vector<tensor> output;         // 记录输出
         std::vector<tensor> delta_output;     // delta 回传到输入的梯度
         std::vector<data_type> weights_gradients; // 缓存区, 权值矩阵的梯度
         std::vector<data_type> bias_gradients;    // bias 的梯度
@@ -142,7 +135,6 @@ namespace architectures {
         void update_gradients(const data_type learning_rate=1e-4);
         void save_weights(std::ofstream& writer) const;
         void load_weights(std::ifstream& reader);
-        std::vector<tensor> get_output() const { return this->output; }
     };
 
 
@@ -161,7 +153,6 @@ namespace architectures {
         std::vector<data_type> moving_mean;
         std::vector<data_type> moving_var;
         // 缓冲区, 避免每次重新分配
-        std::vector<tensor> output;
         std::vector<tensor> normed_input;
         std::vector<data_type> buffer_mean;
         std::vector<data_type> buffer_var;
@@ -193,8 +184,6 @@ namespace architectures {
         std::default_random_engine drop;
         // backward 需要用
         std::vector<int> mask;
-        // 缓冲区
-        std::vector<tensor> output;
     public:
         Dropout(std::string _name, const data_type _p=0.5): Layer(_name), p(_p), drop(1314) {}
         std::vector<tensor> forward(const std::vector<tensor>& input);
@@ -205,6 +194,8 @@ namespace architectures {
 
     // 胡乱写的一个能跑的 CNN 网络结构, 不是真的 AlexNet
     class AlexNet {
+    public:
+        bool print_info = false;
     private:
         std::list< std::shared_ptr<Layer> > layers_sequence;
     public:

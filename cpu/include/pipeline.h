@@ -30,10 +30,11 @@ namespace pipeline {
         std::uniform_int_distribution<int> minus_engine;
         std::vector<std::pair<std::string, float> > ops;
     public:
-        ImageAugmentor() : e(212), l(826), c(320), r(520),
+        ImageAugmentor(const std::vector<std::pair<std::string, float> >& _ops={{"hflip", 0.5}, {"vflip", 0.2}, {"crop", 0.7}, {"rotate", 0.5}})
+            : e(212), l(826), c(320), r(520),
             engine(0.0, 1.0), crop_engine(0.0, 0.25), rotate_engine(15, 75), minus_engine(1, 10),
-            ops({{"hflip", 0.5}, {"vflip", 0.2}, {"crop", 0.7}, {"rotate", 0.5}}) {}
-        void make_augment(cv::Mat& origin);
+            ops(std::move(_ops)) {}
+        void make_augment(cv::Mat& origin, const bool show=false);
     };
 
     class DataLoader {
