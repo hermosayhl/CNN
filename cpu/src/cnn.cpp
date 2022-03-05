@@ -46,7 +46,7 @@ int main() {
     auto dataset = pipeline::get_images_for_classification(dataset_path, categories);
 
     // 构造数据流
-    pipeline::DataLoader train_loader(dataset["train"], train_batch_size, true, true, image_size);
+    pipeline::DataLoader train_loader(dataset["train"], train_batch_size, false, true, image_size);
     pipeline::DataLoader valid_loader(dataset["valid"], valid_batch_size, false, false, image_size);
 
     // 定义网络结构

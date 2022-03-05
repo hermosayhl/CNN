@@ -95,9 +95,6 @@
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/batchnorm2d.cpp">
 			<Option target="cnn"/>
 		</Unit>
-		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/cnn.cpp">
-			<Option target="cnn"/>
-		</Unit>
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/conv2d.cpp">
 			<Option target="cnn"/>
 		</Unit>
@@ -108,6 +105,9 @@
 			<Option target="cnn"/>
 		</Unit>
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/func.cpp">
+			<Option target="cnn"/>
+		</Unit>
+		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/grad_cam.cpp">
 			<Option target="cnn"/>
 		</Unit>
 		<Unit filename="D:/work/crane/deep_learning/cnn/cpu/src/linear.cpp">

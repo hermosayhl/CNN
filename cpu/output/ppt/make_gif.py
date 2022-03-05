@@ -2,9 +2,9 @@ import imageio
 import os
 import cv2
 
-dir_name = '6'
+dir_name = '7'
 
-img_paths = [os.path.join(dir_name, "{}.png".format(i)) for i in range(1, 11)]
+img_paths = [os.path.join(dir_name, "{}.png".format(i)) for i in range(1, 4)]
 
 
 

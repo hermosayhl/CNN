@@ -19,7 +19,7 @@ std::vector<tensor> softmax(const std::vector<tensor>& input) {
     std::vector<tensor> output;
     output.reserve(batch_size);
     for(int b = 0;b < batch_size; ++b) {
-        tensor probs(new Tensor3D(num_classes));
+        tensor probs(new Tensor3D(num_classes)); // 如果大于 1000 类这种就有浪费
         // 首先算出输出的最大值, 防止溢出, 还是改变不了什么, 大于 -37 直接等于 1, 这样并不能解决问题, 欸
         const data_type max_value = input[b]->max();
         data_type sum_value = 0;
@@ -31,7 +31,7 @@ std::vector<tensor> softmax(const std::vector<tensor>& input) {
         for(int i = 0;i < num_classes; ++i) probs->data[i] /= sum_value;
         // 去掉一些 nan
         for(int i = 0;i < num_classes; ++i) if(std::isnan(probs->data[i])) probs->data[i] = 0.f;
-        output.emplace_back(probs);
+        output.emplace_back(std::move(probs));
     }
     return output;
 }

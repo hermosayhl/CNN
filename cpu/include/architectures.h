@@ -42,7 +42,7 @@ namespace architectures {
         virtual void update_gradients(const data_type learning_rate=1e-4) {}
         virtual void save_weights(std::ofstream& writer) const {}
         virtual void load_weights(std::ifstream& reader) {}
-        virtual std::vector<tensor> get_output() const { return this->get_output(); }
+        virtual std::vector<tensor> get_output() const { return this->output; }
     };
 
 

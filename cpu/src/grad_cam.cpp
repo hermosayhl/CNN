@@ -31,13 +31,13 @@ int main() {
     AlexNet network(num_classes, false);
 
     // 直接加载
-    network.load_weights("../checkpoints/AlexNet_aug_1e-3/iter_395000_train_0.918_valid_0.913.model");
+    network.load_weights("./checkpoints/AlexNet_aug_1e-3/iter_395000_train_0.918_valid_0.913.model");
 
     // 准备测试的图片
     std::vector<std::string> images_list({
-        "../../datasets/images/dogs_00103.jpg",
-        "../../datasets/images/bird_2.jpg",
-        "../../datasets/images/panda.jpg",
+        "../datasets/images/dogs_00103.jpg",
+        "../datasets/images/bird_2.jpg",
+        "../datasets/images/panda.jpg",
     });
 
     // 结果保存到哪里
@@ -75,6 +75,7 @@ int main() {
         std::cout << "分类结果是  :  " << categories[max_index] << ", 概率 " << prob[0]->data[max_index] << std::endl;
         // 接下来做 grad cam 可视化
         cv::Mat cam = network.grad_cam("conv_layer_3");
+        std::cout << "?\n";
         // 将 6x6 特征图放大到 origin 大小
         cv::resize(cam, cam, {std::get<1>(image_size), std::get<2>(image_size)});
         // 转化成热力图
