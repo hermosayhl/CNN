@@ -136,7 +136,7 @@ cv::Mat AlexNet::grad_cam(const std::string& layer_name) const {
     const data_type min_value = cam->min();
     const data_type max_value = cam->max();
     const data_type res_value = max_value - min_value;
-    for(int i = 0;i < length; ++i) cam->data[i] = 1.0 - (cam->data[i] - min_value) / res_value;
+    for(int i = 0;i < length; ++i) cam->data[i] = (cam->data[i] - min_value) / res_value;
     // 返回图像
     return cam->opecv_mat(1);
 }

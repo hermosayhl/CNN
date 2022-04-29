@@ -31,13 +31,13 @@ int main() {
     AlexNet network(num_classes);
 
     // 直接加载
-    network.load_weights("../checkpoints/AlexNet_aug_1e-3/iter_395000_train_0.918_valid_0.913.model");
+    network.load_weights("./checkpoints/AlexNet_aug_1e-3/iter_395000_train_0.918_valid_0.913.model");
 
     // 准备测试的图片
     std::vector<std::string> images_list({
-        "../../datasets/images/dog.jpg",
-        "../../datasets/images/panda.jpg",
-        "../../datasets/images/bird.jpg"
+        "../datasets/images/dog.jpg",
+        "../datasets/images/panda.jpg",
+        "../datasets/images/bird.jpg"
     });
 
     // 准备一块图像内容存放的空间

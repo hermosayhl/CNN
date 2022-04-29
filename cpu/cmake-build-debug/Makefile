@@ -222,6 +222,33 @@ src/batchnorm2d.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/batchnorm2d.cpp.s
 .PHONY : src/batchnorm2d.cpp.s
 
+src/cnn.obj: src/cnn.cpp.obj
+
+.PHONY : src/cnn.obj
+
+# target to build an object file
+src/cnn.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/cnn.cpp.obj
+.PHONY : src/cnn.cpp.obj
+
+src/cnn.i: src/cnn.cpp.i
+
+.PHONY : src/cnn.i
+
+# target to preprocess a source file
+src/cnn.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/cnn.cpp.i
+.PHONY : src/cnn.cpp.i
+
+src/cnn.s: src/cnn.cpp.s
+
+.PHONY : src/cnn.s
+
+# target to generate assembly for a file
+src/cnn.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/cnn.cpp.s
+.PHONY : src/cnn.cpp.s
+
 src/conv2d.obj: src/conv2d.cpp.obj
 
 .PHONY : src/conv2d.obj
@@ -329,33 +356,6 @@ src/func.s: src/func.cpp.s
 src/func.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/func.cpp.s
 .PHONY : src/func.cpp.s
-
-src/grad_cam.obj: src/grad_cam.cpp.obj
-
-.PHONY : src/grad_cam.obj
-
-# target to build an object file
-src/grad_cam.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/grad_cam.cpp.obj
-.PHONY : src/grad_cam.cpp.obj
-
-src/grad_cam.i: src/grad_cam.cpp.i
-
-.PHONY : src/grad_cam.i
-
-# target to preprocess a source file
-src/grad_cam.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/grad_cam.cpp.i
-.PHONY : src/grad_cam.cpp.i
-
-src/grad_cam.s: src/grad_cam.cpp.s
-
-.PHONY : src/grad_cam.s
-
-# target to generate assembly for a file
-src/grad_cam.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\cnn.dir\build.make CMakeFiles/cnn.dir/src/grad_cam.cpp.s
-.PHONY : src/grad_cam.cpp.s
 
 src/linear.obj: src/linear.cpp.obj
 
@@ -510,6 +510,9 @@ help:
 	@echo ... src/batchnorm2d.obj
 	@echo ... src/batchnorm2d.i
 	@echo ... src/batchnorm2d.s
+	@echo ... src/cnn.obj
+	@echo ... src/cnn.i
+	@echo ... src/cnn.s
 	@echo ... src/conv2d.obj
 	@echo ... src/conv2d.i
 	@echo ... src/conv2d.s
@@ -522,9 +525,6 @@ help:
 	@echo ... src/func.obj
 	@echo ... src/func.i
 	@echo ... src/func.s
-	@echo ... src/grad_cam.obj
-	@echo ... src/grad_cam.i
-	@echo ... src/grad_cam.s
 	@echo ... src/linear.obj
 	@echo ... src/linear.i
 	@echo ... src/linear.s

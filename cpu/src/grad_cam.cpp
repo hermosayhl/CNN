@@ -41,7 +41,7 @@ int main() {
     });
 
     // 结果保存到哪里
-    const std::filesystem::path visualize_dir("../output/");
+    const std::filesystem::path visualize_dir("./output/");
     if(not std::filesystem::exists(visualize_dir))
         std::filesystem::create_directories(visualize_dir);
 
@@ -74,8 +74,8 @@ int main() {
         const int max_index = prob[0]->argmax();
         std::cout << "分类结果是  :  " << categories[max_index] << ", 概率 " << prob[0]->data[max_index] << std::endl;
         // 接下来做 grad cam 可视化
-        cv::Mat cam = network.grad_cam("conv_layer_3");
-        std::cout << "?\n";
+        cv::Mat cam = 255 - network.grad_cam("conv_layer_3");
+        std::cout << cam << std::endl;
         // 将 6x6 特征图放大到 origin 大小
         cv::resize(cam, cam, {std::get<1>(image_size), std::get<2>(image_size)});
         // 转化成热力图

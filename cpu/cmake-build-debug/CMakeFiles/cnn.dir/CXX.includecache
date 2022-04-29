@@ -376,7 +376,7 @@ D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/vi
 opencv2/core.hpp
 D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/include/opencv2/opencv2/core.hpp
 
-D:/work/crane/deep_learning/cnn/cpu/src/grad_cam.cpp
+D:/work/crane/deep_learning/cnn/cpu/src/inference.cpp
 string
 -
 iostream
