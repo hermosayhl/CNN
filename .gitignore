@@ -1,5 +1,10 @@
 cnn.zip
 src/cnn.zip
+.vscode
+.cache
+build/
+./cpu/.idea
+./cpu/cmake-build-debug
 *.sh
 *.exe
 *.zip
