@@ -1,9 +1,0 @@
-D:\software\editor\CLion\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" D:\work\crane\deep_learning\cnn\cpu
--- OpenCV ARCH: x64
--- OpenCV RUNTIME: mingw
--- OpenCV STATIC: OFF
--- Found OpenCV 4.5.2 in D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/x64/mingw/lib
--- You might need to add D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/x64/mingw/bin to your PATH to be able to run your applications.
--- Configuring done
--- Generating done
--- Build files have been written to: D:/work/crane/deep_learning/cnn/cpu/cmake-build-debug

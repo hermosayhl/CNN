@@ -39,7 +39,7 @@ int main() {
     assert(train_batch_size >= valid_batch_size and train_batch_size >= test_batch_size); // 设计问题, train 的 batch 必须更大
     assert(valid_batch_size == 1 and test_batch_size == 1); // 设计问题, 暂时只支持这个
     const std::tuple<int, int, int> image_size({224, 224, 3});
-    const std::filesystem::path dataset_path("../datasets/animals");
+    const std::filesystem::path dataset_path("../../datasets/animals");
     const std::vector<std::string> categories({"dog", "panda", "bird"});
 
     // 获取图片
@@ -57,7 +57,7 @@ int main() {
     // network.load_weights("../checkpoints/AlexNet_aug_2e-4/iter_100000_train_0.846_valid_0.863.model");
 
     // 保存
-    const std::filesystem::path checkpoints_dir("./checkpoints/AlexNet_aug_1e-3");
+    const std::filesystem::path checkpoints_dir("../checkpoints/AlexNet_aug_1e-3");
     if(not std::filesystem::exists(checkpoints_dir))
         std::filesystem::create_directories(checkpoints_dir);
     std::filesystem::path best_checkpoint;  // 当前正确率最高的模型

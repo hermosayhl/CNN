@@ -4,7 +4,7 @@ project(cnn)
 # 添加编译选项
 SET(CMAKE_CXX_FLAGS "-std=c++17 -O2")
 
-set(PROJECT_SOURCE_DIR ./)
+set(PROJECT_SOURCE_DIR ../)
 
 # 生成文件的输出目录
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
