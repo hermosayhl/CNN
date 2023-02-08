@@ -7,3 +7,14 @@ src/cnn.zip
 *.pptx
 *zip
 *.tar
+build_cmake/
+build_cmake
+build_cmake/*
+*.cmake
+*.masks
+*.log
+Makefile
+CMakeCache.txt
+CMakeFiles
+CMakeFiles/*
+CMakeFiles/

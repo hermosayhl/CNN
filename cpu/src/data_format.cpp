@@ -115,7 +115,7 @@ void Tensor3D::print_shape() const {
 }
 
 void Tensor3D::print(const int _C) const {
-    std::cout << this->name << "  内容是 :\n";
+    std::cout << this->name << "  content is : ";
     const int start = _C * H * W;
     for(int i = 0;i < H; ++i) {
         for(int j = 0;j < W; ++j)

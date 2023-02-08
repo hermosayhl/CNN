@@ -22,6 +22,7 @@ int main() {
     std::setbuf(stdout, 0);
 
     using namespace architectures;
+    std::cout << "inference\n";
 
     // 指定一些参数
     const std::vector<std::string> categories({"dog", "panda", "bird"});
@@ -31,13 +32,13 @@ int main() {
     AlexNet network(num_classes);
 
     // 直接加载
-    network.load_weights("./checkpoints/AlexNet_aug_1e-3/iter_395000_train_0.918_valid_0.913.model");
+    network.load_weights("../checkpoints/AlexNet_aug_1e-3/iter_395000_train_0.918_valid_0.913.model");
 
     // 准备测试的图片
     std::vector<std::string> images_list({
-        "../datasets/images/dog.jpg",
-        "../datasets/images/panda.jpg",
-        "../datasets/images/bird.jpg"
+        "../../datasets/images/dog.jpg",
+        "../../datasets/images/panda.jpg",
+        "../../datasets/images/bird.jpg"
     });
 
     // 准备一块图像内容存放的空间
@@ -53,7 +54,7 @@ int main() {
         // 读取图像
         cv::Mat origin = cv::imread(image_path);
         if(origin.empty() or not std::filesystem::exists(image_path)) {
-            std::cout << "图像 " << image_path << " 读取失败 !\n";
+            std::cout << "Failed to read image file  " << image_path << "\n";
             continue;
         }
         // 图像 resize 到规定的大小, 224 X 224
@@ -64,10 +65,9 @@ int main() {
         const auto output = network.forward(image_buffer);
         // softmax 得到输出
         const auto prob = softmax(output);
-        prob[0]->print();
         // 找到最大概率的输出
         const int max_index = prob[0]->argmax();
-        std::cout << "分类结果是  :  " << categories[max_index] << ", 概率 " << prob[0]->data[max_index] << std::endl;
+        std::cout << image_path << "===> [classification: " << categories[max_index] << "] [prob: " << prob[0]->data[max_index] << "]\n";
         cv_show(origin);
     }
 }

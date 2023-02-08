@@ -100,7 +100,7 @@ cv::Mat AlexNet::grad_cam(const std::string& layer_name) const {
         if((*layer)->name == layer_name) break;
         delta = (*layer)->backward(delta);
     }
-    delta[0]->print_shape();
+    // delta[0]->print_shape();
     // 获得最后一层卷积层输出的特征图
     const auto& feature_map = (*layer)->get_output();
     // 获取信息
