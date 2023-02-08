@@ -105,6 +105,6 @@ xmake build cnn_train
 xmake run cnn_train
 ```
 
-
+![](imgs/xmake.gif)
 
 对于 inference 和 gradCAM 同理。
