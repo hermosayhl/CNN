@@ -77,7 +77,34 @@ make -j4
 
 
 
+## Xmake
+
+[Xmake](https://github.com/xmake-io/xmake) 是最近接触的一款很方便的构建工具，构建速度也很快，十分模块化，推荐使用。
+
+先创建 build 目录
+
+```bash
+mkdir build
+```
+
+指定用 mingw
+
+```bash
+xmake f -p mingw
+```
+
+构建目标 `cnn_train`
+
+```bash
+xmake build cnn_train
+```
+
+运行目标 `cnn_train`
+
+```bash
+xmake run cnn_train
+```
 
 
 
-
+对于 inference 和 gradCAM 同理。
