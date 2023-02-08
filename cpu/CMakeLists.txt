@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.15)
 project(cnn)
 
 # 添加编译选项
@@ -32,7 +32,7 @@ add_executable(cnn
                    src/dropout.cpp
         )
 
-set(OpenCV_DIR "D:/environments/C++/OpenCV/opencv-4.5.2/build_TDM-GCC/install/")
+set(OpenCV_DIR "F:/liuchang/environments/OpenCV/4.5.5/opencv-4.5.5/build/install")
 # 寻找 opencv 的库
 find_package(OpenCV COMPONENTS core highgui imgproc imgcodecs)
 # 添加 opencv 的头文件
