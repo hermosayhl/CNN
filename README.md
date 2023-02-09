@@ -30,6 +30,12 @@
 - OpenCV 4.5
 - [数据集](https://github.com/hermosayhl/CNN/tree/main/datasets) 从[cat-dog-panda](https://link.zhihu.com/?target=https%3A//www.kaggle.com/ashishsaxena2209/animal-image-datasetdog-cat-and-panda) 数据集剔除 cat（cat 和 dog 的分类相对较难），然后又从 [CUB-200 bird](https://link.zhihu.com/?target=http%3A//www.vision.caltech.edu/visipedia/CUB-200.html) 数据集中随机抽出 1000 张鸟类图像，凑成三分类的小型数据集。train : valid : test 比例 8:1:1。
 
+【注意】：
+
+- gcc 版本 >= 10，代码中有 C++17 std::filesystem 的内容；
+- CMake 版本可以高一点；
+- OpenCV 最好是根据 gcc 在 windows 上编译而成的，以保证顺利链接。
+
 # Start
 
 ## **Cmake**
