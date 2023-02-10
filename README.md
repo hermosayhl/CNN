@@ -25,16 +25,30 @@
 # 环境
 
 - Windows 10
-- C++17（[TDM-GCC](https://link.zhihu.com/?target=https%3A//jmeubank.github.io/tdm-gcc/download/)）
+- GCC 10.3.0（[TDM-GCC](https://link.zhihu.com/?target=https%3A//jmeubank.github.io/tdm-gcc/download/)）、C++17
 - CMake 3.17
 - OpenCV 4.5
+- XMake  2.7.4（可选）
 - [数据集](https://github.com/hermosayhl/CNN/tree/main/datasets) 从[cat-dog-panda](https://link.zhihu.com/?target=https%3A//www.kaggle.com/ashishsaxena2209/animal-image-datasetdog-cat-and-panda) 数据集剔除 cat（cat 和 dog 的分类相对较难），然后又从 [CUB-200 bird](https://link.zhihu.com/?target=http%3A//www.vision.caltech.edu/visipedia/CUB-200.html) 数据集中随机抽出 1000 张鸟类图像，凑成三分类的小型数据集。train : valid : test 比例 8:1:1。
 
 【注意】：
 
 - gcc 版本 >= 10，代码中有 C++17 std::filesystem 的内容；
 - CMake 版本可以高一点；
-- OpenCV 最好是根据 gcc 在 windows 上编译而成的，以保证顺利链接。
+- OpenCV 最好是根据 gcc 在 windows 上编译而成的，以保证顺利链接
+
+如果是 MSVC 做编译器，可以编译一个，也可以直接下载官方编译好的 [OpenCV](https://sourceforge.net/projects/opencvlibrary/files/4.5.5/opencv-4.5.5-vc14_vc15.exe/download)。如果在 Windows 上选择 gcc 做编译器，一般从头编译一个，下面是一个简单的编译流程，关闭了诸多选项（如果 ffmpeg 下载不了，也可以把 WITH_FFMPEG 置为 OFF）。
+
+```bash
+mkdir build
+cd build
+# 编译选项
+cmake .. -G "MinGW Makefiles"  -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=./install -D ENABLE_FAST_MATH=ON -D BUILD_opencv_python2=OFF -D BUILD_opencv_python3=OFF -D BUILD_opencv_python_tests=OFF -D BUILD_opencv_python_bindings_generator=OFF -D BUILD_JAVA=OFF -D BUILD_opencv_java_bindings_generator=OFF -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D BUILD_EXAMPLES=OFF -D BUILD_opencv_world=OFF -D OPENCV_ENABLE_NONFREE=OFF -D OPENCV_GENERATE_SETUPVARS=OFF -D WITH_OPENCL_D3D11_NV=OFF -D WITH_MSMF=OFF -D WITH_CUDA=OFF -D WITH_FFMPEG=OFF
+# 构建
+mingw32-make -j4
+mingw32-make install
+# 把 build/install/x64/bin 路径添加到环境变量中, 确保能正确链接
+```
 
 # Start
 
@@ -93,13 +107,25 @@ make -j4
 mkdir build
 ```
 
-指定用 mingw
+指定 mingw 路径（注意修改），很容易检测成 Anaconda 的 mingw
+
+```
+xmake g --mingw=F:\liuchang\environments\TDM-GCC
+```
+
+使用 mingw 工具链
 
 ```bash
 xmake f -p mingw
 ```
 
-构建目标 `cnn_train`
+构建所有的目标，则
+
+```
+xmake build
+```
+
+构建其中特定的一个目标 `cnn_train`
 
 ```bash
 xmake build cnn_train
@@ -113,4 +139,12 @@ xmake run cnn_train
 
 ![](imgs/xmake.gif)
 
-对于 inference 和 gradCAM 同理。
+重新编译
+
+```bash
+xmake -r
+```
+
+【MSVC】如果电脑有 visual studio 环境，直接 xmake，不指定 mingw，紧接着 build、run。
+
+【GCC】如果是在 Linux 上，一般有 gcc-10 以上，也是直接 xmake，不用指定，同 MSVC
