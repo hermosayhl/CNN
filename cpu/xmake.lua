@@ -12,6 +12,38 @@ set_allowedplats("windows", "mingw", "linux")
 
 
 
+
+
+-- 添加 opencv 支持
+function add_opencv_support()
+    -- 如果是 windows 系统
+    if is_os("windows") then
+        opencv_root    = "F:/liuchang/environments/OpenCV/4.5.5/opencv-4.5.5/build/install"
+        opencv_version = "455"
+        add_linkdirs(opencv_root .. "/x64/mingw/bin")
+        add_includedirs(opencv_root .. "/include")
+        -- add_linkdirs(opencv_root .. "/x64/vc15/lib/")
+    -- 如果是 linux 系统
+    else
+        if is_os("linux") then
+            opencv_root    = "/home/dx/usrs/liuchang/tools/opencv/build/install"
+            opencv_version = "452"
+            add_includedirs(opencv_root .. "/include/opencv4")
+            add_linkdirs(opencv_root .. "/lib")
+        end
+    end
+    -- 这里要再链接一次的原因是, cnn_layers 动态库中只有 OpenCV 动态库的入口, 不是完整的拷贝????
+    add_links(
+        "libopencv_core" .. opencv_version, 
+        "libopencv_highgui" .. opencv_version, 
+        "libopencv_imgproc" .. opencv_version,  
+        "libopencv_imgcodecs" .. opencv_version
+    )
+end
+
+
+
+
 -- 编译共有的一些文件, 避免每个目标都重新编译
 target("cnn_layers")
     -- 生成类型, 共享库
@@ -27,52 +59,42 @@ target("cnn_layers")
     -- 添加 include 自己的代码
     add_includedirs("$(projectdir)/include/")
     -- 设置第三方库
-    --  1. 添加 OpenCV
-    if is_os("windows") then
-        opencv_root    = "F:/liuchang/environments/OpenCV/4.5.5/opencv-4.5.5/build/install/"
-        opencv_version = "455"
-    end
-    add_includedirs(opencv_root .. "include")
-    add_linkdirs(opencv_root .. "x64/mingw/bin")
-    add_links(
-        "libopencv_core" .. opencv_version, 
-        "libopencv_highgui" .. opencv_version, 
-        "libopencv_imgproc" .. opencv_version,  
-        "libopencv_imgcodecs" .. opencv_version
-    )
+    add_opencv_support()
 target_end()
 
 
 
--- 训练的目标
-target("cnn_train")
+
+-- 使用一些相同的操作
+function use_default_config()
     -- 设置生成类型, 可执行文件
     set_kind("binary")
     -- 开启警告
     set_warnings("all")
     -- 设置 C/C++ 标准
     set_languages("c99", "cxx17")
-    -- 添加源文件, 含有 main 函数入口
-    add_files("$(projectdir)/src/cnn.cpp")
     -- 添加 include 自己的代码
     add_includedirs("$(projectdir)/include/")
-    --  1. 添加 OpenCV
-    if is_os("windows") then
-        opencv_root    = "F:/liuchang/environments/OpenCV/4.5.5/opencv-4.5.5/build/install/"
-    end
-    add_includedirs(opencv_root .. "include")
-    -- 这里要再链接一次的原因是, cnn_layers 动态库中只有 OpenCV 动态库的入口, 不是完整的拷贝????
-    add_linkdirs(opencv_root .. "x64/mingw/bin")
-    add_links(
-        "libopencv_core" .. opencv_version, 
-        "libopencv_highgui" .. opencv_version, 
-        "libopencv_imgproc" .. opencv_version,  
-        "libopencv_imgcodecs" .. opencv_version
-    )
+    -- 添加 OpenCV 支持
+    add_opencv_support()
     -- 加载动态库, 链接到可执行文件 
     add_deps("cnn_layers")
     -- 设置目标工作目录
     set_rundir("$(projectdir)/bin")
+end
+
+
+
+
+-- 训练的目标
+target("cnn_train")
+    
+    -- 添加源文件, 含有 main 函数入口
+    add_files("$(projectdir)/src/cnn.cpp")
+
+    -- 执行相同的操作
+    use_default_config()
+    
 -- 结束 cnn_train
 target_end()
 
@@ -82,66 +104,27 @@ target_end()
 
 -- 推理的目标
 target("cnn_infer")
-    -- 设置生成类型, 可执行文件
-    set_kind("binary")
-    -- 开启警告
-    set_warnings("all")
-    -- 设置 C/C++ 标准
-    set_languages("c99", "cxx17")
+
     -- 添加源文件
     add_files("$(projectdir)/src/inference.cpp")
-    -- 添加 include 自己的代码
-    add_includedirs("$(projectdir)/include/")
-    --  1. 添加 OpenCV
-    if is_os("windows") then
-        opencv_root    = "F:/liuchang/environments/OpenCV/4.5.5/opencv-4.5.5/build/install/"
-    end
-    add_includedirs(opencv_root .. "include")
-    add_linkdirs(opencv_root .. "x64/mingw/bin")
-    add_links(
-        "libopencv_core" .. opencv_version, 
-        "libopencv_highgui" .. opencv_version, 
-        "libopencv_imgproc" .. opencv_version,  
-        "libopencv_imgcodecs" .. opencv_version
-    )
-    -- 加载动态库, 链接到可执行文件 
-    add_deps("cnn_layers")
-    -- 设置目标工作目录
-    set_rundir("$(projectdir)/bin")
+
+    -- 执行相同的操作
+    use_default_config()
+
 -- 结束 cnn_infer
 target_end()
 
 
 
 
-
 -- 可视化的目标
 target("cnn_visualize")
-    -- 设置生成类型, 可执行文件
-    set_kind("binary")
-    -- 开启警告
-    set_warnings("all")
-    -- 设置 C/C++ 标准
-    set_languages("c99", "cxx17")
+
     -- 添加源文件
     add_files("$(projectdir)/src/grad_cam.cpp")
-    -- 添加 include 自己的代码
-    add_includedirs("$(projectdir)/include/")
-    --  1. 添加 OpenCV
-    if is_os("windows") then
-        opencv_root    = "F:/liuchang/environments/OpenCV/4.5.5/opencv-4.5.5/build/install/"
-    end
-    add_includedirs(opencv_root .. "include")
-    add_linkdirs(opencv_root .. "x64/mingw/bin")
-    add_links(
-        "libopencv_core" .. opencv_version, 
-        "libopencv_highgui" .. opencv_version, 
-        "libopencv_imgproc" .. opencv_version,  
-        "libopencv_imgcodecs" .. opencv_version
-    )
-    -- 加载动态库, 链接到可执行文件 
-    add_deps("cnn_layers")
-    -- 设置目标工作目录
-    set_rundir("$(projectdir)/bin")
+
+    -- 执行相同的操作
+    use_default_config()
+
 -- 结束 cnn_visualize
 target_end()
