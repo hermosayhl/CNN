@@ -145,6 +145,6 @@ xmake run cnn_train
 xmake -r
 ```
 
-【MSVC】如果电脑有 visual studio 环境，直接 xmake，不指定 mingw，紧接着 build、run。
+【MSVC】如果电脑有 visual studio 环境，直接 xmake，不指定 mingw，**修改完 opencv 路径之后**，紧接着 build、run。
 
 【GCC】如果是在 Linux 上，一般有 gcc-10 以上，也是直接 xmake，不用指定，同 MSVC

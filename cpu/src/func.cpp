@@ -45,7 +45,7 @@ std::vector<tensor> one_hot(const std::vector<int>& labels, const int num_classe
         tensor sample(new Tensor3D(num_classes));
         for(int i = 0;i < num_classes; ++i)
             sample->data[i] = 0;
-        assert(labels[b] >= 0 and labels[b] < num_classes);
+        assert(labels[b] >= 0 && labels[b] < num_classes);
         sample->data[labels[b]] = 1.0;
         one_hot_code.emplace_back(sample);
     }

@@ -11,8 +11,8 @@ Conv2D::Conv2D(std::string _name, const int _in_channels, const int _out_channel
           params_for_one_kernel(_in_channels * _kernel_size * _kernel_size),
           offset(_kernel_size * _kernel_size) {
     // 验证参数合法性
-    assert(_kernel_size & 1 and _kernel_size >= 3 and "卷积核的大小必须是正奇数 !");
-    assert(_in_channels > 0 and _out_channels > 0 and _stride > 0);
+    assert(_kernel_size & 1 && _kernel_size >= 3 && "卷积核的大小必须是正奇数 !");
+    assert(_in_channels > 0 && _out_channels > 0 && _stride > 0);
     // 首先给权值矩阵 weights 和偏置 b 分配空间
     this->weights.reserve(out_channels);
     for(int o = 0;o < out_channels; ++o) {
@@ -59,7 +59,7 @@ std::vector<tensor> Conv2D::forward(const std::vector<tensor>& input) {
             }
     }
     // 记录输入, 如果存在 backward 的话, 后面 backward 算 w 的梯度要用
-    if(not no_grad) this->__input = input;
+    if(!no_grad) this->__input = input;
     // 为卷积做准备
     const int H_radius = H - radius; // 避免每次循环重新计算 H - radius
     const int W_radius = W - radius;
@@ -203,7 +203,7 @@ std::vector<tensor> Conv2D::backward(std::vector<tensor>& delta) {
 
 // 更新参数
 void Conv2D::update_gradients(const data_type learning_rate) {
-    assert(not this->weights_gradients.empty());
+    assert(!this->weights_gradients.empty());
     // 把梯度更新到 W 和 b
     for(int o = 0;o < out_channels; ++o) {
         data_type* w_ptr = weights[o]->data;

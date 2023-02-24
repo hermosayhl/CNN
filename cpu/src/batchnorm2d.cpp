@@ -34,14 +34,14 @@ std::vector<tensor> BatchNorm2D::forward(const std::vector<tensor>& input) {
         for(int b = 0;b < batch_size; ++b) this->normed_input.emplace_back(new Tensor3D(out_channels, H, W, this->name + "_normed_" + std::to_string(b)));
     }
     // 记录输入
-    if(not no_grad) this->__input = input;
+    if(!no_grad) this->__input = input;
     // 这里注意是否要置为 0
     // 开始归一化
     const int feature_map_length = H * W;  // 一张二维平面特征图的大小
     const int output_length = batch_size * feature_map_length;  // 一个输出包含的数个数
     for(int o = 0;o < out_channels; ++o) {
         // 如果是训练
-        if(not no_grad) {
+        if(!no_grad) {
             // 先求均值 u
             data_type u = 0;
             for(int b = 0;b < batch_size; ++b) {
@@ -59,7 +59,7 @@ std::vector<tensor> BatchNorm2D::forward(const std::vector<tensor>& input) {
                     var += square(src_ptr[i] - u);
             }
             var = var / output_length;
-            if(not no_grad) {
+            if(!no_grad) {
                 buffer_mean[o] = u;
                 buffer_var[o] = var;
             }

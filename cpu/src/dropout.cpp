@@ -23,7 +23,7 @@ std::vector<tensor> Dropout::forward(const std::vector<tensor>& input) {
     // 打乱列表
     std::shuffle(this->sequence.begin(), this->sequence.end(), this->drop);
     // 如果是训练阶段
-    if(not no_grad) {
+    if(!no_grad) {
         // 记录被选中的卷积核(输出通道), 前 selected_num 个失活, 其它置为 -1
         for(int i = 0;i < out_channels; ++i)
             this->mask[i] = i >= selected_num ? this->sequence[i] : -1;

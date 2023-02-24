@@ -53,7 +53,7 @@ int main() {
     for(const auto& image_path : images_list) {
         // 读取图像
         cv::Mat origin = cv::imread(image_path);
-        if(origin.empty() or not std::filesystem::exists(image_path)) {
+        if(origin.empty() || !std::filesystem::exists(image_path)) {
             std::cout << "Failed to read image file  " << image_path << "\n";
             continue;
         }

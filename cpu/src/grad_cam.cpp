@@ -45,7 +45,7 @@ int main() {
 
     // 结果保存到哪里
     const std::filesystem::path visualize_dir("../output/");
-    if(not std::filesystem::exists(visualize_dir))
+    if(!std::filesystem::exists(visualize_dir))
         std::filesystem::create_directories(visualize_dir);
 
     // 准备一块图像内容存放的空间
@@ -61,7 +61,7 @@ int main() {
     for(const auto& image_path : images_list) {
         // 读取图像
         cv::Mat origin = cv::imread(image_path);
-        if(origin.empty() or not std::filesystem::exists(image_path)) {
+        if(origin.empty() || !std::filesystem::exists(image_path)) {
             std::cout << "Failed to read image file  " << image_path << "\n";
             continue;
         }

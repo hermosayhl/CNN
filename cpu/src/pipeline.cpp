@@ -87,7 +87,7 @@ std::map<std::string, pipeline::list_type> pipeline::get_images_for_classificati
     const int categories_num = categories.size();
     for(int i = 0;i < categories_num; ++i) {
         const auto images_dir = dataset_path / categories[i];
-        assert(std::filesystem::exists(images_dir) and std::string(images_dir.string() + " 路径不存在!").c_str());
+        assert(std::filesystem::exists(images_dir) && std::string(images_dir.string() + " 路径不存在!").c_str());
         auto walker = std::filesystem::directory_iterator(images_dir);
         for(const auto& iter : walker)
             all_images_list.emplace_back(iter.path().string(), i);
@@ -96,7 +96,7 @@ std::map<std::string, pipeline::list_type> pipeline::get_images_for_classificati
     std::shuffle(all_images_list.begin(), all_images_list.end(), std::default_random_engine(212));
     // 将数据集划分成三部分
     const int total_size = all_images_list.size();
-    assert(ratios.first > 0 and ratios.second > 0 and ratios.first + ratios.second < 1);
+    assert(ratios.first > 0 && ratios.second > 0 && ratios.first + ratios.second < 1);
     const int train_size = int(total_size * ratios.first);
     const int test_size = int(total_size * ratios.second);
     std::map<std::string, list_type> results;

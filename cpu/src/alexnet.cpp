@@ -78,7 +78,7 @@ void AlexNet::save_weights(const std::filesystem::path& save_path) const {
 
 // 加载模型权值
 void AlexNet::load_weights(const std::filesystem::path& checkpoint_path) {
-    if(not std::filesystem::exists(checkpoint_path)) {
+    if(!std::filesystem::exists(checkpoint_path)) {
         std::cout << "预训练权重文件  " << checkpoint_path << " 不存在 !\n";
         return;
     }

@@ -28,7 +28,7 @@ std::vector<tensor> LinearLayer::forward(const std::vector<tensor>& input) {
     for(int b = 0;b < batch_size; ++b)
         this->output.emplace_back(new Tensor3D(out_channels, this->name + "_output_" + std::to_string(b)));
     // 记录输入
-    if(not no_grad) this->__input = input;
+    if(!no_grad) this->__input = input;
     // batch 每个图象分开算
     for(int b = 0;b < batch_size; ++b) {
         // 矩阵相乘,   dot
@@ -94,7 +94,7 @@ std::vector<tensor> LinearLayer::backward(std::vector<tensor>& delta) {
 
 void LinearLayer::update_gradients(const data_type learning_rate) {
     // 这里要判断一下, 是否空的
-    assert(not this->weights_gradients.empty());
+    assert(!this->weights_gradients.empty());
     // 梯度更新到权值
     const int total_length = in_channels * out_channels;
     for(int i = 0;i < total_length; ++i) this->weights[i] -= learning_rate *  this->weights_gradients[i];

@@ -20,7 +20,7 @@ std::vector<tensor> MaxPool2D::forward(const std::vector<tensor>& input) {
         for(int b = 0;b < batch_size; ++b)
             this->output.emplace_back(new Tensor3D(C, out_H, out_W, this->name + "_output_" + std::to_string(b)));
         // 给反向传播的 delta 分配空间
-        if(not no_grad) {
+        if(!no_grad) {
             this->delta_output.reserve(batch_size);
             for(int b = 0;b < batch_size; ++b)
                 this->delta_output.emplace_back(new Tensor3D(C, H, W, this->name + "_delta_" + std::to_string(b)));
@@ -38,7 +38,7 @@ std::vector<tensor> MaxPool2D::forward(const std::vector<tensor>& input) {
     // 如果存在 backward, 每次 forward 要记得把 mask 全部填充为 0
     const int out_length = out_H * out_W;
     int* mask_ptr = nullptr;
-    if(not no_grad) {
+    if(!no_grad) {
         const int mask_size = C * out_length;
         for(int b = 0;b < batch_size; ++b) {
             int* const mask_ptr = this->mask[b].data();
@@ -58,7 +58,7 @@ std::vector<tensor> MaxPool2D::forward(const std::vector<tensor>& input) {
             // 第 b 个输出的第 i 个通道的, 同样是指向内容大小 55 X 55 的指针
             data_type* const output_ptr = this->output[b]->data + i * out_length;
             // 记录第 b 个输出, 记录有效点在 111 X 111 这个图上的位置, 一共有 55 X 55 个值
-            if(not no_grad) mask_ptr = this->mask[b].data() + i * out_length;
+            if(!no_grad) mask_ptr = this->mask[b].data() + i * out_length;
             int cnt = 0;  // 当前池化输出的位置
             for(int x = 0; x <= H_kernel; x += step) {
                 data_type* const row_ptr = cur_image_features + x * W; // 获取这个通道图像的第 x 行指针
@@ -76,7 +76,7 @@ std::vector<tensor> MaxPool2D::forward(const std::vector<tensor>& input) {
                     // 局部最大值填到输出的对应位置上
                     output_ptr[cnt] = max_value;
                     // 如果后面要 backward, 记录 mask
-                    if(not no_grad) {
+                    if(!no_grad) {
                         max_index += x * W + y; // 第 i 个通道, i * out_H * out_W 为起点的二维平面, 偏移量 max_index
                         mask_ptr[cnt] = i * length + max_index;
                     }
